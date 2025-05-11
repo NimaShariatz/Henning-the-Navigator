@@ -1,11 +1,11 @@
-
-
+import { stalingrad } from "../../static/constants.tsx"
 
 function Map() {
     return (
         <>
-            <p>.he</p>
-        
+            <div className="map_background">
+
+            </div>
         </>
     )
 
