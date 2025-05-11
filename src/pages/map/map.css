@@ -1,5 +1,7 @@
 
 
+
+
 .map_background {
     background-blend-mode: multiply;
     background-repeat: no-repeat;
@@ -10,5 +12,16 @@
     height: 100%;
     cursor: grab;
     transform-origin: center;
+    user-select: none; /* Prevents text selection during drag */
 }
 
+.zoomin{
+    position: fixed;
+    right: 10px;
+    bottom: 40px;
+}
+.zoomout{
+    position: fixed;
+    right: 10px;
+    bottom: 70px;
+}
