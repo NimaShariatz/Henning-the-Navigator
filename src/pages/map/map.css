@@ -7,21 +7,11 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    cursor: grab;
+
+    
+
     transform-origin: center;
     user-select: none; /* Prevents text selection during drag */
 }
 
-.zoomin{
-    position: fixed;
-    right: 10px;
-    bottom: 40px;
-}
-.zoomout{
-    position: fixed;
-    right: 10px;
-    bottom: 70px;
-}
+
