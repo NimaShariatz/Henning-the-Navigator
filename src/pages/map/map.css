@@ -1,7 +1,5 @@
 
 
-
-
 .map_background {
     background-blend-mode: multiply;
     background-repeat: no-repeat;
@@ -12,6 +10,17 @@
 
     transform-origin: center;
     user-select: none; /* Prevents text selection during drag */
+
+    display: block; /* Ensures the canvas behaves as a block element */
+
+
+    
 }
 
+
+.zoom_div{
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
 
