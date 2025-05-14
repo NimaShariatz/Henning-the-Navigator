@@ -12,8 +12,9 @@
     user-select: none; /* Prevents text selection during drag */
 
     display: block; /* Ensures the canvas behaves as a block element */
+    transition: transform 0.3s ease;
 
-
+    
     
 }
 

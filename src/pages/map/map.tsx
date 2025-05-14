@@ -23,12 +23,20 @@ function Map() {
 
     const zoom_in = () => {
         
-        setScale(scale + 1) 
+        const newScale = scale + 0.1;
+        setScale(newScale);
+        if (canvasRef.current) {
+            canvasRef.current.style.transform = `scale(${newScale})`;
+        }
 
     }
 
     const zoom_out = () => {
-        setScale(scale - 1) 
+        const newScale = Math.max(0.1, scale - 0.1); // Prevent negative or too small scale
+        setScale(newScale);
+        if (canvasRef.current) {
+            canvasRef.current.style.transform = `scale(${newScale})`;
+        }
 
     }
 
