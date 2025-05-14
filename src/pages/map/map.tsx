@@ -3,6 +3,8 @@ import {useState, useEffect, useRef} from "react"
 import { starting_map } from "../../static/constants.tsx"
 import "./map.css"
 
+
+import Minimap from "../../components/minimap.tsx";
 /*
  Info:
  first the image sizes are set up. The width and height of our image is gotten.
@@ -10,36 +12,13 @@ import "./map.css"
  
  */
 
-
-
 function Map() {
-    const [scale, setScale] = useState(1);
+
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement | null>(null);
-
-
-
-
-    const zoom_in = () => {
-        
-        const newScale = scale + 0.1;
-        setScale(newScale);
-        if (canvasRef.current) {
-            canvasRef.current.style.transform = `scale(${newScale})`;
-        }
-
-    }
-
-    const zoom_out = () => {
-        const newScale = Math.max(0.1, scale - 0.1); // Prevent negative or too small scale
-        setScale(newScale);
-        if (canvasRef.current) {
-            canvasRef.current.style.transform = `scale(${newScale})`;
-        }
-
-    }
-
+    
+    const containerRef = useRef<HTMLDivElement>(null);
         
     const drawImage = () => {
         const canvas = canvasRef.current;
@@ -60,54 +39,49 @@ function Map() {
         }
     };
 
-
-
-
-
     //canvas setup
     useEffect(() => {
-
         const img = new Image();
         img.src = starting_map;
         
-
         img.onload = () => {
             setImageDimensions({
                 width: img.width,
                 height: img.height
             });
             
-
             imageRef.current = img;
             
-
             drawImage();
         };
     }, []);
     
     
-    //re-renders based on size changes
+    
     useEffect(() => {
         drawImage();
         console.log("Image dimensions updated:", imageDimensions);
+        
+       
+        if (containerRef.current && imageDimensions.width > 0) {
+
+            containerRef.current.style.minWidth = `${imageDimensions.width}px`;
+            containerRef.current.style.minHeight = `${imageDimensions.height}px`;
+        }
     }, [imageDimensions]);
-
-
-
 
     return (
         <>
-            <canvas
-                ref={canvasRef}
-                className="map_background"
-                width={imageDimensions.width}
-                height={imageDimensions.height}
-            />
-
-            <div className="zoom_div">
-                <button onClick={zoom_in}>+</button>
-                <button onClick={zoom_out}>-</button>
+            <div className="map_container" ref={containerRef}>
+                <canvas
+                    ref={canvasRef}
+                    className="map_background"
+                    width={imageDimensions.width}
+                    height={imageDimensions.height}
+                />
             </div>
+
+            <Minimap/>
 
         </>
     )
