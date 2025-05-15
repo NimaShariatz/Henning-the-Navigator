@@ -73,21 +73,34 @@ function Map() {
 
 
 
-    //minimap click content. First calls function Minimap in minimap.tsx
+    //minimap click content. Will first call function Minimap in minimap.tsx
     const handleMinimapClick = (relativeX: number, relativeY: number) => {
         
         if (!containerRef.current) return;
         
+
+        const target_x = imageDimensions.width * relativeX;// size of our image * percentage calculated from minimap.tsx 
+        const target_y = imageDimensions.width * relativeY;// size of our image * percentage calculated from minimap.tsx
         
+        //we got the place to scroll to by now. the following code sorts out scrolling to the center
+        const container = containerRef.current;
+        const viewport_width = container.clientWidth;// gives the width and height, which does not include overflow distance
+        const viewport_height = container.clientHeight;// gives the width and height, which does not include overflow distance
+
+
+        const scrollLeft = Math.max(0, target_x - viewport_width / 2);
+        const scrollTop = Math.max(0, target_y - viewport_height / 2);
+
+
+        console.log(viewport_width, viewport_height)
 
         containerRef.current.scrollTo({
-            left: 800,
-            top: 400,
-            behavior: 'smooth'
+            left: scrollLeft,
+            top: scrollTop
         });
 
 
-        console.log(relativeX, relativeY);
+
     };
     //minimap click content
 

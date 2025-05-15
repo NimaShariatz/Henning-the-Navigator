@@ -8,12 +8,10 @@
 }
 
 .map_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     width: 100%;
     height: 100vh;
     overflow: auto;
     background-color: aquamarine;
-    /* Ensure padding is added to center the canvas */
+    scroll-behavior: smooth;
 }
