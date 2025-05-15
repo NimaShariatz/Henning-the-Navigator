@@ -60,15 +60,38 @@ function Map() {
     
     useEffect(() => {
         drawImage();
-        console.log("Image dimensions updated:", imageDimensions);
-        
-       
-        if (containerRef.current && imageDimensions.width > 0) {
 
-            containerRef.current.style.minWidth = `${imageDimensions.width}px`;
-            containerRef.current.style.minHeight = `${imageDimensions.height}px`;
-        }
+        
+        const canvas = canvasRef.current;
+        if (canvas) {//sets the canvas dimensions to be the image dimensions
+
+            canvas.style.minWidth = `${imageDimensions.width}px`;
+            canvas.style.minHeight = `${imageDimensions.height}px`;
+        }    
+        
     }, [imageDimensions]);
+
+
+
+    //minimap click content. First calls function Minimap in minimap.tsx
+    const handleMinimapClick = (relativeX: number, relativeY: number) => {
+        
+        if (!containerRef.current) return;
+        
+        
+
+        containerRef.current.scrollTo({
+            left: 800,
+            top: 400,
+            behavior: 'smooth'
+        });
+
+
+        console.log(relativeX, relativeY);
+    };
+    //minimap click content
+
+
 
     return (
         <>
@@ -81,7 +104,7 @@ function Map() {
                 />
             </div>
 
-            <Minimap/>
+            <Minimap on_minimap_click={handleMinimapClick} />{/* on_minimap_click(x, y) in minimap.tsx*/}
 
         </>
     )

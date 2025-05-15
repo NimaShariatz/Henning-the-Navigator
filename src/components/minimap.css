@@ -1,34 +1,21 @@
-
-
 .minimap_container{
     position: fixed;
-    left: 1vw;
-    bottom: 1vw;
-
+    left: 10px;
+    bottom: 10px;
 
 
     
+    outline: 2px solid rgba(0, 0, 0, 0.288);
+
+    background-repeat: no-repeat;
+
+    background-blend-mode: darken;
     
 
-    
-
-    
 }
-
 
 .minimap_image{
-    max-width: 92vw;
-    max-height: 92vh;
+    max-width: 20vw;
+    max-height: 20vh;
     object-fit: contain;
-}
-
-
-.minimap_block{
-    width: 4vw;
-    height: 4vh;
-    aspect-ratio: inherit;
-    background-color: rgba(255, 26, 26, 0.333);
-    position: absolute;
-    left: 0;
-    top: 0;
 }
