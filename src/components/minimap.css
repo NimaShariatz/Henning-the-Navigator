@@ -1,11 +1,11 @@
 .minimap_container{
     position: fixed;
-    left: 10px;
-    bottom: 10px;
+    left: 1vw;
+    bottom: 3vh;
 
 
     
-    outline: 2px solid rgba(0, 0, 0, 0.288);
+    outline: 2px solid rgba(0, 0, 0, 0.2);
 
     background-repeat: no-repeat;
 
@@ -15,7 +15,7 @@
 }
 
 .minimap_image{
-    max-width: 20vw;
-    max-height: 20vh;
+    max-width: 25vw;
+    max-height: 25vh;
     object-fit: contain;
 }
