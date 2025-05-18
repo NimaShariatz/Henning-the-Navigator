@@ -1,5 +1,11 @@
 :root {
-    
+    --logo_yellow: #ffc90e;
+    --logo_black: #1d1d1d;
+    --logo_white: #fdfdfd;
+
+    --waypoint_secondary: #2ee31e;
+    --waypoint_start: #33b9ea;
+    --waypoint_target:#ae3232;
 }
 
 * {

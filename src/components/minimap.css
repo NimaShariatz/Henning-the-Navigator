@@ -1,7 +1,7 @@
 .navigation_container{
     position: fixed;
     left: 5vw;
-    bottom: 7vh;
+    bottom: 16vh;
 
 
 }
@@ -15,28 +15,6 @@
     outline: 0.2vw solid rgba(0, 0, 0, 0.2);
 
 }
-
-
-.navigation_button_set{
-
-    display: flex;
-    flex-direction: column;
-
-    position: fixed;
-    padding: 1vw;
-
-    
-    
-    background-color: rgb(84, 84, 84);
-    left: 0.6vw;
-    bottom: 7vh;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
-    
-}
-
-
 
 
 
@@ -63,16 +41,50 @@
 
 
 
-.navigation_waypoint{
-    fill: #ffec17;
-}
-.secondary_waypoint{
-    fill: #2ee31e;
-}
-.start_waypoint{
-    fill: #33b9ea;
-}
-.target_waypoint{
-    fill: #ae3232;
+
+.navigation_button_set{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0.6vw;
+    bottom: 7vh;
+    padding: 1vw;
+    background-color: rgb(84, 84, 84);
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
 }
 
+
+.navigation_waypoint{
+    fill: var(--logo_yellow);
+}
+.secondary_waypoint{
+    fill: var(--waypoint_secondary);
+}
+.start_waypoint{
+    fill: var(--waypoint_start);
+}
+.target_waypoint{
+    fill: var(--waypoint_target);
+}
+.target_extract{
+    fill: var(--logo_white);
+}
+
+
+
+
+.misc_button_set{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 5vw;
+    bottom: 6vh;
+    padding: 1vw;
+    background-color: rgb(84, 84, 84);
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+
+}
