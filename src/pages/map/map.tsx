@@ -92,7 +92,7 @@ function Map() {
         const scrollTop = Math.max(0, target_y - viewport_height / 2);
 
 
-        console.log(viewport_width, viewport_height)
+        //console.log(viewport_width, viewport_height)
 
         containerRef.current.scrollTo({
             left: scrollLeft,
