@@ -1,7 +1,7 @@
 .navigation_container{
     position: fixed;
-    left: 5vw;
-    bottom: 16vh;
+    left: 4.5vw;
+    bottom: 10.2vh;
 
 
 }
@@ -13,16 +13,21 @@
     max-height: 25vh;
     object-fit: contain;
     outline: 0.2vw solid rgba(0, 0, 0, 0.2);
-
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    user-select: none; /*prevents the minimap from being selected, which then gives it a blue tint...*/
+}
+.minimap_image:hover{
+    opacity: 1;
 }
 
 
 
 
-.minimap_button {
+.minimap_button{
     border: none;
-    background: none;
 
+    
     width: 2vw;
     height: 2vw;
 
@@ -32,12 +37,16 @@
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
 }
-
+.minimap_button:hover{
+    opacity: 1;
+}
 
 
 
@@ -47,44 +56,107 @@
     flex-direction: column;
     position: fixed;
     left: 0.6vw;
-    bottom: 7vh;
-    padding: 1vw;
-    background-color: rgb(84, 84, 84);
+    bottom: 4vh;
+    padding-inline: 0.7vw;
+    
+    background: rgba(38, 38, 38, 0.76);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.4px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+
     justify-content: center;
     align-items: center;
     justify-items: center;
+    border-radius: 2vw 2vw 0 2vw;
+}
+.navigation_button_set:hover{
+    opacity: 1;
 }
 
 
-.navigation_waypoint{
+.navigation_fill{
     fill: var(--logo_yellow);
 }
-.secondary_waypoint{
+.secondary_fill{
     fill: var(--waypoint_secondary);
 }
-.start_waypoint{
+.start_fill{
     fill: var(--waypoint_start);
 }
-.target_waypoint{
+.target_fill{
     fill: var(--waypoint_target);
 }
-.target_extract{
+.extraction_fill{
     fill: var(--logo_white);
 }
 
 
 
 
+
+
+
+
+
 .misc_button_set{
     display: flex;
-    flex-direction: column;
     position: fixed;
-    left: 5vw;
-    bottom: 6vh;
-    padding: 1vw;
-    background-color: rgb(84, 84, 84);
+    left: 4vw;
+    bottom: 4vh;
+    padding-block: 0.7vw;
+
+
+    background: rgba(38, 38, 38, 0.76);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.4px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+
     justify-content: center;
     align-items: center;
     justify-items: center;
+    border-radius: 0 2vw 2vw 0;
+}
+.misc_button_set:hover{
+    opacity: 1;
+}
 
+.option_button{
+    border: none;
+
+    margin-inline: 0.8vw;
+    width: 2vw;
+    height: 2vw;
+
+
+    
+    background-color: rgba(7, 7, 7, 0.87);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+.option_button:hover{
+    opacity: 1;
+}
+
+
+.info_fill{
+    fill: rgb(5, 120, 208);
+}
+.folder_fill{
+    fill:rgb(243, 210, 0);
+}
+.download_fill{
+    fill: rgb(0, 94, 209);
 }
