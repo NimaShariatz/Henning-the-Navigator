@@ -1,13 +1,30 @@
-
-
-
 import "./misc_set.css"
+import { useRef } from "react"
 
-function Misc_set(){
+interface MiscSetProps {
+  onImageUpload?: (file: File) => void;
+}
+
+function Misc_set({ onImageUpload }: MiscSetProps){
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    
+    //file changing stuff
+    const handle_image_upload = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+    
+    const handle_file_change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files && files.length > 0 && onImageUpload) {
+            onImageUpload(files[0]);
+        }
+    };
+    //file changing stuff
+
     return(
         <>
-            
-
             <div className="misc_button_set">
 
                 <button className="option_button">
@@ -20,15 +37,16 @@ function Misc_set(){
                     </svg>
                 </button>
 
-                <button className="option_button">
+                {/* Added onClick handler to the folder button */}
+                <button className="option_button" onClick={handle_image_upload}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 28 28">
-	                    <path className="folder_fill" d="M2 6.75A3.75 3.75 0 0 1 5.75 3h3.672c.729 0 1.428.29 1.944.805L13.25 5.69l-2.944 2.945A1.25 1.25 0 0 1 9.422 9H2zm.004 3.75v9.75A3.75 3.75 0 0 0 5.754 24H22.25A3.75 3.75 0 0 0 26 20.25V9.75A3.75 3.75 0 0 0 22.25 6h-7.19l-3.694 3.695a2.75 2.75 0 0 1-1.944.805z" />
+                        <path className="folder_fill" d="M2 6.75A3.75 3.75 0 0 1 5.75 3h3.672c.729 0 1.428.29 1.944.805L13.25 5.69l-2.944 2.945A1.25 1.25 0 0 1 9.422 9H2zm.004 3.75v9.75A3.75 3.75 0 0 0 5.754 24H22.25A3.75 3.75 0 0 0 26 20.25V9.75A3.75 3.75 0 0 0 22.25 6h-7.19l-3.694 3.695a2.75 2.75 0 0 1-1.944.805z" />
                     </svg>
                 </button>
 
                 <button className="option_button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
-	                    <path className="download_fill" d="M12 15.575q-.2 0-.375-.062T11.3 15.3l-3.6-3.6q-.3-.3-.288-.7t.288-.7q.3-.3.713-.312t.712.287L11 12.15V5q0-.425.288-.712T12 4t.713.288T13 5v7.15l1.875-1.875q.3-.3.713-.288t.712.313q.275.3.288.7t-.288.7l-3.6 3.6q-.15.15-.325.213t-.375.062M6 20q-.825 0-1.412-.587T4 18v-2q0-.425.288-.712T5 15t.713.288T6 16v2h12v-2q0-.425.288-.712T19 15t.713.288T20 16v2q0 .825-.587 1.413T18 20z" />
+                        <path className="download_fill" d="M12 15.575q-.2 0-.375-.062T11.3 15.3l-3.6-3.6q-.3-.3-.288-.7t.288-.7q.3-.3.713-.312t.712.287L11 12.15V5q0-.425.288-.712T12 4t.713.288T13 5v7.15l1.875-1.875q.3-.3.713-.288t.712.313q.275.3.288.7t-.288.7l-3.6 3.6q-.15.15-.325.213t-.375.062M6 20q-.825 0-1.412-.587T4 18v-2q0-.425.288-.712T5 15t.713.288T6 16v2h12v-2q0-.425.288-.712T19 15t.713.288T20 16v2q0 .825-.587 1.413T18 20z" />
                     </svg>
                 </button>
 
@@ -41,9 +59,14 @@ function Misc_set(){
                     </svg>
                 </button>
 
-
+                <input 
+                type="file" 
+                ref={fileInputRef}
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handle_file_change}
+                />
             </div>
-        
         </>
     )
 }

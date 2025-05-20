@@ -15,6 +15,7 @@ import Minimap from "../../components/minimap/minimap.tsx";
 function Map() {
 
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+    const [currentImage, setCurrentImage] = useState(starting_map);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement | null>(null);
     
@@ -39,10 +40,16 @@ function Map() {
         }
     };
 
+    // Handle image upload from Misc_set
+    const handleImageUpload = (file: File) => {
+        const imageUrl = URL.createObjectURL(file);
+        setCurrentImage(imageUrl);
+    };
+
     //canvas setup
     useEffect(() => {
         const img = new Image();
-        img.src = starting_map;
+        img.src = currentImage;
         
         img.onload = () => {
             setImageDimensions({
@@ -54,7 +61,7 @@ function Map() {
             
             drawImage();
         };
-    }, []);
+    }, [currentImage]); // Now this effect runs whenever currentImage changes
     
     
     
@@ -80,7 +87,7 @@ function Map() {
         
 
         const target_x = imageDimensions.width * relativeX;// size of our image * percentage calculated from minimap.tsx 
-        const target_y = imageDimensions.width * relativeY;// size of our image * percentage calculated from minimap.tsx
+        const target_y = imageDimensions.height * relativeY;// size of our image * percentage calculated from minimap.tsx - fixed bug
         
         //we got the place to scroll to by now. the following code sorts out scrolling to the center
         const container = containerRef.current;
@@ -117,7 +124,11 @@ function Map() {
                 />
             </div>
 
-            <Minimap on_minimap_click={handleMinimapClick} />{/* on_minimap_click(x, y) in minimap.tsx*/}
+            <Minimap 
+                on_minimap_click={handleMinimapClick} 
+                current_image={currentImage}
+                on_image_upload={handleImageUpload}
+            />
 
         </>
     )
