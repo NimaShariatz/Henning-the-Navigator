@@ -1,0 +1,71 @@
+
+
+
+
+
+.navigation_button_set{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0.6vw;
+    bottom: 4vh;
+    padding-inline: 0.7vw;
+    
+    background: rgba(38, 38, 38, 0.76);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.4px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    border-radius: 2vw 2vw 0 2vw;
+}
+.navigation_button_set:hover{
+    opacity: 1;
+}
+
+
+.minimap_button{
+    border: none;
+
+    
+    width: 2vw;
+    height: 2vw;
+
+    margin-block: 1vw;
+    
+    background-color: rgba(7, 7, 7, 0.87);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+.minimap_button:hover{
+    opacity: 1;
+}
+
+
+.navigation_fill{
+    fill: var(--logo_yellow);
+}
+.secondary_fill{
+    fill: var(--waypoint_secondary);
+}
+.start_fill{
+    fill: var(--waypoint_start);
+}
+.target_fill{
+    fill: var(--waypoint_target);
+}
+.extraction_fill{
+    fill: var(--logo_white);
+}

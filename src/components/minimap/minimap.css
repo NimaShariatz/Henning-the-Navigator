@@ -1,0 +1,25 @@
+.navigation_container{
+    position: fixed;
+    left: 4.5vw;
+    bottom: 11vh;
+
+
+}
+
+
+
+.minimap_image{
+    max-width: 25vw;
+    max-height: 25vh;
+    object-fit: contain;
+    outline: 0.2vw solid rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    user-select: none; /*prevents the minimap from being selected, which then gives it a blue tint...*/
+}
+.minimap_image:hover{
+    opacity: 1;
+}
+
+
+

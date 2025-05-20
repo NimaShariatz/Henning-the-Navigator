@@ -1,0 +1,67 @@
+
+
+
+
+
+.misc_button_set{
+    display: flex;
+    position: fixed;
+    left: 4vw;
+    bottom: 4vh;
+    padding-block: 0.7vw;
+
+
+    background: rgba(38, 38, 38, 0.76);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.4px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    border-radius: 0 2vw 2vw 0;
+}
+.misc_button_set:hover{
+    opacity: 1;
+}
+
+.option_button{
+    border: none;
+
+    margin-inline: 0.8vw;
+    width: 2vw;
+    height: 2vw;
+
+
+    
+    background-color: rgba(7, 7, 7, 0.87);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+.option_button:hover{
+    opacity: 1;
+}
+
+
+.info_fill{
+    fill: rgb(5, 120, 208);
+}
+.folder_fill{
+    fill:rgb(243, 210, 0);
+}
+.download_fill{
+    fill: rgb(0, 94, 209);
+}
+.clear_fill{
+    fill: rgb(236, 243, 250);
+}

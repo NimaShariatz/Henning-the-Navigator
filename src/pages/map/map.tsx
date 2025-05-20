@@ -4,7 +4,7 @@ import { starting_map } from "../../static/constants.tsx"
 import "./map.css"
 
 
-import Minimap from "../../components/minimap.tsx";
+import Minimap from "../../components/minimap/minimap.tsx";
 /*
  Info:
  first the image sizes are set up. The width and height of our image is gotten.
