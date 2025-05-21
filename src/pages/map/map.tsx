@@ -21,6 +21,13 @@ function Map() {
     
     const containerRef = useRef<HTMLDivElement>(null);
         
+    
+    const handleImageUpload = (file: File) => {// Handle image upload from Misc_set
+        const imageUrl = URL.createObjectURL(file);
+        setCurrentImage(imageUrl);
+    };
+
+
     const drawImage = () => {
         const canvas = canvasRef.current;
         const img = imageRef.current;
@@ -40,11 +47,6 @@ function Map() {
         }
     };
 
-    // Handle image upload from Misc_set
-    const handleImageUpload = (file: File) => {
-        const imageUrl = URL.createObjectURL(file);
-        setCurrentImage(imageUrl);
-    };
 
     //canvas setup
     useEffect(() => {

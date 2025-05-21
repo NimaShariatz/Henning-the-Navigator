@@ -1,7 +1,6 @@
 import {useRef} from "react"
 import "./minimap.css"
 
-import { starting_map } from "../../static/constants"
 
 import Navigation_set from "../navigation_set/navigation_set"
 import Misc_set from "../misc_set/misc_set"

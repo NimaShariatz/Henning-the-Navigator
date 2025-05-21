@@ -9,16 +9,31 @@ function Misc_set({ onImageUpload }: MiscSetProps){
     const fileInputRef = useRef<HTMLInputElement>(null);
     
     //file changing stuff
-    const handle_image_upload = () => {
+    /*Logic:
+    when folder is clicked, handle_image_upload(misc_set.tsx) is called.
+    it clicks the <input/>. fileInputRef.click()
+    when an image is selected, handle_file_change is called
+    it calls onImageUpload which takes it as an arguement
+    in the Map component, handleImageUpload is passed
+    to Minimap component which is then passed to Misc_set
+
+    handleImageUpload in map.tsx creates an object URL
+    from the file and updates the state with the new image URL,
+    so it updates main map and minimap
+    
+    */
+
+
+    const handle_image_upload = () => {//clicks the hidden <input/>
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
     
-    const handle_file_change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handle_file_change = (e: React.ChangeEvent<HTMLInputElement>) => { //this is what <input/> calls
         const files = e.target.files;
         if (files && files.length > 0 && onImageUpload) {
-            onImageUpload(files[0]);
+            onImageUpload(files[0]);// sets onImageUpload variable to this.
         }
     };
     //file changing stuff
@@ -58,6 +73,7 @@ function Misc_set({ onImageUpload }: MiscSetProps){
                         </g>
                     </svg>
                 </button>
+                
 
                 <input 
                 type="file" 
