@@ -11,9 +11,6 @@ interface MinimapProps {
     current_image: string;//for file import
     on_image_upload?: (file: File) => void;//for file import
 
-    //How upload works:
-
-
 
 }
 

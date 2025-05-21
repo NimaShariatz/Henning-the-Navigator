@@ -1,13 +1,35 @@
+import {useState, useEffect, useRef} from "react"
 
 import "./navigation_set.css"
 
 function Navigation_set(){
+    
+    
+    
+    const [currentSelection, setCurrentSelection] = useState({selection: 0});
+
+    const handleButtonClick = (selectionIndex: number) => {
+        setCurrentSelection({selection: selectionIndex});
+        console.log(selectionIndex);
+
+    }
+    const getButtonStyle = (buttonIndex: number) => {
+    return buttonIndex === currentSelection.selection 
+            ? { outline: '0.2vw solid white' } 
+            : {}
+    }
+
+
+
+
+
+
     return(
         <>
         
-            <div className="navigation_button_set">
+            <div className="navigation_button_set"> {/* Note it is not onClick={handleButtonClick(0)} as this would immediatley execute it. rather than create an event handler. so its activating on render than on click */}
 
-                <button className="minimap_button">
+                <button className="minimap_button" onClick={() => handleButtonClick(0)} style={getButtonStyle(0)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -22,7 +44,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-               <button className="minimap_button">
+               <button className="minimap_button"  onClick={() => handleButtonClick(1)} style={getButtonStyle(1)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -37,7 +59,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-               <button className="minimap_button">
+               <button className="minimap_button"  onClick={() => handleButtonClick(2)} style={getButtonStyle(2)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -52,7 +74,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-               <button className="minimap_button">
+               <button className="minimap_button"  onClick={() => handleButtonClick(3)} style={getButtonStyle(3)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -67,7 +89,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-                <button className="minimap_button">
+                <button className="minimap_button"  onClick={() => handleButtonClick(4)} style={getButtonStyle(4)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
