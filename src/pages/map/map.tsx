@@ -22,6 +22,13 @@ function Map() {
     const containerRef = useRef<HTMLDivElement>(null);
         
     
+
+    // Handle waypoint selection changes
+    const handleWaypointSelectionChange = (selection: number) => {
+        console.log("Waypoint selection received in Map:", selection);
+    };
+
+
     const handleImageUpload = (file: File) => {// Handle image upload from Misc_set
         const imageUrl = URL.createObjectURL(file);
         setCurrentImage(imageUrl);
@@ -130,6 +137,7 @@ function Map() {
                 on_minimap_click={handleMinimapClick} 
                 current_image={currentImage}
                 on_image_upload={handleImageUpload}
+                on_waypoint_selection_change={handleWaypointSelectionChange}
             />
 
         </>

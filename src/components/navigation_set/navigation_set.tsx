@@ -2,7 +2,14 @@ import {useState, useEffect, useRef} from "react"
 
 import "./navigation_set.css"
 
-function Navigation_set(){
+interface NavigationSetProps {// exclusively just for passing which point is selected to minimap.tsx
+    onWaypointSelectionChange?: (selection: number) => void;
+
+}
+
+
+
+function Navigation_set({ onWaypointSelectionChange }: NavigationSetProps){
     const navigation = useRef<HTMLButtonElement>(null);
     const secondary = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
@@ -17,9 +24,15 @@ function Navigation_set(){
 
 
     const toggle_waypoint_suggestion = (value: number) => {
-
-        setWaypointSelection(waypointSelection === value ? -1 : value);//if existing num == number selected, remove outline
+        const newSelection = waypointSelection === value ? -1 : value;
+        setWaypointSelection(newSelection);
+        
+        
+        if (onWaypointSelectionChange) {//if its then notify the component of the change
+            onWaypointSelectionChange(newSelection);
+        }
     };
+    
     useEffect(() => {
 
         const selectionMap = [

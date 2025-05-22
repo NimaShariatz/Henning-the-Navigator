@@ -10,6 +10,8 @@ interface MinimapProps {
 
     current_image: string;//for file import
     on_image_upload?: (file: File) => void;//for file import
+    
+    on_waypoint_selection_change?: (selection: number) => void;//this is passed to map.tsx. it comes from navigation_set.tsx
 
 
 }
@@ -22,7 +24,7 @@ interface MinimapProps {
 }
 
 
-function Minimap({ on_minimap_click, current_image, on_image_upload }: MinimapProps) {
+function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change }: MinimapProps) {
     const imageRef = useRef<HTMLImageElement>(null); //ref is used for .minimap_container
     
     const handle_minimap_click = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -45,7 +47,7 @@ function Minimap({ on_minimap_click, current_image, on_image_upload }: MinimapPr
                 <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
             </div>
 
-            <Navigation_set/>
+            <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change}/>
 
             <Misc_set onImageUpload={on_image_upload} />
         </>
