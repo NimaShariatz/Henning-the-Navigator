@@ -3,21 +3,49 @@ import {useState, useEffect, useRef} from "react"
 import "./navigation_set.css"
 
 function Navigation_set(){
+    const navigation = useRef<HTMLButtonElement>(null);
+    const secondary = useRef<HTMLButtonElement>(null);
+    const start = useRef<HTMLButtonElement>(null);
+    const target = useRef<HTMLButtonElement>(null);
+    const extraction = useRef<HTMLButtonElement>(null);
     
     
-    
-    const [currentSelection, setCurrentSelection] = useState({selection: 0});
 
-    const handleButtonClick = (selectionIndex: number) => {
-        setCurrentSelection({selection: selectionIndex});
-        console.log(selectionIndex);
 
-    }
-    const getButtonStyle = (buttonIndex: number) => {
-    return buttonIndex === currentSelection.selection 
-            ? { outline: '0.2vw solid white' } 
-            : {}
-    }
+    const [waypointSelection, setWaypointSelection] = useState(-1)
+
+
+
+    const toggle_waypoint_suggestion = (value: number) => {
+
+        setWaypointSelection(waypointSelection === value ? -1 : value);//if existing num == number selected, remove outline
+    };
+    useEffect(() => {
+
+        const selectionMap = [
+            { value: 1, ref: navigation },
+            { value: 2, ref: secondary },
+            { value: 3, ref: start },
+            { value: 4, ref: target },
+            { value: 5, ref: extraction }
+        ];
+        
+
+        selectionMap.forEach(item => {
+            if (item.ref.current) {
+                if (waypointSelection === item.value) { //the button clicked
+                    item.ref.current.style.outline = "0.2vw solid white";
+                    item.ref.current.style.opacity = "1";
+                } else {
+                    item.ref.current.style.outline = "none";
+                    item.ref.current.style.opacity = "0.8";
+                }
+            }
+        });
+        
+    }, [waypointSelection]);
+
+
 
 
 
@@ -29,7 +57,7 @@ function Navigation_set(){
         
             <div className="navigation_button_set"> {/* Note it is not onClick={handleButtonClick(0)} as this would immediatley execute it. rather than create an event handler. so its activating on render than on click */}
 
-                <button className="minimap_button" onClick={() => handleButtonClick(0)} style={getButtonStyle(0)}>
+                <button className="minimap_button" onClick={() => toggle_waypoint_suggestion(1)} ref={navigation}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -44,7 +72,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-               <button className="minimap_button"  onClick={() => handleButtonClick(1)} style={getButtonStyle(1)}>
+               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(2)} ref={secondary}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -59,7 +87,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-               <button className="minimap_button"  onClick={() => handleButtonClick(2)} style={getButtonStyle(2)}>
+               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(3)} ref={start}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -74,7 +102,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-               <button className="minimap_button"  onClick={() => handleButtonClick(3)} style={getButtonStyle(3)}>
+               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(4)} ref={target}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -89,7 +117,7 @@ function Navigation_set(){
                     </svg>
                 </button>
 
-                <button className="minimap_button"  onClick={() => handleButtonClick(4)} style={getButtonStyle(4)}>
+                <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(5)} ref={extraction}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
