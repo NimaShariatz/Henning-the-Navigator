@@ -20,16 +20,19 @@ function Map() {
     const imageRef = useRef<HTMLImageElement | null>(null);
     
     const containerRef = useRef<HTMLDivElement>(null);
+
+    const [buttons, setButtons] = useState<{id: number, x: number, y: number, label: string}[]>([]);
+    const [nextButtonId, setNextButtonId] = useState(1);
         
     
 
-    // Handle waypoint selection changes
-    const handleWaypointSelectionChange = (selection: number) => {
+    // To be used later...
+    const handle_waypoint_selection_change = (selection: number) => {
         console.log("Waypoint selection received in Map:", selection);
     };
 
 
-    const handleImageUpload = (file: File) => {// Handle image upload from Misc_set
+    const handle_image_upload = (file: File) => {// Handle image upload from Misc_set
         const imageUrl = URL.createObjectURL(file);
         setCurrentImage(imageUrl);
     };
@@ -90,7 +93,7 @@ function Map() {
 
 
     //minimap click content. Will first call function Minimap in minimap.tsx
-    const handleMinimapClick = (relativeX: number, relativeY: number) => {
+    const handle_minimap_click = (relativeX: number, relativeY: number) => {
         
         if (!containerRef.current) return;
         
@@ -134,10 +137,10 @@ function Map() {
             </div>
 
             <Minimap 
-                on_minimap_click={handleMinimapClick} 
+                on_minimap_click={handle_minimap_click} 
                 current_image={currentImage}
-                on_image_upload={handleImageUpload}
-                on_waypoint_selection_change={handleWaypointSelectionChange}
+                on_image_upload={handle_image_upload}
+                on_waypoint_selection_change={handle_waypoint_selection_change}
             />
 
         </>
