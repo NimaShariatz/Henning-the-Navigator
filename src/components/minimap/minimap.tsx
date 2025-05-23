@@ -13,18 +13,12 @@ interface MinimapProps {
     
     on_waypoint_selection_change?: (selection: number) => void;//this is passed to map.tsx. it comes from navigation_set.tsx
 
-
+    on_clear_points?: () => void; //for on_clear_points() in map.tsx. 
 }
 
 
-interface MinimapProps {
-    on_minimap_click?: (relativeX: number, relativeY: number) => void;
-    current_image: string;
-    on_image_upload?: (file: File) => void;
-}
 
-
-function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change }: MinimapProps) {
+function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change, on_clear_points }: MinimapProps) {
     const imageRef = useRef<HTMLImageElement>(null); //ref is used for .minimap_container
     
     const handle_minimap_click = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -49,7 +43,7 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
             <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change}/>
 
-            <Misc_set onImageUpload={on_image_upload} />
+            <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} />
         </>
     )
 }

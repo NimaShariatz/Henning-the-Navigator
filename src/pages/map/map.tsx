@@ -21,20 +21,74 @@ function Map() {
     
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const [buttons, setButtons] = useState<{id: number, x: number, y: number, label: string}[]>([]);
-    const [nextButtonId, setNextButtonId] = useState(1);
-        
-    
 
-    // To be used later...
+    //--------------------------
+    const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
+    const [point_counter, setNextPointId] = useState(1);
+    const [selectedNavType, setSelectedNavType] = useState(-1)
+        
+    const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!containerRef.current || selectedNavType === -1) return;
+        
+        const container = containerRef.current;
+        const rect = container.getBoundingClientRect();
+
+        const x_cord = e.clientX - rect.left + container.scrollLeft //get cord from place clicked
+        const y_cord = e.clientY - rect.top + container.scrollTop //get cord from place clicked
+
+        
+        for (const button of points) {
+            const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
+            
+            if (distance < 40) {
+                return;
+            }
+        }
+
+        const brand_new_button = {
+            id: point_counter,
+            x: x_cord,
+            y: y_cord,
+            type: selectedNavType // Store the selected navigation type with the button
+           
+        }
+
+        setPoints([...points, brand_new_button]);
+        setNextPointId(point_counter + 1)
+
+    }//handle_map_click
+    const handle_remove_point = (id: number) => {
+        setPoints(points.filter(button => button.id !== id));
+    };
+
     const handle_waypoint_selection_change = (selection: number) => {
+        setSelectedNavType(selection);
         console.log("Waypoint selection received in Map:", selection);
     };
+
+    const get_point_class = (type: number) => {
+        switch(type) {
+            case 1: return "navigation_fill";
+            case 2: return "secondary_fill";
+            case 3: return "start_fill";
+            case 4: return "target_fill";
+            case 5: return "extraction_fill";
+            default: return "navigation_fill";
+        }
+    };
+    const clear_all_points = () => {
+        setPoints([]);
+        setNextPointId(1);
+    };
+
+    
+    //----------------------
 
 
     const handle_image_upload = (file: File) => {// Handle image upload from Misc_set
         const imageUrl = URL.createObjectURL(file);
         setCurrentImage(imageUrl);
+        clear_all_points()
     };
 
 
@@ -127,13 +181,42 @@ function Map() {
 
     return (
         <>
-            <div className="map_container" ref={containerRef}>
+            <div className="map_container" ref={containerRef} onClick={handle_map_click}> 
                 <canvas
                     ref={canvasRef}
                     className="map_background"
                     width={imageDimensions.width}
                     height={imageDimensions.height}
                 />
+
+
+                {points.map(button => (
+                    <div key={button.id} className="map_icon_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
+                        <button className="map_waypoint_button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
+                                <defs>
+                                    <mask id="point">
+                                        <g fill="none">
+                                            <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
+                                            <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
+                                            <circle cx="12" cy="10" r="3" fill="#fff" />
+                                        </g>
+                                    </mask>
+                                </defs>
+                                <path className={get_point_class(button.type)} d="M0 0h24v24H0z" mask="url(#point)" />
+                            </svg>
+                        </button>
+                        <button 
+                            className="remove-button" 
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent triggering map click by accident when clicking the remove!!!
+                                handle_remove_point(button.id);}}
+                        >
+                            ×
+                        </button>
+                    </div>
+                ))}
+
             </div>
 
             <Minimap 
@@ -141,6 +224,7 @@ function Map() {
                 current_image={currentImage}
                 on_image_upload={handle_image_upload}
                 on_waypoint_selection_change={handle_waypoint_selection_change}
+                on_clear_points={clear_all_points}
             />
 
         </>
