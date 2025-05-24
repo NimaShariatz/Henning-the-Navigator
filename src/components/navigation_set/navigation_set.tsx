@@ -21,14 +21,13 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
     const [waypointSelection, setWaypointSelection] = useState(-1)
 
-    const [hasStart, setHasStart] = useState(false)
-    const [hasTarget, setHasTarget] = useState(false)
+    var [hasStart, setHasStart] = useState(false)
+    var [hasTarget, setHasTarget] = useState(false)
 
     const toggle_waypoint_suggestion = (value: number) => {
         const newSelection = waypointSelection === value ? -1 : value;
         setWaypointSelection(newSelection);
         
-        console.log("yesasdasd")
         if (onWaypointSelectionChange) {//if its then notify the component of the change
             onWaypointSelectionChange(newSelection);
         }
@@ -60,16 +59,38 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
 
 
-        const hasStartPoint = points_set.some(point => point.type === 3);//Check if points_set contains at least one start point
-        setHasStart(hasStartPoint);
+        hasStart = points_set.some(point => point.type === 3);//Check if points_set contains at least one start point. true or false
+
         
     
-        const hasTargetPoint = points_set.some(point => point.type === 4);//Check for target point
-        setHasTarget(hasTargetPoint);
+        hasTarget = points_set.some(point => point.type === 4);//Check for target point. true or false
         
-        // Apply styling to navigation button based on hasStart
+
+
+        if(!hasStart){// if we dont have a start point, set selection to it!
+            setWaypointSelection(3);
+            if (onWaypointSelectionChange) {
+                onWaypointSelectionChange(3);
+            }
+        }else if(!hasTarget){// if we dont have a target point, set selection to it!
+            setWaypointSelection(4);
+            if (onWaypointSelectionChange) {
+                onWaypointSelectionChange(4);
+            }
+        } else if ((hasStart && waypointSelection === 3) || (hasTarget && waypointSelection === 4)){// if we got both but selection is on either, remove it
+            setWaypointSelection(-1);
+            if (onWaypointSelectionChange) {
+                onWaypointSelectionChange(-1);
+            }
+        }
+
+
         if (navigation.current && secondary.current && start.current && target.current && extraction.current) {
-            if (!hasStartPoint || !hasTargetPoint) {
+            
+
+            
+            
+            if (!hasStart || !hasTarget) {
                 navigation.current.style.opacity = "0.3";
                 navigation.current.style.cursor = "not-allowed";
                 navigation.current.disabled = true;
@@ -121,7 +142,24 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 
 
             }
-        }
+
+            if(hasStart){
+                start.current.style.opacity = "0.3";
+                start.current.style.cursor = "not-allowed";
+                start.current.disabled = true;
+                start.current.style.filter = "grayscale(1)"
+            }
+            if(hasTarget){
+                target.current.style.opacity = "0.3";
+                target.current.style.cursor = "not-allowed";
+                target.current.disabled = true;
+                target.current.style.filter = "grayscale(1)"
+            }
+
+
+
+
+        }//if
         
     }, [waypointSelection, points_set]);
 
