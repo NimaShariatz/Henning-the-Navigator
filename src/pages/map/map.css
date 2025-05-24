@@ -39,7 +39,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.8;
+    opacity: 0.7;
     transition: opacity 0.2s ease, box-shadow 0.2s ease;
 
     box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
@@ -65,4 +65,26 @@
 }
 .extraction_fill{
     fill: var(--logo_white);
+}
+
+
+
+.remove_button{
+
+    margin-left: 2px;
+    width: 0.7vw;
+    height: 0.7vw;
+    color: var(--logo_white);
+    background-color: rgba(7, 7, 7, 0.30);
+    border: none;
+    border-radius: 50%;
+    font-size: 0.5vw;
+    transition: opacity 0.2s ease;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+
+.map_icon_div:hover .map_waypoint_button, .remove_button:hover {
+    opacity: 1;
 }

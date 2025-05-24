@@ -33,14 +33,22 @@ function Map() {
         const container = containerRef.current;
         const rect = container.getBoundingClientRect();
 
-        const x_cord = e.clientX - rect.left + container.scrollLeft //get cord from place clicked
-        const y_cord = e.clientY - rect.top + container.scrollTop //get cord from place clicked
+        const x_raw = e.clientX - rect.left + container.scrollLeft //get cord from place clicked
+        const y_raw = e.clientY - rect.top + container.scrollTop //get cord from place clicked
 
         
+        
+        const button_size = window.innerWidth * 0.02; //button is 2vw
+        const collision_radius = button_size * 1.3 // multiplier radius
+
+        const x_cord = x_raw - (button_size / 2);
+        const y_cord = y_raw - (button_size / 2);
+
         for (const button of points) {
             const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
+            //console.log(distance)
             
-            if (distance < 40) {
+            if (distance < collision_radius) {// so if within radius, do not make the thing
                 return;
             }
         }
@@ -207,7 +215,7 @@ function Map() {
                             </svg>
                         </button>
                         <button 
-                            className="remove-button" 
+                            className="remove_button" 
                             onClick={(e) => {
                                 e.stopPropagation(); // Prevent triggering map click by accident when clicking the remove!!!
                                 handle_remove_point(button.id);}}

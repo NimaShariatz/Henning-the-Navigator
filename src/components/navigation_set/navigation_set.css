@@ -23,6 +23,8 @@
     align-items: center;
     justify-items: center;
     border-radius: 2vw 2vw 0 2vw;
+
+    z-index: 3;
 }
 .navigation_button_set:hover{
     opacity: 1;
