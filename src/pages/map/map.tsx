@@ -93,6 +93,7 @@ function Map() {
     //----------------------
 
 
+
     const handle_image_upload = (file: File) => {// Handle image upload from Misc_set
         const imageUrl = URL.createObjectURL(file);
         setCurrentImage(imageUrl);
@@ -233,6 +234,9 @@ function Map() {
                 on_image_upload={handle_image_upload}
                 on_waypoint_selection_change={handle_waypoint_selection_change}
                 on_clear_points={clear_all_points}
+
+
+                points_set = {points}
             />
 
         </>

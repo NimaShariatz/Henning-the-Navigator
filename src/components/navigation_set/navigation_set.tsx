@@ -2,14 +2,14 @@ import {useState, useEffect, useRef} from "react"
 
 import "./navigation_set.css"
 
-interface NavigationSetProps {// exclusively just for passing which point is selected to minimap.tsx
-    onWaypointSelectionChange?: (selection: number) => void;
-
+interface NavigationSetProps {
+    onWaypointSelectionChange?: (selection: number) => void;// exclusively just for passing which point is selected to minimap.tsx
+    points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
 }
 
 
 
-function Navigation_set({ onWaypointSelectionChange }: NavigationSetProps){
+function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSetProps){
     const navigation = useRef<HTMLButtonElement>(null);
     const secondary = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
@@ -21,13 +21,14 @@ function Navigation_set({ onWaypointSelectionChange }: NavigationSetProps){
 
     const [waypointSelection, setWaypointSelection] = useState(-1)
 
-
+    const [hasStart, setHasStart] = useState(false)
+    const [hasTarget, setHasTarget] = useState(false)
 
     const toggle_waypoint_suggestion = (value: number) => {
         const newSelection = waypointSelection === value ? -1 : value;
         setWaypointSelection(newSelection);
         
-        
+        console.log("yesasdasd")
         if (onWaypointSelectionChange) {//if its then notify the component of the change
             onWaypointSelectionChange(newSelection);
         }
@@ -55,9 +56,74 @@ function Navigation_set({ onWaypointSelectionChange }: NavigationSetProps){
                 }
             }
         });
-        
-    }, [waypointSelection]);
 
+
+
+
+        const hasStartPoint = points_set.some(point => point.type === 3);//Check if points_set contains at least one start point
+        setHasStart(hasStartPoint);
+        
+    
+        const hasTargetPoint = points_set.some(point => point.type === 4);//Check for target point
+        setHasTarget(hasTargetPoint);
+        
+        // Apply styling to navigation button based on hasStart
+        if (navigation.current && secondary.current && start.current && target.current && extraction.current) {
+            if (!hasStartPoint || !hasTargetPoint) {
+                navigation.current.style.opacity = "0.3";
+                navigation.current.style.cursor = "not-allowed";
+                navigation.current.disabled = true;
+                navigation.current.style.filter = "grayscale(1)"
+
+                secondary.current.style.opacity = "0.3";
+                secondary.current.style.cursor = "not-allowed";
+                secondary.current.disabled = true;
+                secondary.current.style.filter = "grayscale(1)"
+
+                start.current.style.cursor = "pointer";
+                start.current.disabled = false;
+                start.current.style.filter = "none"
+
+                target.current.style.cursor = "pointer";
+                target.current.disabled = false;
+                target.current.style.filter = "none"
+
+                extraction.current.style.opacity = "0.3";
+                extraction.current.style.cursor = "not-allowed";
+                extraction.current.disabled = true;
+                extraction.current.style.filter = "grayscale(1)"
+
+                
+
+
+            } else {
+                navigation.current.style.cursor = "pointer";
+                navigation.current.disabled = false;
+                navigation.current.style.filter = "none"
+
+                secondary.current.style.cursor = "pointer";
+                secondary.current.disabled = false;
+                secondary.current.style.filter = "none"
+
+                start.current.style.opacity = "0.3";
+                start.current.style.cursor = "not-allowed";
+                start.current.disabled = true;
+                start.current.style.filter = "grayscale(1)"
+
+                target.current.style.opacity = "0.3";
+                target.current.style.cursor = "not-allowed";
+                target.current.disabled = true;
+                target.current.style.filter = "grayscale(1)"
+
+                extraction.current.style.cursor = "pointer";
+                extraction.current.disabled = false;
+                extraction.current.style.filter = "none"
+                
+
+            }
+        }
+        
+    }, [waypointSelection, points_set]);
 
 
 
