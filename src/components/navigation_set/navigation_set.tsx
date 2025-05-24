@@ -89,7 +89,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
             
             
-            if (!has_one_start_point || !has_one_target_point) {
+            if (!has_one_start_point && !has_one_target_point) {
                 navigation.current.style.opacity = "0.3";
                 navigation.current.style.cursor = "not-allowed";
                 navigation.current.disabled = true;
@@ -104,6 +104,35 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 start.current.disabled = false;
                 start.current.style.filter = "none"
 
+                target.current.style.opacity = "0.3";
+                target.current.style.cursor = "not-allowed";
+                target.current.disabled = true;
+                target.current.style.filter = "grayscale(1)"
+
+                extraction.current.style.opacity = "0.3";
+                extraction.current.style.cursor = "not-allowed";
+                extraction.current.disabled = true;
+                extraction.current.style.filter = "grayscale(1)"
+
+                
+            }else if(has_one_start_point && !has_one_target_point){
+                navigation.current.style.opacity = "0.3";
+                navigation.current.style.cursor = "not-allowed";
+                navigation.current.disabled = true;
+                navigation.current.style.filter = "grayscale(1)"
+
+                secondary.current.style.opacity = "0.3";
+                secondary.current.style.cursor = "not-allowed";
+                secondary.current.disabled = true;
+                secondary.current.style.filter = "grayscale(1)"
+
+
+
+                start.current.style.opacity = "0.3";
+                start.current.style.cursor = "not-allowed";
+                start.current.disabled = true;
+                start.current.style.filter = "grayscale(1)"
+
                 target.current.style.cursor = "pointer";
                 target.current.disabled = false;
                 target.current.style.filter = "none"
@@ -113,7 +142,32 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 extraction.current.disabled = true;
                 extraction.current.style.filter = "grayscale(1)"
 
-                
+            
+            }else if(!has_one_start_point && has_one_target_point){
+                navigation.current.style.opacity = "0.3";
+                navigation.current.style.cursor = "not-allowed";
+                navigation.current.disabled = true;
+                navigation.current.style.filter = "grayscale(1)"
+
+                secondary.current.style.opacity = "0.3";
+                secondary.current.style.cursor = "not-allowed";
+                secondary.current.disabled = true;
+                secondary.current.style.filter = "grayscale(1)"
+
+
+                start.current.style.cursor = "pointer";
+                start.current.disabled = false;
+                start.current.style.filter = "none"
+
+                target.current.style.opacity = "0.3";
+                target.current.style.cursor = "not-allowed";
+                target.current.disabled = true;
+                target.current.style.filter = "grayscale(1)"
+
+                extraction.current.style.opacity = "0.3";
+                extraction.current.style.cursor = "not-allowed";
+                extraction.current.disabled = true;
+                extraction.current.style.filter = "grayscale(1)"
 
 
             } else {
