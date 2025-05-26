@@ -23,4 +23,21 @@
 }
 
 
+.map_minimap_waypoint_button{
+    border: none;
+
+
+    background-color: rgba(7, 7, 7, 0.95);
+    border-radius: 15%;
+    cursor: pointer;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+
+
+}
 

@@ -35,15 +35,22 @@ function Map() {
 
         const x_raw = e.clientX - rect.left + container.scrollLeft //get cord from place clicked
         const y_raw = e.clientY - rect.top + container.scrollTop //get cord from place clicked
+        //console.log(e.clientX, rect.left, container.scrollLeft)
 
+        if(canvasRef.current){
+            if( x_raw > canvasRef.current.width|| y_raw > canvasRef.current.height){
+                console.log("out of map bounds")
+                return
+            }
+        }
         
-        
+        //for preventing too many next to each other
         const button_size = window.innerWidth * 0.02; //button is 2vw
-        const collision_radius = button_size * 1.3 // multiplier radius
 
-        const x_cord = x_raw - (button_size / 2);
+        const x_cord = x_raw - (button_size / 2);//centres the button based on where user clicked
         const y_cord = y_raw - (button_size / 2);
 
+        const collision_radius = button_size * 1.3 // multiplier radius! for the 'for' statement
         for (const button of points) {
             const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
             //console.log(distance)
@@ -51,7 +58,9 @@ function Map() {
             if (distance < collision_radius) {// so if within radius, do not make the thing
                 return;
             }
-        }
+
+        }//for
+        //for preventing too many next to each other
 
         const brand_new_button = {
             id: point_counter,
