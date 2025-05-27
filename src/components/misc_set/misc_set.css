@@ -57,6 +57,9 @@
 .info_fill{
     fill: rgb(5, 120, 208);
 }
+.map_upload_fill{
+    fill: #ae3232;
+}
 .folder_fill{
     fill:rgb(243, 210, 0);
 }

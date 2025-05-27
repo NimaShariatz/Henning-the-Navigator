@@ -23,6 +23,10 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
 
 
+    const [targetSetMovement, setTargetSetMovement] = useState(false)
+
+
+
     const toggle_waypoint_suggestion = (value: number) => {
         const newSelection = waypointSelection === value ? -1 : value;
         setWaypointSelection(newSelection);
@@ -222,6 +226,46 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
 
 
+
+
+
+
+
+
+
+    //---------------
+    const movement_button_svg = useRef<SVGSVGElement>(null);
+    const targets_button_container = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        
+        if (movement_button_svg.current && targets_button_container.current){
+            if (targetSetMovement){
+                movement_button_svg.current.style.transform = 'rotate(0deg)'
+                targets_button_container.current.style.transform = 'translateX(-22vw)'
+
+            }else{
+                movement_button_svg.current.style.transform = 'rotate(180deg)'
+                targets_button_container.current.style.transform = 'translateX(0)'
+
+            }
+        }
+
+        
+    }, [targetSetMovement])
+    
+
+
+
+    //--------------
+
+
+
+
+
+
+
+
+
     return(
         <>
         
@@ -301,6 +345,34 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                         <path className="extraction_fill" d="M0 0h24v24H0z" mask="url(#point)" />
                     </svg>
                 </button>
+
+            </div>
+
+
+
+
+            
+
+            <div className="target_icons_set" ref={targets_button_container}>
+
+                <div className="target_icons_row">
+                    
+
+                    <div className="target_set">
+
+                    </div>
+
+                    <div className="movement_set">
+                        <button className="movement_button" onClick={() => setTargetSetMovement(!targetSetMovement)}>
+                            <svg ref={movement_button_svg} className="movement_button_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+	                            <path className="chevron_fill_2" d="m503.933 255.933l.041-.041l-68.081-68.082l-6.221-6.175l-5.122-5.085L315.516 67.516l-79.462 79.463L345.075 256L236.054 365.021l79.462 79.463l109.021-109.021l.041.041l.067-.067l68.081-68.082L504 256Zm-188.417 143.3l-34.207-34.208L390.33 256L281.309 146.979l34.207-34.208l97.707 97.707l11.355 11.273L458.827 256l-34.249 34.249l-.041-.041l-.067.067Z" />
+	                            <path className="chevron_fill" d="m282.792 256l-.067-.067l.041-.041l-68.082-68.082L203.4 176.6L94.308 67.516l-79.463 79.463L123.866 256L14.845 365.021l79.463 79.463L203.4 335.4l.041.041l68.082-68.082ZM203.3 290.316l-.041-.041L94.308 399.229L60.1 365.021L169.121 256L60.1 146.979l34.208-34.208l97.707 97.707l11.279 11.2L237.619 256Z" />
+                            </svg>
+                        </button>
+                    </div>
+
+
+                </div>
 
             </div>
 
