@@ -161,7 +161,7 @@ function Map() {
         }    
         
     }, [imageDimensions]);
-
+    //-------------------
 
 
     //minimap click content. Will first call function Minimap in minimap.tsx

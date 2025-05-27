@@ -144,7 +144,8 @@
 .movement_button_svg{
     max-width: 65%;
     max-height: 65%;
-    transition: transform 0.65s linear;
+    transition: transform 0.7s ease;
+    transform: rotate(180);
 
 }
 .movement_button{
@@ -153,12 +154,13 @@
 }
 .chevron_fill{
     fill: var(--logo_white);
+    opacity: 0.9;
 }
 .chevron_fill_2{
     fill: var(--logo_white);
     transition: opacity 0.3s ease;
     opacity: 0.8;
 }
-.movement_button:hover .chevron_fill_2{
+.movement_button:hover .chevron_fill_2, .movement_button:hover .chevron_fill{
     opacity: 1;
 }

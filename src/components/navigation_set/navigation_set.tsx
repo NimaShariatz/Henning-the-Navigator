@@ -240,7 +240,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         
         if (movement_button_svg.current && targets_button_container.current){
             if (targetSetMovement){
-                movement_button_svg.current.style.transform = 'rotate(0deg)'
+                movement_button_svg.current.style.transform = 'rotate(180deg)'
                 targets_button_container.current.style.transform = 'translateX(-22vw)'
 
             }else{
