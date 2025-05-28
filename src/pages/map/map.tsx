@@ -76,6 +76,7 @@ function Map() {
     }//handle_map_click
     const handle_remove_point = (id: number) => {
         setPoints(points.filter(button => button.id !== id));
+        //Subtract -1 from all ids ahead of current. Then delete the point
     };
 
     const handle_waypoint_selection_change = (selection: number) => {
