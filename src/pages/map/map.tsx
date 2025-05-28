@@ -76,7 +76,6 @@ function Map() {
     }//handle_map_click
     const handle_remove_point = (id: number) => {
         setPoints(points.filter(button => button.id !== id));
-        //Subtract -1 from all ids ahead of current. Then delete the point
     };
 
     const handle_waypoint_selection_change = (selection: number) => {
@@ -86,10 +85,10 @@ function Map() {
 
     const get_point_class = (type: number) => {
         switch(type) {
-            case 1: return "navigation_fill";
-            case 2: return "secondary_fill";
-            case 3: return "start_fill";
-            case 4: return "target_fill";
+            case 1: return "start_fill";
+            case 2: return "target_fill";
+            case 3: return "interest_fill";
+            case 4: return "navigation_fill";
             case 5: return "extraction_fill";
             default: return "navigation_fill";
         }

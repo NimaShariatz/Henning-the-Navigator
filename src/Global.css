@@ -3,9 +3,11 @@
     --logo_black: #1d1d1d;
     --logo_white: #fdfdfd;
 
-    --waypoint_secondary: #2ee31e;
+    --waypoint_extraction: #2ee31e;
     --waypoint_start: #33b9ea;
     --waypoint_target:#ae3232;
+    --waypoint_interest: #fdfdfd;
+    --waypoint_navigation: #ffc90e;
 }
 
 * {
@@ -34,4 +36,23 @@ button{
     background-color: transparent;
     border: none;
 
+}
+
+
+
+
+.extraction_fill{
+    fill: var(--waypoint_extraction);
+}
+.navigation_fill{
+    fill: var(--waypoint_navigation);
+}
+.interest_fill{
+    fill: var(--waypoint_interest);
+}
+.target_fill{
+    fill: var(--waypoint_target);
+}
+.start_fill{
+    fill: var(--waypoint_start);
 }

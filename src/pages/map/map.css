@@ -51,21 +51,8 @@
     outline: 3px solid var(--logo_yellow);
 }
 
-.navigation_fill{
-    fill: var(--logo_yellow);
-}
-.secondary_fill{
-    fill: var(--waypoint_secondary);
-}
-.start_fill{
-    fill: var(--waypoint_start);
-}
-.target_fill{
-    fill: var(--waypoint_target);
-}
-.extraction_fill{
-    fill: var(--logo_white);
-}
+
+
 
 
 

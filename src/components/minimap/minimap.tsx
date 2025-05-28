@@ -74,10 +74,10 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
     const get_point_class = (type: number) => {//for coloring the waypoints....
         switch(type) {
-            case 1: return "navigation_fill";
-            case 2: return "secondary_fill";
-            case 3: return "start_fill";
-            case 4: return "target_fill";
+            case 1: return "start_fill";
+            case 2: return "target_fill";
+            case 3: return "interest_fill";
+            case 4: return "navigation_fill";
             case 5: return "extraction_fill";
             default: return "navigation_fill";
         }
