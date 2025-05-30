@@ -76,9 +76,8 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
         switch(type) {
             case 1: return "start_fill";
             case 2: return "target_fill";
-            case 3: return "interest_fill";
-            case 4: return "navigation_fill";
-            case 5: return "extraction_fill";
+            case 3: return "navigation_fill";
+            case 4: return "extraction_fill";
             default: return "navigation_fill";
         }
     };

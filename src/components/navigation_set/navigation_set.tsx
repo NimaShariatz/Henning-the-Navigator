@@ -12,7 +12,6 @@ interface NavigationSetProps {
 function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSetProps){
     const extraction = useRef<HTMLButtonElement>(null);
     const navigation = useRef<HTMLButtonElement>(null);
-    const interest = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
     const target = useRef<HTMLButtonElement>(null);
     
@@ -41,9 +40,8 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         const selectionMap = [
             { value: 1, ref: start },
             { value: 2, ref: target },
-            { value: 3, ref: interest },
-            { value: 4, ref: navigation },
-            { value: 5, ref: extraction }
+            { value: 3, ref: navigation },
+            { value: 4, ref: extraction }
         ];
         
 
@@ -88,7 +86,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         }
 
 
-        if (navigation.current && interest.current && start.current && target.current && extraction.current) {
+        if (navigation.current && start.current && target.current && extraction.current) {
             
 
             
@@ -99,10 +97,6 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 navigation.current.disabled = true;
                 navigation.current.style.filter = "grayscale(1)"
 
-                interest.current.style.opacity = "0.3";
-                interest.current.style.cursor = "not-allowed";
-                interest.current.disabled = true;
-                interest.current.style.filter = "grayscale(1)"
 
                 start.current.style.cursor = "pointer";
                 start.current.disabled = false;
@@ -124,11 +118,6 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 navigation.current.style.cursor = "not-allowed";
                 navigation.current.disabled = true;
                 navigation.current.style.filter = "grayscale(1)"
-
-                interest.current.style.opacity = "0.3";
-                interest.current.style.cursor = "not-allowed";
-                interest.current.disabled = true;
-                interest.current.style.filter = "grayscale(1)"
 
 
 
@@ -153,10 +142,6 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 navigation.current.disabled = true;
                 navigation.current.style.filter = "grayscale(1)"
 
-                interest.current.style.opacity = "0.3";
-                interest.current.style.cursor = "not-allowed";
-                interest.current.disabled = true;
-                interest.current.style.filter = "grayscale(1)"
 
 
                 start.current.style.cursor = "pointer";
@@ -179,9 +164,6 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                 navigation.current.disabled = false;
                 navigation.current.style.filter = "none"
 
-                interest.current.style.cursor = "pointer";
-                interest.current.disabled = false;
-                interest.current.style.filter = "none"
 
                 start.current.style.opacity = "0.3";
                 start.current.style.cursor = "not-allowed";
@@ -271,7 +253,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         
             <div className="navigation_button_set"> {/* Note it is not onClick={handleButtonClick(0)} as this would immediatley execute it. rather than create an event handler. so its activating on render than on click */}
 
-                <button className="minimap_button" onClick={() => toggle_waypoint_suggestion(5)} ref={extraction}>
+                <button className="minimap_button" onClick={() => toggle_waypoint_suggestion(4)} ref={extraction}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -286,7 +268,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(4)} ref={navigation}>
+               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(3)} ref={navigation}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -298,21 +280,6 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                             </mask>
                         </defs>
                         <path className="navigation_fill" d="M0 0h24v24H0z" mask="url(#point)" />
-                    </svg>
-                </button>
-
-               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(3)} ref={interest}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
-                        <defs>
-                            <mask id="point">
-                                <g fill="none">
-                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
-                                    <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
-                                    <circle cx="12" cy="10" r="3" fill="#fff" />
-                                </g>
-                            </mask>
-                        </defs>
-                        <path className="interest_fill" d="M0 0h24v24H0z" mask="url(#point)" />
                     </svg>
                 </button>
 

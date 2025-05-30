@@ -24,7 +24,7 @@ function Map() {
 
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
-    const [point_counter, setNextPointId] = useState(1);
+
     const [selectedNavType, setSelectedNavType] = useState(-1)
         
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -62,8 +62,32 @@ function Map() {
         }//for
         //for preventing too many next to each other
 
+        let id_setter = 0;
+
+        if(selectedNavType === 1) {// if type is 1, id must be 1
+            id_setter = 1
+        } else if (selectedNavType === 2) {// if type is target, check if navs exist. set it to after nav. else after start
+            id_setter = points.length + 1
+        } else if (selectedNavType === 4){// if type is waypoint, set id to before target
+            id_setter = points.length + 1
+        }else if (selectedNavType === 5){// if type is extract, set type to end of list
+            id_setter = points.length + 1
+        }else if (selectedNavType === 3) {//if interest point
+            id_setter = points.length + 1
+        }
+        
+        
+
+
+
+
+
+    
+
+
+
         const brand_new_button = {
-            id: point_counter,
+            id: id_setter,
             x: x_cord,
             y: y_cord,
             type: selectedNavType // Store the selected navigation type with the button
@@ -71,11 +95,30 @@ function Map() {
         }
 
         setPoints([...points, brand_new_button]);
-        setNextPointId(point_counter + 1)
+        
 
     }//handle_map_click
     const handle_remove_point = (id: number) => {
-        setPoints(points.filter(button => button.id !== id));
+
+        const point_to_remove = points.find(button => button.id === id);
+
+        if (point_to_remove?.type === 1){//if start, then just delete it
+            setPoints(points.filter(button => button.id !== id));
+
+        } else {// Remove the point and decrement every ID ahead by 1
+        
+        const updatedPoints = points.filter(button => button.id !== id)
+            .map(button => {
+                
+                if (button.id > id) {
+                    return { ...button, id: button.id - 1 };
+                }
+                return button;
+            });
+        
+        setPoints(updatedPoints);
+        }
+
     };
 
     const handle_waypoint_selection_change = (selection: number) => {
@@ -87,15 +130,13 @@ function Map() {
         switch(type) {
             case 1: return "start_fill";
             case 2: return "target_fill";
-            case 3: return "interest_fill";
-            case 4: return "navigation_fill";
-            case 5: return "extraction_fill";
+            case 3: return "navigation_fill";
+            case 4: return "extraction_fill";
             default: return "navigation_fill";
         }
     };
     const clear_all_points = () => {
         setPoints([]);
-        setNextPointId(1);
     };
 
     
@@ -232,6 +273,7 @@ function Map() {
                         >
                             ×
                         </button>
+                        <p>{button.id}</p>
                     </div>
                 ))}
 
