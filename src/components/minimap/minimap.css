@@ -2,11 +2,16 @@
     position: fixed;
     left: 5vw;
     bottom: 13vh;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+
 
     z-index: 4;
 
 }
-
+.navigation_container:hover{
+    opacity: 1;
+}
 
 
 .minimap_image{
@@ -14,13 +19,9 @@
     max-height: 25vh;
     object-fit: contain;
     outline: 0.2vw solid rgba(0, 0, 0, 0.2);
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
     user-select: none; /*prevents the minimap from being selected, which then gives it a blue tint...*/
 }
-.minimap_image:hover{
-    opacity: 1;
-}
+
 
 
 .map_minimap_waypoint_button{
@@ -35,11 +36,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
-
-
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
+
+.navigation_container:hover .map_minimap_waypoint_button {
+    opacity: 1;
+}
+
+
+
 
 .waypoint_id_minimap{
     position: absolute;

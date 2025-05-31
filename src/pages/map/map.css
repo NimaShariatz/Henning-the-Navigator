@@ -81,10 +81,11 @@
 
 .waypoint_id{
     position: absolute;
-    font-size: 1.4vw;
-  text-shadow:
-    0.1vw 0.1vw 0 #1d1d1da9,
-    -0.1vw 0.1vw 0 #1d1d1da9,
-    -0.1vw -0.1vw 0 #1d1d1da9,
-    0.1vw -0.1vw 0 #1d1d1da9;
+    font-size: 1.1vw;
+    text-shadow:
+    0.09vw 0.09vw 0 #1d1d1da9,
+    -0.09vw 0.09vw 0 #1d1d1da9,
+    -0.09vw -0.09vw 0 #1d1d1da9,
+    0.09vw -0.09vw 0 #1d1d1da9;
+    opacity: 0.9;
 }
