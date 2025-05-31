@@ -90,7 +90,7 @@
 
     border-radius: 0 1.5vw 1.5vw 0;
 
-
+    z-index: 5;
 }
 .target_icons_set:hover{
     opacity: 1;

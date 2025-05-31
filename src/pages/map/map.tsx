@@ -202,6 +202,16 @@ function Map() {
             default: return "navigation_fill";
         }
     };
+    const get_point_id_color_class= (type: number) => {
+        switch(type) {
+            case 1: return "start_color";
+            case 2: return "target_color";
+            case 3: return "navigation_color";
+            case 4: return "extraction_color";
+            default: return "navigation_color";
+        }
+    };
+
     const clear_all_points = () => {
         setPoints([]);
     };
@@ -331,6 +341,7 @@ function Map() {
                                 </defs>
                                 <path className={get_point_class(button.type)} d="M0 0h24v24H0z" mask="url(#point)" />
                             </svg>
+                            <p className={`waypoint_id ${get_point_id_color_class(button.type)}`}>{button.id}</p>
                         </button>
                         <button 
                             className="remove_button" 
@@ -340,7 +351,7 @@ function Map() {
                         >
                             ×
                         </button>
-                        <p>{button.id}</p>
+                    
                     </div>
                 ))}
 

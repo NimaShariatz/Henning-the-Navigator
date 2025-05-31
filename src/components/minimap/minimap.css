@@ -1,9 +1,9 @@
 .navigation_container{
     position: fixed;
-    left: 4.5vw;
-    bottom: 11vh;
+    left: 5vw;
+    bottom: 13vh;
 
-    z-index: 3;
+    z-index: 4;
 
 }
 
@@ -39,5 +39,15 @@
     transition: opacity 0.2s ease;
 
 
+}
+
+.waypoint_id_minimap{
+    position: absolute;
+    font-size: 0.75vw;
+  text-shadow:
+    0.053vw 0.053vw 0 #1d1d1da9,
+    -0.053vw 0.053vw 0 #1d1d1da9,
+    -0.053vw -0.053vw 0 #1d1d1da9,
+    0.053vw -0.053vw 0 #1d1d1da9;
 }
 

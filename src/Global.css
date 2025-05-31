@@ -4,10 +4,16 @@
     --logo_white: #fdfdfd;
 
     --waypoint_extraction: #2ee31e;
+    --waypoint_extraction_id_color: #59e34cd4;
+
     --waypoint_start: #33b9ea;
+    --waypoint_start_id_color: #7ac4dfde;
+
     --waypoint_target:#ae3232;
-    --waypoint_interest: #fdfdfd;
+    --waypoint_target_id_color:#d76565d7;
+
     --waypoint_navigation: #ffc90e;
+    --waypoint_navigation_id_color: #ebc84cd0;
 }
 
 * {
@@ -44,15 +50,30 @@ button{
 .extraction_fill{
     fill: var(--waypoint_extraction);
 }
+.extraction_color{
+    color: var(--waypoint_extraction_id_color);
+}
+
 .navigation_fill{
     fill: var(--waypoint_navigation);
 }
-.interest_fill{
-    fill: var(--waypoint_interest);
+.navigation_color{
+    color: var(--waypoint_navigation_id_color);
 }
+
+
+
 .target_fill{
     fill: var(--waypoint_target);
 }
+.target_color{
+    color: var(--waypoint_target_id_color);
+}
+
+
 .start_fill{
     fill: var(--waypoint_start);
+}
+.start_color{
+    color: var(--waypoint_start_id_color);
 }

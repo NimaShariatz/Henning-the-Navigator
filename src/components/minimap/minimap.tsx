@@ -81,7 +81,15 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
             default: return "navigation_fill";
         }
     };
-
+    const get_point_id_color_class= (type: number) => {
+        switch(type) {
+            case 1: return "start_color";
+            case 2: return "target_color";
+            case 3: return "navigation_color";
+            case 4: return "extraction_color";
+            default: return "navigation_color";
+        }
+    };
 
 
 
@@ -143,6 +151,7 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
                                 </defs>
                                 <path className={get_point_class(point.type)} d="M0 0h24v24H0z" mask="url(#point)" />
                             </svg>
+                            <p className={`waypoint_id_minimap ${get_point_id_color_class(point.type)}`}>{point.id}</p>
                         </button>
                         </div>
                     );
