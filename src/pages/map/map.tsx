@@ -25,6 +25,7 @@ function Map() {
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
 
+
     const [selectedNavType, setSelectedNavType] = useState(-1)
         
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -62,32 +63,15 @@ function Map() {
         }//for
         //for preventing too many next to each other
 
-        let id_setter = 0;
+        const nav_exists = points.find(point => point.type === 3)
+        const target_exists = points.find(point => point.type === 2)
+ 
 
         if(selectedNavType === 1) {// if type is 1, id must be 1
-            id_setter = 1
-        } else if (selectedNavType === 2) {// if type is target, check if navs exist. set it to after nav. else after start
-            id_setter = points.length + 1
-        } else if (selectedNavType === 4){// if type is waypoint, set id to before target
-            id_setter = points.length + 1
-        }else if (selectedNavType === 5){// if type is extract, set type to end of list
-            id_setter = points.length + 1
-        }else if (selectedNavType === 3) {//if interest point
-            id_setter = points.length + 1
-        }
-        
-        
-
-
-
-
-
-    
-
-
-
+            
+            
         const brand_new_button = {
-            id: id_setter,
+            id: 1,
             x: x_cord,
             y: y_cord,
             type: selectedNavType // Store the selected navigation type with the button
@@ -95,9 +79,92 @@ function Map() {
         }
 
         setPoints([...points, brand_new_button]);
+
+
+        } else if (selectedNavType === 2) {// if type is target, check if navs exist. set it to after nav. else after start
+
+            if(nav_exists){
+            
+                const navPoints = points.filter(point => point.type === 3);
+                if (navPoints.length > 0) {
+                    const highestNavId = Math.max(...navPoints.map(point => point.id));//max navpoint id
+                    
+                    const updated_points = increment_points_fromID_onwards(highestNavId);                    
+                    const new_point = {id: highestNavId + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                    
+                    setPoints([...updated_points, new_point]);
+                    return;
+                }
+
+            }else{
+
+                const updated_points = increment_points_fromID_onwards(1)// +1 to all ids > 1 to make room for id=2
+                const new_point = {id: 2, x: x_cord, y: y_cord, type: selectedNavType};
+                
+                setPoints([...updated_points, new_point]); // Set the combined array as the new state
+                
+                return;
+            }
+
+        }else if (selectedNavType === 3) {// if type is waypoint, set id to before target
+            
+
+            const navPoints = points.filter(point => point.type === 3);
+            if(navPoints.length > 0){
+                const highestNavId = Math.max(...navPoints.map(point => point.id));//max navpoint id
+                const updated_points = increment_points_fromID_onwards(highestNavId);
+                const new_point = {id: highestNavId + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                setPoints([...updated_points, new_point]);
+                return;
+            } else{
+                console.log(navPoints.length, target_exists)
+                if(target_exists){
+                    const updated_points = increment_points_fromID_onwards(target_exists.id - 1)
+                    const new_point = {id: target_exists.id, x: x_cord, y: y_cord, type: selectedNavType};
+                    setPoints([...updated_points, new_point]);
+                    return
+                }
+            }
         
 
+
+        } else if (selectedNavType === 4){//can just do points.length + 1 as there is nothing after 4, but better safe than sorry...
+
+            const extractPoints = points.filter(point => point.type === 4);
+            if (extractPoints.length > 0){
+                const highest_extract_id = Math.max(...extractPoints.map(point => point.id));//max navpoint id
+                const updated_points = increment_points_fromID_onwards(highest_extract_id);
+                const new_point = {id: highest_extract_id + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                setPoints([...updated_points, new_point]);
+                return;
+            }else{
+                if(target_exists){
+                    const updated_points = increment_points_fromID_onwards(target_exists.id)
+                    const newPoint = {id: target_exists.id + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                    setPoints([...updated_points, newPoint]);
+                    return
+
+                }
+            }
+
+
+        }//if else
+
+
+        
     }//handle_map_click
+
+    const increment_points_fromID_onwards = (id: number) => {// For shifting IDs 
+        const updated_points = points.map(point => {
+            if (point.id > id) { 
+                return {...point, id: point.id + 1};// if greater than id
+            }
+            return point;//if less than id
+        });
+        return updated_points;
+    }
+    
+
     const handle_remove_point = (id: number) => {
 
         const point_to_remove = points.find(button => button.id === id);
@@ -107,16 +174,16 @@ function Map() {
 
         } else {// Remove the point and decrement every ID ahead by 1
         
-        const updatedPoints = points.filter(button => button.id !== id)
-            .map(button => {
-                
-                if (button.id > id) {
-                    return { ...button, id: button.id - 1 };
-                }
-                return button;
-            });
-        
-        setPoints(updatedPoints);
+            const updatedPoints = points.filter(button => button.id !== id)
+                .map(button => {
+                    
+                    if (button.id > id) {
+                        return { ...button, id: button.id - 1 };
+                    }
+                    return button;
+                });
+            
+            setPoints(updatedPoints);
         }
 
     };
