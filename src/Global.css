@@ -77,3 +77,11 @@ button{
 .start_color{
     color: var(--waypoint_start_id_color);
 }
+
+
+.target_path_fill_enemy{
+    fill: rgb(255, 0, 0);
+}
+.target_path_fill_friendly{
+    fill: rgb(0, 57, 202);
+}

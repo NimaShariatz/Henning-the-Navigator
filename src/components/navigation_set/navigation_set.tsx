@@ -91,108 +91,86 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
             
             
-            if (!has_one_start_point && !has_one_target_point) {
-                navigation.current.style.opacity = "0.3";
-                navigation.current.style.cursor = "not-allowed";
+            if (!has_one_start_point && !has_one_target_point) {        
                 navigation.current.disabled = true;
-                navigation.current.style.filter = "grayscale(1)"
+                navigation.current.classList.add("button_disabled");
+                
 
 
-                start.current.style.cursor = "pointer";
+                start.current.classList.remove("button_disabled");
                 start.current.disabled = false;
-                start.current.style.filter = "none"
-
-                target.current.style.opacity = "0.3";
-                target.current.style.cursor = "not-allowed";
+                
+                
                 target.current.disabled = true;
-                target.current.style.filter = "grayscale(1)"
-
-                extraction.current.style.opacity = "0.3";
-                extraction.current.style.cursor = "not-allowed";
+                target.current.classList.add("button_disabled");
+                
+                extraction.current.classList.add("button_disabled");
                 extraction.current.disabled = true;
-                extraction.current.style.filter = "grayscale(1)"
+
 
                 
             }else if(has_one_start_point && !has_one_target_point){
-                navigation.current.style.opacity = "0.3";
-                navigation.current.style.cursor = "not-allowed";
                 navigation.current.disabled = true;
-                navigation.current.style.filter = "grayscale(1)"
+                navigation.current.classList.add("button_disabled");
 
 
 
-                start.current.style.opacity = "0.3";
-                start.current.style.cursor = "not-allowed";
+                start.current.classList.add("button_disabled");
                 start.current.disabled = true;
-                start.current.style.filter = "grayscale(1)"
 
-                target.current.style.cursor = "pointer";
+
+                target.current.classList.remove("button_disabled");
                 target.current.disabled = false;
-                target.current.style.filter = "none"
 
-                extraction.current.style.opacity = "0.3";
-                extraction.current.style.cursor = "not-allowed";
+                extraction.current.classList.add("button_disabled");
                 extraction.current.disabled = true;
-                extraction.current.style.filter = "grayscale(1)"
+
 
             
             }else if(!has_one_start_point && has_one_target_point){
-                navigation.current.style.opacity = "0.3";
-                navigation.current.style.cursor = "not-allowed";
+                navigation.current.classList.add("button_disabled");
                 navigation.current.disabled = true;
-                navigation.current.style.filter = "grayscale(1)"
 
 
 
-                start.current.style.cursor = "pointer";
+                start.current.classList.remove("button_disabled");
                 start.current.disabled = false;
-                start.current.style.filter = "none"
 
-                target.current.style.opacity = "0.3";
-                target.current.style.cursor = "not-allowed";
+
+                target.current.classList.add("button_disabled");
                 target.current.disabled = true;
-                target.current.style.filter = "grayscale(1)"
+ 
 
-                extraction.current.style.opacity = "0.3";
-                extraction.current.style.cursor = "not-allowed";
+                extraction.current.classList.add("button_disabled");
                 extraction.current.disabled = true;
-                extraction.current.style.filter = "grayscale(1)"
+
 
 
             } else {
-                navigation.current.style.cursor = "pointer";
+                navigation.current.classList.remove("button_disabled");
                 navigation.current.disabled = false;
-                navigation.current.style.filter = "none"
 
 
-                start.current.style.opacity = "0.3";
-                start.current.style.cursor = "not-allowed";
+                start.current.classList.add("button_disabled");
                 start.current.disabled = true;
-                start.current.style.filter = "grayscale(1)"
 
-                target.current.style.opacity = "0.3";
-                target.current.style.cursor = "not-allowed";
+
+                target.current.classList.add("button_disabled");
                 target.current.disabled = true;
-                target.current.style.filter = "grayscale(1)"
 
-                extraction.current.style.cursor = "pointer";
+                extraction.current.classList.remove("button_disabled");
                 extraction.current.disabled = false;
-                extraction.current.style.filter = "none"
                 
 
             }
 
             if(has_one_start_point){
-                start.current.style.opacity = "0.3";
-                start.current.style.cursor = "not-allowed";
+                start.current.classList.add("button_disabled");
                 start.current.disabled = true;
-                start.current.style.filter = "grayscale(1)"
             }
             if(has_one_target_point){
-                target.current.style.opacity = "0.3";
-                target.current.style.cursor = "not-allowed";
+                target.current.classList.add("button_disabled");
                 target.current.disabled = true;
-                target.current.style.filter = "grayscale(1)"
             }
 
 
@@ -253,7 +231,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         
             <div className="navigation_button_set"> {/* Note it is not onClick={handleButtonClick(0)} as this would immediatley execute it. rather than create an event handler. so its activating on render than on click */}
 
-                <button className="minimap_button" onClick={() => toggle_waypoint_suggestion(4)} ref={extraction}>
+                <button className="navigation_button" onClick={() => toggle_waypoint_suggestion(4)} ref={extraction}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -268,7 +246,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(3)} ref={navigation}>
+               <button className="navigation_button"  onClick={() => toggle_waypoint_suggestion(3)} ref={navigation}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -283,7 +261,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-               <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(2)} ref={target}>
+               <button className="navigation_button"  onClick={() => toggle_waypoint_suggestion(2)} ref={target}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -298,7 +276,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-                <button className="minimap_button"  onClick={() => toggle_waypoint_suggestion(1)} ref={start}>
+                <button className="navigation_button"  onClick={() => toggle_waypoint_suggestion(1)} ref={start}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
