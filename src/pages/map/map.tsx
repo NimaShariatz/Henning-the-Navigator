@@ -65,20 +65,25 @@ function Map() {
 
         const nav_exists = points.find(point => point.type === 3)
         const target_exists = points.find(point => point.type === 2)
- 
+        const start_exists = points.find(point => point.type === 1)
+
+        if((start_exists && selectedNavType===1) || (target_exists && selectedNavType === 2)){
+            return
+        }
+
 
         if(selectedNavType === 1) {// if type is 1, id must be 1
             
             
-        const brand_new_button = {
-            id: 1,
-            x: x_cord,
-            y: y_cord,
-            type: selectedNavType // Store the selected navigation type with the button
-           
-        }
+            const brand_new_button = {
+                id: 1,
+                x: x_cord,
+                y: y_cord,
+                type: selectedNavType // Store the selected navigation type with the button
+            
+            }
 
-        setPoints([...points, brand_new_button]);
+            setPoints([...points, brand_new_button]);
 
 
         } else if (selectedNavType === 2) {// if type is target, check if navs exist. set it to after nav. else after start
