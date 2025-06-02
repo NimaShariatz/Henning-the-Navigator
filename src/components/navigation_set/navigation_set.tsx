@@ -48,11 +48,9 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         selectionMap.forEach(item => {
             if (item.ref.current) {
                 if (waypointSelection === item.value) { //the button clicked
-                    item.ref.current.style.outline = "0.2vw solid white";
-                    item.ref.current.style.opacity = "1";
+                    item.ref.current.classList.add("button_selected")
                 } else {
-                    item.ref.current.style.outline = "none";
-                    item.ref.current.style.opacity = "0.8";
+                    item.ref.current.classList.remove("button_selected")
                 }
             }
         });
