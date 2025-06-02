@@ -25,9 +25,17 @@ function Map() {
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
 
+    const [targets, setTargets] = useState<{id: number, x: number, y: number, type: number}[]>([]);
+
 
     const [selectedNavType, setSelectedNavType] = useState(-1)
         
+
+
+
+
+
+    
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!containerRef.current || selectedNavType === -1) return;
         
@@ -43,8 +51,8 @@ function Map() {
                 console.log("out of map bounds")
                 return
             }
-        }
-        
+        }        
+            
         //for preventing too many next to each other
         const button_size = window.innerWidth * 0.02; //button is 2vw
 
@@ -52,108 +60,139 @@ function Map() {
         const y_cord = y_raw - (button_size / 2);
 
         const collision_radius = button_size * 1.3 // multiplier radius! for the 'for' statement
-        for (const button of points) {
-            const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
-            //console.log(distance)
-            
-            if (distance < collision_radius) {// so if within radius, do not make the thing
-                return;
-            }
-
-        }//for
-        //for preventing too many next to each other
-
-        const nav_exists = points.find(point => point.type === 3)
-        const target_exists = points.find(point => point.type === 2)
-        const start_exists = points.find(point => point.type === 1)
-
-        if((start_exists && selectedNavType===1) || (target_exists && selectedNavType === 2)){
-            return
-        }
 
 
-        if(selectedNavType === 1) {// if type is 1, id must be 1
-            
-            
-            const brand_new_button = {
-                id: 1,
-                x: x_cord,
-                y: y_cord,
-                type: selectedNavType // Store the selected navigation type with the button
-            
-            }
-
-            setPoints([...points, brand_new_button]);
-
-
-        } else if (selectedNavType === 2) {// if type is target, check if navs exist. set it to after nav. else after start
-
-            if(nav_exists){
-            
-                const navPoints = points.filter(point => point.type === 3);
-                if (navPoints.length > 0) {
-                    const highestNavId = Math.max(...navPoints.map(point => point.id));//max navpoint id
-                    
-                    const updated_points = increment_points_fromID_onwards(highestNavId);                    
-                    const new_point = {id: highestNavId + 1, x: x_cord, y: y_cord, type: selectedNavType};
-                    
-                    setPoints([...updated_points, new_point]);
+        if(selectedNavType > 0 && selectedNavType < 5){
+            for (const button of points) {
+                const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
+                //console.log(distance)
+                
+                if (distance < collision_radius) {// so if within radius, do not make the thing
                     return;
                 }
 
-            }else{
+            }//for
+            //for preventing too many next to each other
 
-                const updated_points = increment_points_fromID_onwards(1)// +1 to all ids > 1 to make room for id=2
-                const new_point = {id: 2, x: x_cord, y: y_cord, type: selectedNavType};
-                
-                setPoints([...updated_points, new_point]); // Set the combined array as the new state
-                
-                return;
+            const nav_exists = points.find(point => point.type === 3)
+            const target_exists = points.find(point => point.type === 2)
+            const start_exists = points.find(point => point.type === 1)
+
+            if((start_exists && selectedNavType===1) || (target_exists && selectedNavType === 2)){
+                return
             }
 
-        }else if (selectedNavType === 3) {// if type is waypoint, set id to before target
+
+            if(selectedNavType === 1) {// if type is 1, id must be 1
+                
+                
+                const brand_new_button = {
+                    id: 1,
+                    x: x_cord,
+                    y: y_cord,
+                    type: selectedNavType // Store the selected navigation type with the button
+                
+                }
+
+                setPoints([...points, brand_new_button]);
+
+
+            } else if (selectedNavType === 2) {// if type is target, check if navs exist. set it to after nav. else after start
+
+                if(nav_exists){
+                
+                    const navPoints = points.filter(point => point.type === 3);
+                    if (navPoints.length > 0) {
+                        const highestNavId = Math.max(...navPoints.map(point => point.id));//max navpoint id
+                        
+                        const updated_points = increment_points_fromID_onwards(highestNavId);                    
+                        const new_point = {id: highestNavId + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                        
+                        setPoints([...updated_points, new_point]);
+                        return;
+                    }
+
+                }else{
+
+                    const updated_points = increment_points_fromID_onwards(1)// +1 to all ids > 1 to make room for id=2
+                    const new_point = {id: 2, x: x_cord, y: y_cord, type: selectedNavType};
+                    
+                    setPoints([...updated_points, new_point]); // Set the combined array as the new state
+                    
+                    return;
+                }
+
+            }else if (selectedNavType === 3) {// if type is waypoint, set id to before target
+                
+
+                const navPoints = points.filter(point => point.type === 3);
+                if(navPoints.length > 0){
+                    const highestNavId = Math.max(...navPoints.map(point => point.id));//max navpoint id
+                    const updated_points = increment_points_fromID_onwards(highestNavId);
+                    const new_point = {id: highestNavId + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                    setPoints([...updated_points, new_point]);
+                    return;
+                } else{
+                    //console.log(navPoints.length, target_exists)
+                    if(target_exists){
+                        const updated_points = increment_points_fromID_onwards(target_exists.id - 1)
+                        const new_point = {id: target_exists.id, x: x_cord, y: y_cord, type: selectedNavType};
+                        setPoints([...updated_points, new_point]);
+                        return
+                    }
+                }
             
 
-            const navPoints = points.filter(point => point.type === 3);
-            if(navPoints.length > 0){
-                const highestNavId = Math.max(...navPoints.map(point => point.id));//max navpoint id
-                const updated_points = increment_points_fromID_onwards(highestNavId);
-                const new_point = {id: highestNavId + 1, x: x_cord, y: y_cord, type: selectedNavType};
-                setPoints([...updated_points, new_point]);
-                return;
-            } else{
-                console.log(navPoints.length, target_exists)
-                if(target_exists){
-                    const updated_points = increment_points_fromID_onwards(target_exists.id - 1)
-                    const new_point = {id: target_exists.id, x: x_cord, y: y_cord, type: selectedNavType};
+
+            } else if (selectedNavType === 4){//can just do points.length + 1 as there is nothing after 4, but better safe than sorry...
+
+                const extractPoints = points.filter(point => point.type === 4);
+                if (extractPoints.length > 0){
+                    const highest_extract_id = Math.max(...extractPoints.map(point => point.id));//max navpoint id
+                    const updated_points = increment_points_fromID_onwards(highest_extract_id);
+                    const new_point = {id: highest_extract_id + 1, x: x_cord, y: y_cord, type: selectedNavType};
                     setPoints([...updated_points, new_point]);
-                    return
+                    return;
+                }else{
+                    if(target_exists){
+                        const updated_points = increment_points_fromID_onwards(target_exists.id)
+                        const newPoint = {id: target_exists.id + 1, x: x_cord, y: y_cord, type: selectedNavType};
+                        setPoints([...updated_points, newPoint]);
+                        return
+
+                    }
                 }
-            }
-        
 
 
-        } else if (selectedNavType === 4){//can just do points.length + 1 as there is nothing after 4, but better safe than sorry...
+            }//if else
 
-            const extractPoints = points.filter(point => point.type === 4);
-            if (extractPoints.length > 0){
-                const highest_extract_id = Math.max(...extractPoints.map(point => point.id));//max navpoint id
-                const updated_points = increment_points_fromID_onwards(highest_extract_id);
-                const new_point = {id: highest_extract_id + 1, x: x_cord, y: y_cord, type: selectedNavType};
-                setPoints([...updated_points, new_point]);
-                return;
-            }else{
-                if(target_exists){
-                    const updated_points = increment_points_fromID_onwards(target_exists.id)
-                    const newPoint = {id: target_exists.id + 1, x: x_cord, y: y_cord, type: selectedNavType};
-                    setPoints([...updated_points, newPoint]);
-                    return
 
+
+
+
+        }else{
+            for (const button of targets) {
+                const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
+                //console.log(distance)
+                
+                if (distance < collision_radius) {// so if within radius, do not make the thing
+                    return;
                 }
-            }
+
+            }//for
+            //for preventing too many next to each other
 
 
-        }//if else
+            //FINISH THIS STUFF
+
+
+        }
+
+
+
+
+
+
 
 
         
@@ -170,7 +209,7 @@ function Map() {
     }
     
 
-    const handle_remove_point = (id: number) => {
+    const handle_remove_nav_point = (id: number) => {
 
         const point_to_remove = points.find(button => button.id === id);
 
@@ -219,6 +258,7 @@ function Map() {
 
     const clear_all_points = () => {
         setPoints([]);
+        setTargets([]);
     };
 
     
@@ -352,7 +392,7 @@ function Map() {
                             className="remove_button" 
                             onClick={(e) => {
                                 e.stopPropagation(); // Prevent triggering map click by accident when clicking the remove!!!
-                                handle_remove_point(button.id);}}
+                                handle_remove_nav_point(button.id);}}
                         >
                             ×
                         </button>
