@@ -164,7 +164,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                         if ((item.value !== 1) && (item.value !== 2)) {
                             item.ref.current.classList.remove("button_disabled");
                             item.ref.current.disabled = false;
-                        }else{//except for target
+                        }else{//except for target and start
                             item.ref.current.classList.add("button_disabled");
                             item.ref.current.disabled = true;
                         }
