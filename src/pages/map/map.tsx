@@ -62,7 +62,7 @@ function Map() {
         const collision_radius = button_size * 1.3 // multiplier radius! for the 'for' statement
 
 
-        if(selectedNavType > 0 && selectedNavType < 5){
+        if(selectedNavType > 0 && selectedNavType < 5){ //---IF 1-4---
             for (const button of points) {
                 const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
                 //console.log(distance)
@@ -170,8 +170,8 @@ function Map() {
 
 
 
-        }else{
-            for (const button of targets) {
+        }else{//IF ITS A TARGET
+            for (const button of targets) { 
                 const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
                 //console.log(distance)
                 
@@ -180,10 +180,16 @@ function Map() {
                 }
 
             }//for
-            //for preventing too many next to each other
 
+            const new_target = {
+                id: targets.length + 1,
+                x: x_cord,
+                y: y_cord,
+                type: selectedNavType
+            };
 
-            //FINISH THIS STUFF
+            setTargets([...targets, new_target]);
+
 
 
         }
@@ -397,6 +403,12 @@ function Map() {
                             ×
                         </button>
                     
+                    </div>
+                ))}
+
+                {targets.map(button => (
+                    <div key={button.id} className="map_icon_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
+                        <p>asd</p>
                     </div>
                 ))}
 

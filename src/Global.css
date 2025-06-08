@@ -14,6 +14,9 @@
 
     --waypoint_navigation: #ffc90e;
     --waypoint_navigation_id_color: #ebc84cd0;
+
+    --red_target:rgb(255, 0, 0);
+    --blue_target:rgb(28, 85, 230);
 }
 
 * {
@@ -78,10 +81,3 @@ button{
     color: var(--waypoint_start_id_color);
 }
 
-
-.target_path_fill_enemy{
-    fill: rgb(255, 0, 0);
-}
-.target_path_fill_friendly{
-    fill: rgb(0, 57, 202);
-}

@@ -25,7 +25,7 @@
     display: flex;
 
 }
-.map_waypoint_button{
+.map_waypoint_button, .map_target_button{
     
     border: none;
 
