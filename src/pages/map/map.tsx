@@ -25,9 +25,6 @@ function Map() {
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
 
-    const [targets, setTargets] = useState<{id: number, x: number, y: number, type: number}[]>([]);
-
-
     const [selectedNavType, setSelectedNavType] = useState(-1)
         
 
@@ -170,35 +167,10 @@ function Map() {
 
 
 
-        }else{//IF ITS A TARGET
-            for (const button of targets) { 
-                const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
-                //console.log(distance)
-                
-                if (distance < collision_radius) {// so if within radius, do not make the thing
-                    return;
-                }
-
-            }//for
-
-            const new_target = {
-                id: targets.length + 1,
-                x: x_cord,
-                y: y_cord,
-                type: selectedNavType
-            };
-
-            setTargets([...targets, new_target]);
-
-
+        }else{//ELSE IF ITS A TARGET (waypoint)
+            return
 
         }
-
-
-
-
-
-
 
 
         
@@ -262,9 +234,11 @@ function Map() {
         }
     };
 
+
+
+
     const clear_all_points = () => {
         setPoints([]);
-        setTargets([]);
     };
 
     
@@ -404,13 +378,8 @@ function Map() {
                         </button>
                     
                     </div>
-                ))}
+                ))}{/* waypoints */}
 
-                {targets.map(button => (
-                    <div key={button.id} className="map_icon_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
-                        <p>asd</p>
-                    </div>
-                ))}
 
             </div>
 
