@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from "react"
+import React, {useState, useEffect, useRef} from "react"
 
 import { starting_map } from "../../static/constants.tsx"
 import "./map.css"
@@ -340,6 +340,57 @@ function Map() {
 
 
 
+
+    //line creation
+    const get_line_color = (from: number) => {
+        if (from === 1) {
+            return "var(--waypoint_start_id_color)"
+
+        }else if ( from === 2 ){
+            return "var(--waypoint_target_id_color)"
+        }else if ( from === 3 ){
+            return "var(--waypoint_navigation_id_color)"
+        }else if ( from === 4 ){
+            return "var(--waypoint_extraction_id_color)"
+        }//elseIf
+    }
+
+    const line_positioning = (current_point:{id: number, x: number, y: number, type: number}, next_point: {id: number, x: number, y: number, type: number}) => {
+        // Get current window dimensions to account for zoom
+        const viewportWidth = window.innerWidth;
+        
+        // Calculate button size dynamically based on current viewport width
+        const button_size = viewportWidth * 0.02;
+        const center_offset = button_size / 2;
+
+        return {
+            current_point_x: current_point.x + center_offset,
+            current_point_y: current_point.y + center_offset,
+            next_point_x: next_point.x + center_offset,
+            next_point_y: next_point.y + center_offset
+        }
+    }
+
+
+    useEffect(() => {//just for zooming in and out. otherwise lines wont connect in waypoints properly
+        const handleResize = () => {// Force a re-render when window is resized (which includes zoom changes)
+            setPoints([...points]);
+        };
+
+        window.addEventListener('resize', handleResize);
+        
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [points]);
+
+    //line creation
+
+
+
+
+
+
     return (
         <>
             <div className="map_container" ref={containerRef} onClick={handle_map_click}> 
@@ -349,6 +400,46 @@ function Map() {
                     width={imageDimensions.width}
                     height={imageDimensions.height}
                 />
+
+                {/* SVG overlay for lines */}
+                <svg 
+                    className="waypoint_lines_overlay"
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: imageDimensions.width,
+                        height: imageDimensions.height,
+                    }}
+                >
+                    {
+                        (() => {
+                            const sortedPoints = [...points].sort((a, b) => a.id - b.id);// Sort points by ID
+                            
+                            
+                            return sortedPoints.slice(0, -1).map((currentPoint, index) => {// cuts out last point
+                                const nextPoint = sortedPoints[index + 1];
+                                const line_position = line_positioning(currentPoint, nextPoint)
+
+                                
+                                return (
+                                    <line 
+                                        className="waypoint_lines"
+                                        key={`line-${currentPoint.id}-to-${nextPoint.id}`}
+                                        x1={line_position.current_point_x} 
+                                        y1={line_position.current_point_y}
+                                        x2={line_position.next_point_x}
+                                        y2={line_position.next_point_y}
+                                        stroke={get_line_color(nextPoint.type)}
+                                    />
+                                );
+                            });
+                        })()
+                    }
+                </svg>
+                {/* SVG overlay for lines */}
+
+
 
 
                 {points.map(button => (
@@ -376,7 +467,9 @@ function Map() {
                         >
                             ×
                         </button>
-                    
+
+
+
                     </div>
                 ))}{/* waypoints */}
 

@@ -87,3 +87,17 @@
     0.09vw -0.09vw 0 #1d1d1da9;
     opacity: 0.9;
 }
+
+
+
+.waypoint_lines_overlay {
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+}
+
+.waypoint_lines{
+    stroke-width: 0.4vw;
+    stroke-opacity: 0.6;
+    stroke-dasharray: none;
+}
