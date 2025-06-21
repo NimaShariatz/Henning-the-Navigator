@@ -101,3 +101,53 @@
     stroke-opacity: 0.6;
     stroke-dasharray: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.distance_setter{
+    width: 458px;
+    position: fixed;
+    top: 0;
+    right: 40px;
+    background-color: rgba(7, 7, 7, 0.30);
+    justify-items: end;
+}
+#distance_input{
+    background-color: transparent;
+    color: var(--logo_white);
+    border: none;
+    width: 50px;
+    padding-inline: 5px;
+
+}
+#distance_input:focus{
+
+    
+    background-color: rgba(7, 7, 7, 0.70);
+
+    border: none;
+    outline: none;
+    
+}

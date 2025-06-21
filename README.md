@@ -2,7 +2,7 @@ This is a web tool that helps with navigation for flight simulators with a focus
 
 ## General Explanation
 
-Navigation points can be set with calculations based on distances. The grid size itself can be manually changed.
+Navigation points can be set with calculations based on distances. The grid size is expected to be a 10 x 10 Kilometer grid.
 
 Various forms of waypoints can be set to signify start point, navigational points, the target, and extraction routes.
 

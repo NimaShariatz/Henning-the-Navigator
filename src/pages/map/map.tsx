@@ -420,7 +420,7 @@ function Map() {
                             return sortedPoints.slice(0, -1).map((currentPoint, index) => {// cuts out last point
                                 const nextPoint = sortedPoints[index + 1];
                                 const line_position = line_positioning(currentPoint, nextPoint)
-
+                                console.log(line_position.current_point_x, line_position.next_point_x)
                                 
                                 return (
                                     <line 
@@ -486,6 +486,19 @@ function Map() {
 
                 points_set = {points}
             />
+
+
+
+
+
+
+            <div className="distance_setter">
+                <form>
+
+                    <input type="number" id="distance_input" name="distance_input"></input>
+                    
+                </form>
+            </div>
 
         </>
     )
