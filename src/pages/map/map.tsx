@@ -5,6 +5,7 @@ import "./map.css"
 
 
 import Minimap from "../../components/minimap/minimap.tsx";
+import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
 /*
  Info:
  first the image sizes are set up. The width and height of our image is gotten.
@@ -488,17 +489,8 @@ function Map() {
             />
 
 
+            <Distance_calc/>
 
-
-
-
-            <div className="distance_setter">
-                <form>
-
-                    <input type="number" id="distance_input" name="distance_input"></input>
-                    
-                </form>
-            </div>
 
         </>
     )
