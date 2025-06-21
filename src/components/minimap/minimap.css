@@ -38,6 +38,7 @@
     align-items: center;
     opacity: 0.7;
     transition: opacity 0.3s ease;
+    z-index: 3;
 }
 
 .navigation_container:hover .map_minimap_waypoint_button {
@@ -57,3 +58,14 @@
     0.053vw -0.053vw 0 #1d1d1da9;
 }
 
+
+.waypoint_lines_minimap_overlay {
+    pointer-events: none;
+    overflow: visible;
+    z-index: 0;
+}
+
+.minimap_lines {
+  stroke-width: 0.15vw;
+  stroke-opacity: 0.8;
+}

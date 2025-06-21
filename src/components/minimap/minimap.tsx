@@ -90,6 +90,18 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
             default: return "navigation_color";
         }
     };
+    // For line coloring
+    const get_line_color = (from: number) => {
+        if (from === 1) {
+            return "var(--waypoint_start_id_color)"
+        } else if (from === 2) {
+            return "var(--waypoint_target_id_color)"
+        } else if (from === 3) {
+            return "var(--waypoint_navigation_id_color)"
+        } else if (from === 4) {
+            return "var(--waypoint_extraction_id_color)"
+        }
+    };
 
 
 
@@ -114,11 +126,90 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
 
 
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return(
         <>
             <div className="navigation_container">
                 <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
             
+
+
+
+
+                {/* SVG overlay for minimap lines */}
+                <svg 
+                    className="waypoint_lines_minimap_overlay"
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: minimapDimensions.width,
+                        height: minimapDimensions.height,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    {
+                        (() => {
+                            const sortedPoints = [...points_set].sort((a, b) => a.id - b.id);
+                            
+                            return sortedPoints.slice(0, -1).map((currentPoint, index) => {
+                                const nextPoint = sortedPoints[index + 1];
+                                const current = calculate_waypoint_for_minimap(currentPoint);
+                                const next = calculate_waypoint_for_minimap(nextPoint);
+                                
+                                return (
+                                    <line 
+                                        className="minimap_lines"
+                                        key={`minimap-line-${currentPoint.id}-to-${nextPoint.id}`}
+                                        x1={current.x} 
+                                        y1={current.y}
+                                        x2={next.x}
+                                        y2={next.y}
+                                        stroke={get_line_color(nextPoint.type)}
+                                    />
+                                );
+                            });
+                        })()
+                    }
+                </svg>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 {/* Minimap waypoints */}
                 {points_set.map(point => {
                     const { x, y, minimap_waypoint_size} = calculate_waypoint_for_minimap(point);
