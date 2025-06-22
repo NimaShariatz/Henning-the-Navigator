@@ -1,8 +1,20 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import "./distance_calc.css"
 
-function Distance_calc() {
+
+interface DistanceCalcProps{
+    onDistanceChange?: (distance: number) => void;
+}
+
+
+
+
+
+
+
+
+function Distance_calc( { onDistanceChange }: DistanceCalcProps ) {
 
     const [distanceValue, setDistanceValue] = useState("458")// has to be string and not number, otherwise a zero placed in front of it every time. for some reason...
 
@@ -26,6 +38,18 @@ function Distance_calc() {
 
     // Calculate width based on the distanceValue
     const calculatedWidth = distanceValue ? `${Number(distanceValue)}px` : "458px"
+
+
+
+
+    
+    useEffect(() => {// Call the callback whenever distanceValue changes
+        if (onDistanceChange) {
+            onDistanceChange(Number(distanceValue));
+        }
+    }, [distanceValue, onDistanceChange]);
+
+
     
 
 

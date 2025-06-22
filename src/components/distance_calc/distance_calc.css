@@ -6,7 +6,7 @@
     width: 458px;
     position: fixed;
     top: 0;
-    right: 40px;
+    right: 2vw;
     background-color: rgba(7, 7, 7, 0.30);
     justify-items: end;
 }

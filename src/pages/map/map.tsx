@@ -28,7 +28,7 @@ function Map() {
 
     const [selectedNavType, setSelectedNavType] = useState(-1)
         
-
+    const [mapDistance, setMapDistance] = useState(458)
 
 
 
@@ -391,6 +391,25 @@ function Map() {
 
 
 
+    //distance calculations
+    const handleDistanceChange = (distance: number) => {
+        setMapDistance(distance);
+
+        console.log("Distance in Map:", distance);
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return (
         <>
@@ -489,7 +508,7 @@ function Map() {
             />
 
 
-            <Distance_calc/>
+            <Distance_calc onDistanceChange={handleDistanceChange} />{/* pass */}
 
 
         </>
