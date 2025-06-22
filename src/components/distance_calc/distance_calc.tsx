@@ -3,8 +3,8 @@ import { useState } from "react"
 import "./distance_calc.css"
 
 function Distance_calc() {
-    // Store the input value as a string to preserve leading zeros
-    const [distanceValue, setDistanceValue] = useState("458")
+
+    const [distanceValue, setDistanceValue] = useState("458")// has to be string and not number, otherwise a zero placed in front of it every time. for some reason...
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value
@@ -17,15 +17,24 @@ function Distance_calc() {
         if (!distanceValue || distanceValue.trim() === "") {// When the input loses focus and is empty, reset to the default value
             setDistanceValue("458")
         }
+        if (Number(distanceValue) < 50){
+            setDistanceValue("50")
+        }else if (Number(distanceValue) > 1000){
+            setDistanceValue("1000")
+        }
     }
 
+    // Calculate width based on the distanceValue
+    const calculatedWidth = distanceValue ? `${Number(distanceValue)}px` : "458px"
+    
 
 
     return(
         <>
-            <div className="distance_setter">
+            <div className="distance_setter" style={{ width: calculatedWidth }}>
                 <form>
                     <input 
+                    
                         type="number" 
                         id="distance_input" 
                         name="distance_input" 
