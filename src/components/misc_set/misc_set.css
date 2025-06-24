@@ -11,11 +11,11 @@
     padding-block: 0.7vw;
 
 
-    background: rgba(38, 38, 38, 0.76);
+    background: var(--background_1);
 
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(3.4px);
-    -webkit-backdrop-filter: blur(3px);
+    box-shadow: var(--boxShadow_1);
+    backdrop-filter: blur(var(--blur_factor));
+    -webkit-backdrop-filter: blur(var(--blur_factor));
     opacity: 0.9;
     transition: opacity 0.3s ease;
 
@@ -38,7 +38,7 @@
 
 
     
-    background-color: rgba(7, 7, 7, 0.87);
+    background-color: var(--button_background);
     border-radius: 50%;
     cursor: pointer;
     position: relative;

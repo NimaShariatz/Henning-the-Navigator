@@ -3,6 +3,12 @@
     --logo_black: #1d1d1d;
     --logo_white: #fdfdfd;
 
+
+    --background_1: rgba(38, 38, 38, 0.76);
+    --boxShadow_1: 0 4px 30px rgba(0, 0, 0, 0.1);
+    --blur_factor: 3px;
+    --button_background: rgba(7, 7, 7, 0.87);
+
     --waypoint_extraction: #2ee31e;
     --waypoint_extraction_id_color: #59e34cd4;
 

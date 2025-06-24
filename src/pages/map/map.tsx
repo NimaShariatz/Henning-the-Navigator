@@ -29,7 +29,12 @@ function Map() {
     const [selectedNavType, setSelectedNavType] = useState(-1)
         
     const [mapDistance, setMapDistance] = useState(458)
-
+    const [linePositions, setLinePositions] = useState<{
+        id: string;
+        currentPoint: { id: number, x: number, y: number, type: number };
+        nextPoint: { id: number, x: number, y: number, type: number };
+        position: {current_point_x: number; current_point_y: number; next_point_x: number; next_point_y: number;} 
+    }[]>([]);
 
 
 
@@ -213,7 +218,7 @@ function Map() {
 
     const handle_waypoint_selection_change = (selection: number) => {
         setSelectedNavType(selection);
-        console.log("Waypoint selection received in Map:", selection);
+        //console.log("Waypoint selection received in Map:", selection);
     };
 
     const get_point_class = (type: number) => {
@@ -373,17 +378,38 @@ function Map() {
     }
 
 
-    useEffect(() => {//just for zooming in and out. otherwise lines wont connect in waypoints properly
-        const handleResize = () => {// Force a re-render when window is resized (which includes zoom changes)
-            setPoints([...points]);
+    useEffect(() => {
+        // First effect: Handle resize events for proper line connections
+        const handleResize = () => {
+            setPoints([...points]); // Force a re-render when window is resized
         };
 
         window.addEventListener('resize', handleResize);
         
+        // Second effect: Calculate and store line positions
+        const sortedPoints = [...points].sort((a, b) => a.id - b.id);
+        const newLinePositions = [];
+        
+        for (let i = 0; i < sortedPoints.length - 1; i++) {
+            const currentPoint = sortedPoints[i];
+            const nextPoint = sortedPoints[i + 1];
+            const line_position = line_positioning(currentPoint, nextPoint);
+            
+            newLinePositions.push({
+                id: `line-${currentPoint.id}-to-${nextPoint.id}`,
+                currentPoint,
+                nextPoint,
+                position: line_position
+            });
+        }
+        
+        setLinePositions(newLinePositions);
+        
+        // Cleanup function for the event listener
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [points]);
+    }, [points]); // Only run when points change
 
     //line creation
 
@@ -432,30 +458,17 @@ function Map() {
                         height: imageDimensions.height,
                     }}
                 >
-                    {
-                        (() => {
-                            const sortedPoints = [...points].sort((a, b) => a.id - b.id);// Sort points by ID
-                            
-                            
-                            return sortedPoints.slice(0, -1).map((currentPoint, index) => {// cuts out last point
-                                const nextPoint = sortedPoints[index + 1];
-                                const line_position = line_positioning(currentPoint, nextPoint)
-                                console.log(line_position.current_point_x, line_position.next_point_x)
-                                
-                                return (
-                                    <line 
-                                        className="waypoint_lines"
-                                        key={`line-${currentPoint.id}-to-${nextPoint.id}`}
-                                        x1={line_position.current_point_x} 
-                                        y1={line_position.current_point_y}
-                                        x2={line_position.next_point_x}
-                                        y2={line_position.next_point_y}
-                                        stroke={get_line_color(nextPoint.type)}
-                                    />
-                                );
-                            });
-                        })()
-                    }
+                    {linePositions.map(line => (
+                        <line 
+                            className="waypoint_lines"
+                            key={line.id}
+                            x1={line.position.current_point_x} 
+                            y1={line.position.current_point_y}
+                            x2={line.position.next_point_x}
+                            y2={line.position.next_point_y}
+                            stroke={get_line_color(line.nextPoint.type)}
+                        />
+                    ))}
                 </svg>
                 {/* SVG overlay for lines */}
 
@@ -492,9 +505,27 @@ function Map() {
 
                     </div>
                 ))}{/* waypoints */}
+            </div>
+
+
+
+            <div className="information_container">
+                {linePositions.map(line=> (
+                    <div key = {line.id}>
+                        <p>{line.id}</p>
+                    </div>
+
+                ))}
+
+
+                {linePositions.length === 0 && (
+                    <p>No waypoints connected yet</p>
+                )}
 
 
             </div>
+
+
 
             <Minimap 
                 on_minimap_click={handle_minimap_click} 

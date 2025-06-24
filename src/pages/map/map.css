@@ -31,7 +31,7 @@
 
     width: 2vw;
     height: 2vw;
-    background-color: rgba(7, 7, 7, 0.90);
+    background-color: var(--button_background);
     border-radius: 15%;
     cursor: pointer;
     position: relative;
@@ -104,3 +104,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.information_container{
+    width: 30vw;
+    height: 50vh;
+    background: var(--background_1);
+
+    box-shadow: var(--boxShadow_1);
+    backdrop-filter: blur(var(--blur_factor));
+    -webkit-backdrop-filter: blur(var(--blur_factor));
+
+
+
+    position: absolute;
+    top:40px;
+    right: 2vw;
+
+    border-radius: 1vw;
+}
