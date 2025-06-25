@@ -428,7 +428,7 @@ function Map() {
 
         return(
             <div>
-                <div style={{display:"flex", paddingBlock:"1vw", paddingInline:"1vw"}}>
+                <div className="information_waypoint_row">
                     <button className="information_waypoint">
                         <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                             <defs>
@@ -445,6 +445,19 @@ function Map() {
                         <p className={`waypoint_id ${get_point_id_color_class(currentPoint.type)}`}>{currentPoint.id}</p>
                     </button>
 
+
+                    <svg 
+                        style={{height: "1vw", width:"70%", margin: "1vw 0.5vw"}}
+                    >
+                        <line 
+                            x1="0" 
+                            y1="1" 
+                            x2="100%" 
+                            y2="1" 
+                            stroke={get_line_color(nextPoint.type)}
+                            strokeWidth="0.4vw"
+                        />
+                    </svg>
 
 
 
@@ -463,6 +476,7 @@ function Map() {
                         </svg>
                         <p className={`waypoint_id ${get_point_id_color_class(nextPoint.type)}`}>{nextPoint.id}</p>
                     </button>
+
                 </div>
             </div>
         )
@@ -553,6 +567,11 @@ function Map() {
 
 
             <div className="information_container">
+                <button className="expand_information">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 1088 1664">
+	                    <path fill="#fff" d="M1043 301L512 832l531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19L45 877q-19-19-19-45t19-45L787 45q19-19 45-19t45 19l166 166q19 19 19 45t-19 45" />
+                    </svg>
+                </button>
                 {linePositions.map(line=> (
                     <div key = {line.id}>
                         <div>{calculations(line.currentPoint, line.nextPoint, line.position)}</div>

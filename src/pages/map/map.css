@@ -34,12 +34,12 @@
     background-color: var(--button_background);
     border-radius: 15%;
     cursor: pointer;
-    position: relative;
 
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.7;
+    opacity: 0.8;
     transition: opacity 0.2s ease;
 
     box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.75);
@@ -49,6 +49,8 @@
 .map_waypoint_button:hover{
     opacity: 1;
     outline: 0.2vw solid var(--logo_yellow);
+
+    
 }
 
 
@@ -100,6 +102,7 @@
     stroke-width: 0.4vw;
     stroke-opacity: 0.6;
     stroke-dasharray: none;
+    z-index: 1;
 }
 
 
@@ -130,19 +133,57 @@
     -webkit-backdrop-filter: blur(var(--blur_factor));
     opacity: 0.9;
     transition: opacity 0.3s ease;
-
+    padding: 1vw;
 
     position: absolute;
     top:40px;
     right: 2vw;
 
     border-radius: 1vw;
+    z-index: 2;
+
+    overflow: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 .information_container:hover{
     opacity: 1;
 }
 
+.expand_information{
+    width: 1.5vw;
+    height: 1.5vw;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--button_background);
+    border-radius: 0.3vw;
+    outline: 2px solid white;
+
+}
+.expand_information:hover{
+    opacity: 1;
+}
+
+
+
+
 
 .information_waypoint{
     opacity: 1;
+    cursor: default;
+}
+
+
+
+
+.information_waypoint_row{
+    display: flex;
+    justify-content: center;
+    padding-block: 0.5vw;
 }
