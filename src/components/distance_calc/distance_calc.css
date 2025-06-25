@@ -12,7 +12,7 @@
 }
 #distance_input{
     background-color: transparent;
-    color: var(--logo_white);
+    color: whitesmoke;
     border: none;
     width: 50px;
     padding-inline: 5px;

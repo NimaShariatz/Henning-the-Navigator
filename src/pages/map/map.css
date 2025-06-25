@@ -25,7 +25,7 @@
     display: flex;
 
 }
-.map_waypoint_button{
+.map_waypoint_button, .information_waypoint{
     
     border: none;
 
@@ -128,7 +128,8 @@
     box-shadow: var(--boxShadow_1);
     backdrop-filter: blur(var(--blur_factor));
     -webkit-backdrop-filter: blur(var(--blur_factor));
-
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
 
 
     position: absolute;
@@ -136,4 +137,12 @@
     right: 2vw;
 
     border-radius: 1vw;
+}
+.information_container:hover{
+    opacity: 1;
+}
+
+
+.information_waypoint{
+    opacity: 1;
 }
