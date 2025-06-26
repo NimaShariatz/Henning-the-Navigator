@@ -4,9 +4,10 @@ import { useRef } from "react"
 interface MiscSetProps {
   onImageUpload?: (file: File) => void;
   onClearPoints?: () => void; // just for accessing clear_all_points() in map.tsx
+  toggleInfoContainer?: () => void;
 }
 
-function Misc_set({ onImageUpload, onClearPoints }: MiscSetProps){
+function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer }: MiscSetProps){
     const fileInputRef = useRef<HTMLInputElement>(null);
     
     //file changing stuff
@@ -56,7 +57,7 @@ function Misc_set({ onImageUpload, onClearPoints }: MiscSetProps){
         <>
             <div className="misc_button_set">
 
-                <button className="option_button">
+                <button className="option_button" onClick={toggleInfoContainer}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
                         <g fill="none">
                             <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 

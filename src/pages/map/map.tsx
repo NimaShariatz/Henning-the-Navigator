@@ -22,6 +22,9 @@ function Map() {
     
     const containerRef = useRef<HTMLDivElement>(null);
 
+    const [showInfoContainer, setShowInfoContainer] = useState(true);
+
+
 
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
@@ -413,6 +416,24 @@ function Map() {
 
     //line creation
 
+    const toggleInfoContainer = () => {
+        setShowInfoContainer(!showInfoContainer);
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -566,12 +587,8 @@ function Map() {
 
 
 
-            <div className="information_container">
-                <button className="expand_information">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 1088 1664">
-	                    <path fill="#fff" d="M1043 301L512 832l531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19L45 877q-19-19-19-45t19-45L787 45q19-19 45-19t45 19l166 166q19 19 19 45t-19 45" />
-                    </svg>
-                </button>
+            <div className="information_container" style={{ display: showInfoContainer ? 'block' : 'none' }}>
+
                 {linePositions.map(line=> (
                     <div key = {line.id}>
                         <div>{calculations(line.currentPoint, line.nextPoint, line.position)}</div>
@@ -597,7 +614,7 @@ function Map() {
                 on_image_upload={handle_image_upload}
                 on_waypoint_selection_change={handle_waypoint_selection_change}
                 on_clear_points={clear_all_points}
-
+                toggle_info_container={toggleInfoContainer}
 
                 points_set = {points}
             />

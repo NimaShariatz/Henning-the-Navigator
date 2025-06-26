@@ -5,7 +5,11 @@
     opacity: 0.8;
     transition: opacity 0.3s ease;
 
-
+    background-image: url(/Henning_tab_logo.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:30%;
+    background-color: var(--logo_yellow);
     z-index: 4;
 
 }

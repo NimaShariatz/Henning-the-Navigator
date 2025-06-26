@@ -8,21 +8,20 @@
     top: 0;
     right: 2vw;
     background-color: rgba(7, 7, 7, 0.30);
-    justify-items: end;
+    justify-content: flex-end;
+    display: flex;
 }
 #distance_input{
     background-color: transparent;
-    color: whitesmoke;
+    color: var(--logo_white);
     border: none;
     width: 50px;
     padding-inline: 5px;
 
-}
-#distance_input:focus{
-
     
+}
+#distance_input:focus{    
     background-color: rgba(7, 7, 7, 0.70);
-
     border: none;
     outline: none;
     

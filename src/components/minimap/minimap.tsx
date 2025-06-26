@@ -15,13 +15,14 @@ interface MinimapProps {
 
     on_clear_points?: () => void; //for on_clear_points() in map.tsx. 
 
+    toggle_info_container?: () => void;
 
     points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
 }
 
 
 
-function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change, on_clear_points, points_set }: MinimapProps) {
+function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change, on_clear_points, points_set, toggle_info_container }: MinimapProps) {
     const imageRef = useRef<HTMLImageElement>(null); //ref is used for .minimap_container
     const [minimapDimensions, setMinimapDimensions] = useState({ width: 0, height: 0 });//for waypoints on minimap
 
@@ -253,7 +254,7 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
             <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change} points_set={points_set}/>
 
-            <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} />
+            <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} toggleInfoContainer={toggle_info_container} />
         </>
     )
 }
