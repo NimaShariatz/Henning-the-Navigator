@@ -186,10 +186,8 @@
 .waypoint_statistics{
     display: flex;
 }
-.waypoint_statistics{
-    font-size: 1.2vw;
-}
-.waypoint_statistics p:nth-child(3){
+
+.heading_number{
     margin-left: auto;
 }
 .distance_marker{
@@ -207,4 +205,18 @@
 .distance_marker:hover{
     outline: 0.25vw solid var(--logo_black);
     opacity: 1;
+}
+
+
+
+
+.total_statistics{
+    display: flex;
+    border-color: var(--logo_yellow);
+    border-width: 0.2vw 0 0 0;
+    border-style: solid;
+    padding-block: 1vw;
+}
+.total_statistics p{
+    margin-left: 1vw;
 }

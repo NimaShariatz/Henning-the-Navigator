@@ -452,8 +452,8 @@ function Map() {
             newTotalDistance += actualDistance;
         });
         
-        // Update the total distance once after all calculations
-        setTotalDistance(newTotalDistance);
+        newTotalDistance = Math.round(newTotalDistance * 10) / 10
+        setTotalDistance(newTotalDistance);// Update the total distance once after all calculations
     }, [linePositions, mapDistance, isKilometers]);
 
 
@@ -538,7 +538,7 @@ function Map() {
                     <p>Distance: {actualDistance}</p> 
                     <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
 
-                    <p>Heading: ???</p>
+                    <p className="heading_number">Heading: ???</p>
                 </div>
 
             </div>
@@ -635,16 +635,14 @@ function Map() {
                     <div key = {line.id}>
                         <div>{calculations(line.currentPoint, line.nextPoint, line.position)}</div>
                     </div>
+                    
+                ))
+                }
 
-                ))}
-
-
-                {linePositions.length === 0 && (
-                    <div>
-                        <p>No waypoints connected yet</p>
-                    </div>
-                )}
-
+                <div className="total_statistics">
+                    <p>Total Distance: {totalDistance}</p> 
+                    <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+                </div>
 
             </div>
 
