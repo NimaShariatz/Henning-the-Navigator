@@ -10,6 +10,7 @@
     background-color: rgba(7, 7, 7, 0.30);
     justify-content: flex-end;
     display: flex;
+    font-size: 17px;
 }
 #distance_input{
     background-color: transparent;

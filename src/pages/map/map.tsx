@@ -24,7 +24,8 @@ function Map() {
 
     const [showInfoContainer, setShowInfoContainer] = useState(true);
 
-
+    const [totalDistance, setTotalDistance] = useState(0)
+    const [isKilometers, setIsKilometers] = useState(true);
 
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
@@ -424,16 +425,36 @@ function Map() {
 
 
 
+    const toggleUnitType = () => {
+        setIsKilometers(!isKilometers);
+    };
 
 
 
-
-
-
-
-
-
-
+    useEffect(() => {
+        // Reset total distance
+        let newTotalDistance = 0;
+        
+        // Calculate the sum of all distances
+        linePositions.forEach(line => {
+            const dx = line.position.next_point_x - line.position.current_point_x;
+            const dy = line.position.next_point_y - line.position.current_point_y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            
+            const pixelLength = length;
+            let distance = (pixelLength / mapDistance) * 10;
+            
+            if (!isKilometers) {
+                distance = distance * 0.621371;
+            }
+            
+            const actualDistance = Math.round(distance * 10) / 10;
+            newTotalDistance += actualDistance;
+        });
+        
+        // Update the total distance once after all calculations
+        setTotalDistance(newTotalDistance);
+    }, [linePositions, mapDistance, isKilometers]);
 
 
 
@@ -441,14 +462,27 @@ function Map() {
     //distance calculations
     const handleDistanceChange = (distance: number) => {
         setMapDistance(distance);
-
-        console.log("Distance in Map:", distance);
+        //console.log("Distance in Map:", distance);
     };
 
     const calculations = ( currentPoint:({ id: number, x: number, y: number, type: number }), nextPoint: { id: number, x: number, y: number, type: number }, position: {current_point_x: number; current_point_y: number; next_point_x: number; next_point_y: number} ) => {
+        const dx = position.next_point_x - position.current_point_x;
+        const dy = position.next_point_y - position.current_point_y;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        
+        const pixelLength = length;
+        let distance = (pixelLength / mapDistance) * 10;
+        
+        if (!isKilometers) {
+            distance = distance * 0.621371;
+        }
+        
+        const actualDistance = Math.round(distance * 10) / 10;
+    
 
+    
         return(
-            <div>
+            <div className="information_row_container">
                 <div className="information_waypoint_row">
                     <button className="information_waypoint">
                         <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
@@ -468,7 +502,7 @@ function Map() {
 
 
                     <svg 
-                        style={{height: "1vw", width:"70%", margin: "1vw 0.5vw"}}
+                        style={{height: "1vw", width:"75%", margin: "1vw 0.5vw"}}
                     >
                         <line 
                             x1="0" 
@@ -499,6 +533,14 @@ function Map() {
                     </button>
 
                 </div>
+
+                <div className="waypoint_statistics">
+                    <p>Distance: {actualDistance}</p> 
+                    <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+
+                    <p>Heading: ???</p>
+                </div>
+
             </div>
         )
     }

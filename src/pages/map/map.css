@@ -85,7 +85,6 @@
 
 .waypoint_id{
     position: absolute;
-    font-size: 1.1vw;
     text-shadow:
     0.09vw 0.09vw 0 #1d1d1da9,
     -0.09vw 0.09vw 0 #1d1d1da9,
@@ -161,6 +160,17 @@
 
 
 
+.information_row_container{
+    padding-block: 1.5vw;
+}
+
+
+.information_waypoint_row{
+    display: flex;
+    justify-content: flex-start;
+}
+
+
 .information_waypoint{
     opacity: 1;
     cursor: default;
@@ -169,8 +179,32 @@
 
 
 
-.information_waypoint_row{
+
+
+
+
+.waypoint_statistics{
     display: flex;
-    justify-content: center;
-    padding-block: 0.5vw;
+}
+.waypoint_statistics{
+    font-size: 1.2vw;
+}
+.waypoint_statistics p:nth-child(3){
+    margin-left: auto;
+}
+.distance_marker{
+    color:var(--logo_black);
+    margin-left: 0.3vw;
+    padding-inline: 0.2vw;
+    background-color: var(--logo_yellow);
+    border-radius: 0.3vw;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.distance_marker:hover{
+    outline: 0.25vw solid var(--logo_black);
+    opacity: 1;
 }
