@@ -24,6 +24,8 @@ function Map() {
 
     const [showInfoContainer, setShowInfoContainer] = useState(true);
 
+    const [totalWaypointDistance, setTotalWaypointDistance] = useState(0)
+    const [totalExtractDisstance, setTotalExtractDisstance] = useState(0)
     const [totalDistance, setTotalDistance] = useState(0)
     const [isKilometers, setIsKilometers] = useState(true);
 
@@ -434,6 +436,8 @@ function Map() {
     useEffect(() => {
         // Reset total distance
         let newTotalDistance = 0;
+        let newWaypointDistance = 0;
+        let newExtractDistance = 0;
         
         // Calculate the sum of all distances
         linePositions.forEach(line => {
@@ -449,11 +453,29 @@ function Map() {
             }
             
             const actualDistance = Math.round(distance * 10) / 10;
+
+            if(line.nextPoint.type === 2 || line.nextPoint.type === 3){
+                newWaypointDistance += actualDistance
+            }
+            if(line.nextPoint.type === 4){
+                newExtractDistance+= actualDistance
+            }
+
             newTotalDistance += actualDistance;
         });
         
+        newWaypointDistance = Math.round(newWaypointDistance * 10) / 10
+        setTotalWaypointDistance(newWaypointDistance);//updates
+
+        newExtractDistance = Math.round(newExtractDistance * 10) / 10
+        setTotalExtractDisstance(newExtractDistance);//updates
+
         newTotalDistance = Math.round(newTotalDistance * 10) / 10
-        setTotalDistance(newTotalDistance);// Update the total distance once after all calculations
+        setTotalDistance(newTotalDistance);//updates
+
+
+
+
     }, [linePositions, mapDistance, isKilometers]);
 
 
@@ -640,8 +662,21 @@ function Map() {
                 }
 
                 <div className="total_statistics">
-                    <p>Total Distance: {totalDistance}</p> 
-                    <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+                    <div>
+                        <p>Total Target Distance: {totalWaypointDistance}</p> 
+                        <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+                    </div>
+
+                    <div>
+                        <p>Total Extraction Distance: {totalExtractDisstance}
+                        </p> 
+                        <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+                    </div>
+
+                    <div>
+                        <p>Total Distance: {totalDistance}</p> 
+                        <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+                    </div>
                 </div>
 
             </div>

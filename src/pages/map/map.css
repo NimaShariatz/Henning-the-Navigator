@@ -212,11 +212,18 @@
 
 .total_statistics{
     display: flex;
+    flex-direction: column;
     border-color: var(--logo_yellow);
     border-width: 0.2vw 0 0 0;
     border-style: solid;
-    padding-block: 1vw;
+    padding-block: 0.5vw;
 }
-.total_statistics p{
+.total_statistics div{
+    display: flex;
+    flex-direction: row;
+    padding-block: 0.2vw;
+}
+
+.total_statistics div p{
     margin-left: 1vw;
 }
