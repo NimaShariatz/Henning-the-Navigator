@@ -433,8 +433,8 @@ function Map() {
 
 
 
-    useEffect(() => {
-        // Reset total distance
+    useEffect(() => {//for any changes made
+        
         let newTotalDistance = 0;
         let newWaypointDistance = 0;
         let newExtractDistance = 0;
@@ -476,7 +476,7 @@ function Map() {
 
 
 
-    }, [linePositions, mapDistance, isKilometers]);
+    }, [linePositions, mapDistance, isKilometers]);//when points are added or removed, distance is changed, or isKilometers changes
 
 
 
@@ -501,6 +501,15 @@ function Map() {
         
         const actualDistance = Math.round(distance * 10) / 10;
     
+
+        //angle stuff. no need for useEffect as it doesnt care about distance and such
+        let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        angle = angle + 90; // to make 0 north instead ofeast
+        angle = (angle + 360) % 360;//within 360 range
+        const heading = Math.round(angle * 10) / 10;
+        
+
 
     
         return(
@@ -560,7 +569,7 @@ function Map() {
                     <p>Distance: {actualDistance}</p> 
                     <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
 
-                    <p className="heading_number">Heading: ???</p>
+                    <p className="heading_number">Heading: {heading}°</p>
                 </div>
 
             </div>
