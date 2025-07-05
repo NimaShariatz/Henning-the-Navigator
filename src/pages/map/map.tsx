@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useRef} from "react"
 
-import { starting_map } from "../../static/constants.tsx"
+import { Stalingrad } from "../../static/constants.tsx"
 import "./map.css"
 
 
 import Minimap from "../../components/minimap/minimap.tsx";
 import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
+import Map_changer from "../../components/map_changer/map_changer.tsx";
 /*
  Info:
  first the image sizes are set up. The width and height of our image is gotten.
@@ -16,10 +17,10 @@ import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
 function Map() {
 
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
-    const [currentImage, setCurrentImage] = useState(starting_map);
+    const [currentImage, setCurrentImage] = useState(Stalingrad);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement | null>(null);
-    
+    const [customMapName, setCustomMapName] = useState<string | undefined>(undefined);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [showInfoContainer, setShowInfoContainer] = useState(true);
@@ -260,8 +261,11 @@ function Map() {
 
     const handle_image_upload = (file: File) => {// Handle image upload from Misc_set
         const imageUrl = URL.createObjectURL(file);
+        // Extract the filename without extension
+        const fileName = file.name.split('.')[0];
+        setCustomMapName(fileName);
         setCurrentImage(imageUrl);
-        clear_all_points()
+        clear_all_points();
     };
 
 
@@ -313,6 +317,7 @@ function Map() {
 
             canvas.style.minWidth = `${imageDimensions.width}px`;
             canvas.style.minHeight = `${imageDimensions.height}px`;
+        
         }    
         
     }, [imageDimensions]);
@@ -507,7 +512,7 @@ function Map() {
 
         angle = angle + 90; // to make 0 north instead ofeast
         angle = (angle + 360) % 360;//within 360 range
-        const heading = Math.round(angle * 10) / 10;
+        const heading = Math.round(angle);
         
 
 
@@ -704,8 +709,17 @@ function Map() {
             />
 
 
-            <Distance_calc onDistanceChange={handleDistanceChange} />{/* pass */}
+            <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
 
+            <Map_changer 
+                currentImage={currentImage}
+                customMapName={customMapName}
+                onChangeMap={(newMapUrl) => {
+                    setCurrentImage(newMapUrl);
+                    setCustomMapName(undefined); // Reset custom name when switching to a predefined map
+                    clear_all_points(); // Clear points when changing map
+                }}
+            />
 
         </>
     )

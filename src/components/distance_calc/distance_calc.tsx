@@ -3,8 +3,9 @@ import { useState, useEffect } from "react"
 import "./distance_calc.css"
 
 
-interface DistanceCalcProps{
+interface DistanceCalcProps {
     onDistanceChange?: (distance: number) => void;
+    currentMapUrl?: string; // Add this new prop
 }
 
 
@@ -14,9 +15,62 @@ interface DistanceCalcProps{
 
 
 
-function Distance_calc( { onDistanceChange }: DistanceCalcProps ) {
+function Distance_calc({ onDistanceChange, currentMapUrl }: DistanceCalcProps) {
+    const [distanceValue, setDistanceValue] = useState("50") // has to be string and not number, otherwise a zero placed in front of it every time. for some reason...
 
-    const [distanceValue, setDistanceValue] = useState("458")// has to be string and not number, otherwise a zero placed in front of it every time. for some reason...
+
+
+
+    useEffect(() => {
+        if (currentMapUrl) {
+            // Extract map name from URL to determine appropriate default distance
+            const urlParts = currentMapUrl.split('/');
+            const filename = urlParts[urlParts.length - 1];
+            const mapName = filename.split('.')[0];
+            console.log("YESASD")
+            // Set different default distances based on map name
+            // You can customize these values based on your maps
+            switch (mapName) {
+                case 'Arras':
+                    setDistanceValue("163");
+                    break;
+                case 'Kuban':
+                    setDistanceValue("277");
+                    break;
+                case 'Lapino':
+                    setDistanceValue("400");
+                    break;
+                case 'Moscow':
+                    setDistanceValue("246");
+                    break;
+                case 'Normandy':
+                    setDistanceValue("264");
+                    break;
+                case 'Novosokolniki':
+                    setDistanceValue("400");
+                    break;
+                case 'Prokhorovka':
+                    setDistanceValue("612");
+                    break;
+                case 'Rheinland':
+                    setDistanceValue("224");
+                    break;
+                case 'Stalingrad':
+                    setDistanceValue("458");
+                    break;
+                case 'Vluki':
+                    setDistanceValue("490");
+                    break;
+                case 'Western_front':
+                    setDistanceValue("391");
+                    break;
+                default:
+                    setDistanceValue("50"); // Default value
+            }
+        }
+    }, [currentMapUrl]);
+
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value

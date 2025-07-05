@@ -1,0 +1,21 @@
+
+
+
+
+.map_changer_container{
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: var(--background_1);
+    padding: 0.5vw;
+    gap: 0.5vw;
+    border-radius: 0 0 0.7vw 0;
+    
+}
+
+.map_changer_container button{
+    width: 1.2vw;
+    height: 1.2vw;
+    cursor: pointer;
+}
