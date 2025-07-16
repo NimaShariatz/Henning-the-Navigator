@@ -2,16 +2,20 @@ import "./misc_set.css"
 import { useRef } from "react"
 
 interface MiscSetProps {
-  onImageUpload?: (file: File) => void;
-  onClearPoints?: () => void; // just for accessing clear_all_points() in map.tsx
-  toggleInfoContainer?: () => void;
+    onImageUpload?: (file: File) => void;
+    onClearPoints?: () => void; // just for accessing clear_all_points() in map.tsx
+    toggleInfoContainer?: () => void;
 
-  points?: {id: number, x: number, y: number, type: number}[];
-  mapDistance?: number; // Add map distance data
+    onDataImport?: (data: {points: {id: number, x: number, y: number, type: number}[]}) => void; // for intaking JSON on upload
+
+
+    points?: {id: number, x: number, y: number, type: number}[];
+
 }
 
-function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, points = [], mapDistance = 458 }: MiscSetProps){
+function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImport, points = [] }: MiscSetProps){
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const jsonInputRef = useRef<HTMLInputElement>(null);
     
     //file changing stuff
     /*Logic:
@@ -53,7 +57,6 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, points = 
     const handle_download = () => {
         const data = {
             points: points,
-            mapDistance: mapDistance,
             exportDate: new Date().toISOString()
 
         };
@@ -75,6 +78,59 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, points = 
     //download functionality
 
 
+    //upload functionality
+    const handle_json_upload = () => {//clicks the hidden JSON <input/>
+        if (jsonInputRef.current) {
+            jsonInputRef.current.click();
+        }
+    };
+
+
+    const handle_json_file_change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            const reader = new FileReader();
+            
+            reader.onload = (event) => {
+                try {
+                    const result = event.target?.result;
+                    if (typeof result === 'string') {
+                        const data = JSON.parse(result);
+                        
+                        // Validate the JSON structure - only check for points now
+                        if (data.points && Array.isArray(data.points)) {
+                            // Validate each point has the required structure
+                            const validPoints = data.points.every((point: any) => 
+                                typeof point.id === 'number' &&
+                                typeof point.x === 'number' &&
+                                typeof point.y === 'number' &&
+                                typeof point.type === 'number'
+                            );
+                            
+                            if (validPoints && onDataImport) {
+                                onDataImport({
+                                    points: data.points
+                                });
+                            } else {
+                                alert('Invalid JSON file format. Please check the file structure.');
+                            }
+                        } else {
+                            alert('Invalid JSON file format. Missing points data.');
+                        }
+                    }
+                } catch (error) {
+                    alert('Error reading JSON file. Please check if the file is valid JSON.');
+                    console.error('JSON parsing error:', error);
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // Reset the input value to allow selecting the same file again
+        e.target.value = '';
+    };
 
 
 
@@ -116,7 +172,7 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, points = 
                     </svg>
                 </button>
 
-                <button className="option_button">
+                <button className="option_button" onClick={handle_json_upload}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 28 28">
                         <path className="folder_fill" d="M2 6.75A3.75 3.75 0 0 1 5.75 3h3.672c.729 0 1.428.29 1.944.805L13.25 5.69l-2.944 2.945A1.25 1.25 0 0 1 9.422 9H2zm.004 3.75v9.75A3.75 3.75 0 0 0 5.754 24H22.25A3.75 3.75 0 0 0 26 20.25V9.75A3.75 3.75 0 0 0 22.25 6h-7.19l-3.694 3.695a2.75 2.75 0 0 1-1.944.805z" />
                     </svg>
@@ -138,6 +194,13 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, points = 
                 accept="image/*"
                 style={{ display: 'none' }}
                 onChange={handle_file_change}
+                />
+                <input 
+                type="file" 
+                ref={jsonInputRef}
+                accept=".json,application/json"
+                style={{ display: 'none' }}
+                onChange={handle_json_file_change}
                 />
             </div>
         </>

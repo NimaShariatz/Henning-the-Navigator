@@ -19,12 +19,12 @@ interface MinimapProps {
 
     points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
 
-    map_distance?: number; // for download
+    on_data_import?: (data: {points: {id: number, x: number, y: number, type: number}[]}) => void; // import handler
 }
 
 
 
-function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change, on_clear_points, points_set, toggle_info_container, map_distance }: MinimapProps) {
+function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint_selection_change, on_clear_points, points_set, toggle_info_container, on_data_import }: MinimapProps) {
     const imageRef = useRef<HTMLImageElement>(null); //ref is used for .minimap_container
     const [minimapDimensions, setMinimapDimensions] = useState({ width: 0, height: 0 });//for waypoints on minimap
 
@@ -256,7 +256,7 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
             <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change} points_set={points_set}/>
 
-            <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} toggleInfoContainer={toggle_info_container} points={points_set} mapDistance={map_distance}/>
+            <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} toggleInfoContainer={toggle_info_container} points={points_set} onDataImport={on_data_import}/>
         </>
     )
 }

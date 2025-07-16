@@ -581,7 +581,9 @@ function Map() {
         )
     }
 
-
+    const handle_data_import = (data: {points: {id: number, x: number, y: number, type: number}[]}) => {
+        setPoints(data.points);
+    };
 
 
 
@@ -706,7 +708,7 @@ function Map() {
                 toggle_info_container={toggleInfoContainer}
 
                 points_set = {points}
-                map_distance={mapDistance}
+                on_data_import={handle_data_import}//import
             />
 
 
