@@ -27,7 +27,6 @@ function Distance_calc({ onDistanceChange, currentMapUrl }: DistanceCalcProps) {
             const urlParts = currentMapUrl.split('/');
             const filename = urlParts[urlParts.length - 1];
             const mapName = filename.split('.')[0];
-            console.log("YESASD")
             // Set different default distances based on map name
             // You can customize these values based on your maps
             switch (mapName) {

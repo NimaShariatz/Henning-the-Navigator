@@ -5,9 +5,12 @@ interface MiscSetProps {
   onImageUpload?: (file: File) => void;
   onClearPoints?: () => void; // just for accessing clear_all_points() in map.tsx
   toggleInfoContainer?: () => void;
+
+  points?: {id: number, x: number, y: number, type: number}[];
+  mapDistance?: number; // Add map distance data
 }
 
-function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer }: MiscSetProps){
+function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, points = [], mapDistance = 458 }: MiscSetProps){
     const fileInputRef = useRef<HTMLInputElement>(null);
     
     //file changing stuff
@@ -39,6 +42,37 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer }: MiscSet
         }
     };
     //file changing stuff
+
+
+
+
+
+
+
+    //download functionality
+    const handle_download = () => {
+        const data = {
+            points: points,
+            mapDistance: mapDistance,
+            exportDate: new Date().toISOString()
+
+        };
+
+        const dataStr = JSON.stringify(data, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `navigation_data_${new Date().toISOString().split('T')[0]}.json`;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        URL.revokeObjectURL(url);
+    };
+    //download functionality
 
 
 
@@ -76,7 +110,7 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer }: MiscSet
                 </button>
 
 
-                <button className="option_button">
+                <button className="option_button" onClick={handle_download}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
                         <path className="download_fill" d="M12 15.575q-.2 0-.375-.062T11.3 15.3l-3.6-3.6q-.3-.3-.288-.7t.288-.7q.3-.3.713-.312t.712.287L11 12.15V5q0-.425.288-.712T12 4t.713.288T13 5v7.15l1.875-1.875q.3-.3.713-.288t.712.313q.275.3.288.7t-.288.7l-3.6 3.6q-.15.15-.325.213t-.375.062M6 20q-.825 0-1.412-.587T4 18v-2q0-.425.288-.712T5 15t.713.288T6 16v2h12v-2q0-.425.288-.712T19 15t.713.288T20 16v2q0 .825-.587 1.413T18 20z" />
                     </svg>

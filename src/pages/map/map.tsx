@@ -706,6 +706,7 @@ function Map() {
                 toggle_info_container={toggleInfoContainer}
 
                 points_set = {points}
+                map_distance={mapDistance}
             />
 
 
