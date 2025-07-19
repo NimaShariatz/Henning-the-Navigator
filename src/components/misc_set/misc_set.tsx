@@ -100,20 +100,39 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
                         
                         // Validate the JSON structure - only check for points now
                         if (data.points && Array.isArray(data.points)) {
-                            // Validate each point has the required structure
-                            const validPoints = data.points.every((point: any) => 
-                                typeof point.id === 'number' &&
-                                typeof point.x === 'number' &&
-                                typeof point.y === 'number' &&
-                                typeof point.type === 'number'
-                            );
+                            // Get canvas dimensions for bounds checking
+                            const canvas = document.querySelector('canvas.map_background') as HTMLCanvasElement;
+                            const canvasWidth = canvas?.clientWidth || 0;
+                            const canvasHeight = canvas?.clientHeight || 0;
+                            
+                            // Validate each point has the required structure and is within canvas bounds
+                            const validPoints = data.points.every((point: any) => {
+                                const hasValidStructure = (
+                                    typeof point.id === 'number' &&
+                                    typeof point.x === 'number' &&
+                                    typeof point.y === 'number' &&
+                                    typeof point.type === 'number'
+                                );
+                                
+                                const isWithinBounds = (
+                                    point.x >= 0 && point.x <= canvasWidth &&
+                                    point.y >= 0 && point.y <= canvasHeight
+                                );
+                                
+                                return hasValidStructure && isWithinBounds;
+                            });
                             
                             if (validPoints && onDataImport) {
                                 onDataImport({
                                     points: data.points
                                 });
                             } else {
-                                alert('Invalid JSON file format. Please check the file structure.');
+                                // More specific error message
+                                if (canvasWidth === 0 || canvasHeight === 0) {
+                                    alert('Cannot validate point positions: Canvas not found or has no dimensions.');
+                                } else {
+                                    alert(`Please check the file structure and ensure all points are within canvas bounds (${canvasWidth} x ${canvasHeight}).`);
+                                }
                             }
                         } else {
                             alert('Invalid JSON file format. Missing points data.');
