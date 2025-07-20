@@ -45,6 +45,11 @@ function Map() {
 
 
 
+    const [distanceCalcInput, setDistanceCalcInput] = useState("0")
+    const [speedCalcInput, setSpeedCalcInput] = useState("0")
+
+
+
     
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!containerRef.current || selectedNavType === -1) return;
@@ -591,6 +596,57 @@ function Map() {
 
 
 
+    const handleInput_Speed_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value
+        setSpeedCalcInput(newValue)
+    }
+    const handeInput_Distance_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value
+        setDistanceCalcInput(newValue)
+    }
+
+
+
+
+
+
+    const time_speed_calculations = () => {// is autmaitcally called everytime handleInput is called on
+        
+
+        let distance = Number(distanceCalcInput);
+        
+        if (!isKilometers) {
+            distance = distance * 0.621371;
+        }
+
+        const time = distance / Number(speedCalcInput)
+
+
+        // Convert time to hours and minutes
+        const hours = Math.floor(time);
+        const minutes = Math.round((time - hours) * 60);
+
+        let timeDisplay = "";
+        if (hours > 0) {// if there are hours
+            timeDisplay += `${hours} hour${hours !== 1 ? 's' : ''}`;// if hour is not 1, make it hours
+        }
+        if (minutes > 0 || hours === 0) {
+            if (hours > 0) timeDisplay += ' ';// if there are hours, add a space 
+            timeDisplay += `${minutes} minute${minutes !== 1 ? 's' : ''}`;// add minute or minutes
+        }
+        if (timeDisplay === "") {// if empty...
+            timeDisplay = "0 minutes";
+        }
+        
+        return(
+            <p>{timeDisplay}</p>
+        )
+
+    }
+
+
+
+
 
 
 
@@ -693,7 +749,27 @@ function Map() {
                         <p>Total Distance: {totalDistance}</p> 
                         <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
                     </div>
+                    
                 </div>
+
+
+                    <div className="distance_speed_container">
+                        <p>Calculator</p>
+                        <div>
+                            <p>Distance:</p>
+                            <form><input type="number" onChange={handeInput_Distance_Change} value={distanceCalcInput}></input></form>
+                            <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
+                        </div>
+                        <div>
+                            <p>Speed:</p>
+                            <form><input type="number" onChange={handleInput_Speed_Change} value={speedCalcInput}></input></form>
+                            <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'kph' : 'mph'}</button>
+                        </div>
+                        <div>
+                            <p>Time:</p>
+                            {time_speed_calculations()}
+                        </div>
+                    </div>
 
             </div>
 

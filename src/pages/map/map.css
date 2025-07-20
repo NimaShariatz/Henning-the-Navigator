@@ -227,3 +227,36 @@
 .total_statistics div p{
     margin-left: 1vw;
 }
+
+
+
+
+
+.distance_speed_container{
+    padding-block: 1vw;
+}
+.distance_speed_container div{
+    display: flex;
+    margin-block: 0.3vw;
+    align-items: center;
+}
+.distance_speed_container div p{
+    padding-right: 0.2vw;
+}
+.distance_speed_container div form input{
+    background-color: rgba(7, 7, 7, 0.70);
+    color: var(--logo_white);
+    border: none;
+    width: 4vw;
+    padding-inline: 0.2vw;
+    font-weight: bold;
+    padding-block: 0.2vw;
+    border-radius: 0.3vw;
+}
+.distance_speed_container div form input:focus{
+    border: none;
+    outline: none;
+    background-color: rgba(7, 7, 7, 0.70);
+}
+
+
