@@ -23,7 +23,7 @@ function Map() {
     const [customMapName, setCustomMapName] = useState<string | undefined>(undefined);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const [showInfoContainer, setShowInfoContainer] = useState(true);
+    const [showInfoContainer, setShowInfoContainer] = useState(false);
 
     const [totalWaypointDistance, setTotalWaypointDistance] = useState(0)
     const [totalExtractDisstance, setTotalExtractDisstance] = useState(0)
