@@ -44,7 +44,7 @@ function Map() {
     }[]>([]);
 
 
-
+    const [flightNotes, setFlightNotes] = useState("")
     const [distanceCalcInput, setDistanceCalcInput] = useState("0")
     const [speedCalcInput, setSpeedCalcInput] = useState("0")
 
@@ -586,8 +586,12 @@ function Map() {
         )
     }
 
-    const handle_data_import = (data: {points: {id: number, x: number, y: number, type: number}[]}) => {
-        setPoints(data.points);
+    const handle_data_import = (data: {
+        points: {id: number, x: number, y: number, type: number}[], 
+        flightNotes?: string
+    }) => {
+        setPoints(data.points || []);
+        setFlightNotes(data.flightNotes || "");
     };
 
 
@@ -595,7 +599,11 @@ function Map() {
 
 
 
-
+    const handleInput_flightNotes_Change = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newValue = e.target.value
+        setFlightNotes(newValue)
+        console.log(newValue)
+    }
     const handleInput_Speed_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value
         setSpeedCalcInput(newValue)
@@ -609,15 +617,11 @@ function Map() {
 
 
 
-
     const time_speed_calculations = () => {// is autmaitcally called everytime handleInput is called on
         
 
         let distance = Number(distanceCalcInput);
         
-        if (!isKilometers) {
-            distance = distance * 0.621371;
-        }
 
         const time = distance / Number(speedCalcInput)
 
@@ -724,6 +728,8 @@ function Map() {
 
 
             <div className="information_container" style={{ display: showInfoContainer ? 'block' : 'none' }}>
+                <p>Flight Notes</p>
+                <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
 
                 {linePositions.map(line=> (
                     <div key = {line.id}>
@@ -784,7 +790,9 @@ function Map() {
                 toggle_info_container={toggleInfoContainer}
 
                 points_set = {points}
+                flightNotes={flightNotes}
                 on_data_import={handle_data_import}//import
+                
             />
 
 

@@ -6,14 +6,14 @@ interface MiscSetProps {
     onClearPoints?: () => void; // just for accessing clear_all_points() in map.tsx
     toggleInfoContainer?: () => void;
 
-    onDataImport?: (data: {points: {id: number, x: number, y: number, type: number}[]}) => void; // for intaking JSON on upload
+    onDataImport?: (data: {points: {id: number, x: number, y: number, type: number}[], flightNotes: string}) => void; // for intaking JSON on upload
 
 
     points?: {id: number, x: number, y: number, type: number}[];
-
+    flightNotes: string;
 }
 
-function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImport, points = [] }: MiscSetProps){
+function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImport, points = [], flightNotes }: MiscSetProps){
     const fileInputRef = useRef<HTMLInputElement>(null);
     const jsonInputRef = useRef<HTMLInputElement>(null);
     
@@ -57,6 +57,7 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
     const handle_download = () => {
         const data = {
             points: points,
+            flightNotes,
             exportDate: new Date().toISOString()
 
         };
@@ -124,7 +125,8 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
                             
                             if (validPoints && onDataImport) {
                                 onDataImport({
-                                    points: data.points
+                                    points: data.points,
+                                    flightNotes: data.flightNotes
                                 });
                             } else {
                                 // More specific error message
