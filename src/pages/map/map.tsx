@@ -45,9 +45,12 @@ function Map() {
 
 
     const [flightNotes, setFlightNotes] = useState("")
-    const [distanceCalcInput, setDistanceCalcInput] = useState("0")
-    const [speedCalcInput, setSpeedCalcInput] = useState("0")
+    const [distanceCalcInput, setDistanceCalcInput] = useState("")
+    const [speedCalcInput, setSpeedCalcInput] = useState("")
 
+    const [planeHeading, setPlaneHeading] = useState("")
+    const [windHeading, setWindHeading] = useState("")
+    const [windSpeed, setWindSpeed] = useState("")
 
 
     
@@ -613,12 +616,52 @@ function Map() {
         setDistanceCalcInput(newValue)
     }
 
+    const handeInput_Heading_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let newValue = e.target.value
+        if (Number(newValue) > 360){
+            newValue = "359"
+        }else if (Number(newValue) < 0){
+            newValue = "0"
+        }
+        setPlaneHeading(newValue)
+    }
+    const handeInput_windHeading_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let newValue = e.target.value
+        if (Number(newValue) > 360){
+            newValue = "359"
+        }else if (Number(newValue) < 0){
+            newValue = "0"
+        }
+        setWindHeading(newValue)
+    }
+    const handeInput_windSpeed_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value
+        setWindSpeed(newValue)
+    }
+
+
+    const handleRightIncrement = () => {
+        const currentValue = Number(planeHeading) || 0;
+        let newValue = currentValue + 1;
+        if (newValue >= 360) {
+            newValue = 0;
+        }
+        setPlaneHeading(String(newValue));
+    };
+    const handleLeftIncrement = () => {
+        const currentValue = Number(planeHeading) || 0;
+        let newValue = currentValue - 1;
+        if (newValue <= 0) {
+            newValue = 0;
+        }
+        setPlaneHeading(String(newValue));
+    };
+
 
 
 
 
     const time_speed_calculations = () => {// is autmaitcally called everytime handleInput is called on
-        
 
         let distance = Number(distanceCalcInput);
         
@@ -648,7 +691,23 @@ function Map() {
 
     }
 
+    const bombing_calculations = () => {
+        const sight_wind_heading_figure = Number(planeHeading) - Number(windHeading)
+        const sight_wind_speed = windSpeed + "m/s"
 
+        let heading_output = ""
+        if(sight_wind_heading_figure < 0){
+            heading_output =  Math.abs(sight_wind_heading_figure) + " right"
+        }else if (sight_wind_heading_figure > 0){
+            heading_output =  Math.abs(sight_wind_heading_figure) + " left"
+        }else{
+            heading_output = String(sight_wind_heading_figure)
+        }
+
+        return(
+            <p>{heading_output}  @{sight_wind_speed}</p>
+        )
+    }
 
 
 
@@ -759,8 +818,8 @@ function Map() {
                 </div>
 
 
-                    <div className="distance_speed_container">
-                        <p>Calculator</p>
+                    <div className="calculations_container">
+                        <p className="calculation_header_text">Distance Speed Calculator</p>
                         <div>
                             <p>Distance:</p>
                             <form><input type="number" onChange={handeInput_Distance_Change} value={distanceCalcInput}></input></form>
@@ -775,6 +834,49 @@ function Map() {
                             <p>Time:</p>
                             {time_speed_calculations()}
                         </div>
+                    </div>
+
+                    <div className="calculations_container">
+                        <p className="calculation_header_text">Bombsight Calculator</p>
+                        <div>
+                            <p>Plane Heading</p>
+
+                            <button className="left_increment" onClick={handleLeftIncrement}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20">
+                                    <g fill="var(--logo_yellow)" fillRule="evenodd" clipRule="evenodd">
+                                        <path d="M15.499 9.134a1 1 0 0 1 0 1.732l-10 5.769A1 1 0 0 1 4 15.769V4.23a1 1 0 0 1 1.5-.866z" />
+                                        <path d="M5.5 16.635a1 1 0 0 1-1.5-.866V4.23a1 1 0 0 1 1.5-.866l9.999 5.769a1 1 0 0 1 0 1.732zM10.997 10L7 7.694v4.612z" />
+                                    </g>
+                                </svg>
+                            </button>
+
+                            <form><input type="number" onChange={handeInput_Heading_Change} value={planeHeading}></input></form>
+
+                            <button className="right_increment" onClick={handleRightIncrement}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20">
+                                    <g fill="var(--logo_yellow)" fillRule="evenodd" clipRule="evenodd">
+                                        <path d="M15.499 9.134a1 1 0 0 1 0 1.732l-10 5.769A1 1 0 0 1 4 15.769V4.23a1 1 0 0 1 1.5-.866z" />
+                                        <path d="M5.5 16.635a1 1 0 0 1-1.5-.866V4.23a1 1 0 0 1 1.5-.866l9.999 5.769a1 1 0 0 1 0 1.732zM10.997 10L7 7.694v4.612z" />
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div>
+                            <p>Wind Heading</p>
+                            <form><input onChange={handeInput_windHeading_Change} value={windHeading} type="number"></input></form>
+                        </div>
+
+                        <div>
+                            <p>Wind Speed &#40;m/s&#41;</p>
+                            <form><input onChange={handeInput_windSpeed_Change} value={windSpeed} type="number"></input></form>
+                        </div>
+
+                        <div>
+                            <p>Sight Wind Heading: </p>
+                            {bombing_calculations()}
+                        </div>
+
                     </div>
 
             </div>
