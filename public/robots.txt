@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nimashariatz.github.io/Henning-the-Navigator/sitemap.xml
