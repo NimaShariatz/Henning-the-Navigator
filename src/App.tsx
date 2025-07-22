@@ -6,7 +6,7 @@ function App() {
 
   
   return (
-    <Router basename="/Navigator">
+    <Router basename="/Henning-the-Navigator">
       <Routes>
         <Route path="/" element={<Map />} />
 
