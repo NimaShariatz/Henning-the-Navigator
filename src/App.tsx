@@ -6,7 +6,7 @@ function App() {
 
   
   return (
-    <Router>
+    <Router basename="/Navigator">
       <Routes>
         <Route path="/" element={<Map />} />
 
@@ -16,3 +16,4 @@ function App() {
 }
 
 export default App
+//do "npm run deploy" to redeploy

@@ -11,4 +11,4 @@ export default defineConfig({
 })
 
 
-//do "npm run deploy"
+//do "npm run deploy" to redeploy
