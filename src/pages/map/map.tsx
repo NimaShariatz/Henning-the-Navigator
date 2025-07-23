@@ -805,7 +805,7 @@ function Map() {
                     </div>
 
                     <div>
-                        <p>Total Extraction Distance: {totalExtractDisstance}
+                        <p>Total Egress Distance: {totalExtractDisstance}
                         </p> 
                         <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
                     </div>
