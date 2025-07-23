@@ -16,10 +16,23 @@
 }
 
 .map_changer_container button{
-    width: 1.2vw;
-    height: 1.2vw;
+    width: 1.3vw;
+    height: 1.3vw;
     cursor: pointer;
+    padding: 0.1vw;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
+.map_changer_container button:hover, .map_changer_container button:hover{
+    background-color: var(--onHover_background);
+}
+
+.map_changer_container button:active svg g, .map_changer_container button:active svg g{
+    fill: var(--logo_white);
+}
+
 
 
 

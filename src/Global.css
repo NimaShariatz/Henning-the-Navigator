@@ -8,6 +8,7 @@
     --boxShadow_1: 0 4px 30px rgba(0, 0, 0, 0.1);
     --blur_factor: 3px;
     --button_background: rgba(7, 7, 7, 0.87);
+    --onHover_background: rgba(240, 248, 255, 0.1);
 
     --waypoint_extraction: #2ee31e;
     --waypoint_extraction_id_color: #59e34cd4;

@@ -293,10 +293,32 @@
     transform: rotate(180deg);
     margin-inline: 0.5vw;
     cursor: pointer;
+    border-radius: 50%;
+    padding: 0.1vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
+
 .right_increment{
     width: 1.6vw;
     height: 1.6vw;
     margin-inline: 0.5vw;
     cursor: pointer;
+    border-radius: 50%;
+    padding: 0.1vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.left_increment svg g, .right_increment svg g{
+    fill: var(--logo_yellow);
+}
+
+.left_increment:hover, .right_increment:hover{
+    background-color: var(--onHover_background);
+}
+
+.right_increment:active svg g, .left_increment:active svg g{
+    fill: var(--logo_white);
 }
