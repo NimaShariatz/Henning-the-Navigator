@@ -1,4 +1,9 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
 This is a web tool that helps with navigation for flight simulators with a focus on IL-2 Sturmovik: Great Battles
+Live Link: https://nimashariatz.github.io/Henning-the-Navigator/
 
 ## General Explanation
 
@@ -7,8 +12,6 @@ Navigation points can be set with calculations based on distances. The grid size
 Various forms of waypoints can be set to signify start point, navigational points, the target, and extraction routes.
 
 Both background images and waypoints can be exported and imported so that group flights can be updated to the same standard of flight information. A preset of IL-2 maps is included.
-
-
 
 
 ## Tech Stack
