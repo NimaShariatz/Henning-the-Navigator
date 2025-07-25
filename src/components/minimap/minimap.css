@@ -73,3 +73,42 @@
   stroke-width: 0.15vw;
   stroke-opacity: 0.8;
 }
+
+
+
+
+
+
+
+@media (max-width: 1100px){
+    .navigation_container{
+        left: 5vw;
+        bottom: 9vh;
+    }
+}
+
+@media (max-width: 900px){
+    .navigation_container{
+        left: 5vw;
+        bottom: 8vh;
+    }
+}
+
+
+@media (max-width: 700px){
+    .navigation_container{
+        left: 8vw;
+        bottom: 9.5vh;
+    }
+    .map_minimap_waypoint_button{
+        opacity: 1;
+    }
+    .navigation_container{
+        opacity: 1;
+    }
+
+    .minimap_image{
+        max-width: 40vw;
+        max-height: 40vh;
+    }
+}

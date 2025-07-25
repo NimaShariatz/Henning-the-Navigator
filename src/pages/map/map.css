@@ -322,3 +322,28 @@
 .right_increment:active svg g, .left_increment:active svg g{
     fill: var(--logo_white);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 700px){
+    .information_container{
+        height: 70vh;
+        top:60px;
+        
+    }
+
+
+}

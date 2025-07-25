@@ -72,3 +72,27 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 700px){
+    .navigation_button{
+        width: 5vw;
+        height: 5vw;
+        margin-block: 1.6vw;
+    }
+
+
+}

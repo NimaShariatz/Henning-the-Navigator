@@ -69,3 +69,21 @@
 .clear_fill{
     fill: rgb(236, 243, 250);
 }
+
+
+
+
+
+
+@media (max-width: 700px){
+    .option_button{
+        width: 5vw;
+        height: 5vw;
+        margin-inline: 1.2vw;
+    }
+
+    .misc_button_set{
+        left: 7vw;
+    }
+
+}
