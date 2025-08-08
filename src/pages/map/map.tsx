@@ -77,7 +77,7 @@ function Map() {
         const x_cord = x_raw - (button_size / 2);//centres the button based on where user clicked
         const y_cord = y_raw - (button_size / 2);
 
-        const collision_radius = button_size * 1.3 // multiplier radius! for the 'for' statement
+        const collision_radius = button_size * 1.1 // multiplier radius! for the 'for' statement
 
 
         if(selectedNavType > 0 && selectedNavType < 5){ //---IF 1-4---

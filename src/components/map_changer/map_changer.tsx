@@ -10,6 +10,7 @@ interface MapChangerProps {
 
 function Map_changer({ currentImage, onChangeMap, customMapName }: MapChangerProps) {
     const [currentMapName, setCurrentMapName] = useState<string>('');
+    const [showOptions, setShowOptions] = useState<boolean>(false);
     
     // Create an array of map data with names and URLs
     const maps = [
@@ -44,24 +45,44 @@ function Map_changer({ currentImage, onChangeMap, customMapName }: MapChangerPro
     }, [currentImage, customMapName]);
 
     // Handle clicking the next map button
-    const handleNextMap = () => {
-        const currentIndex = maps.findIndex(map => map.name === currentMapName);
-        const nextIndex = (currentIndex + 1) % maps.length;
-        onChangeMap(maps[nextIndex].url);
+    const handleMapSelect = (mapName: string) => {
+        const selectedMap = maps.find(map => map.name === mapName);
+        if (selectedMap) {
+            onChangeMap(selectedMap.url);
+            setShowOptions(false); // Hide options after selection
+        }
+    };
+
+
+    const toggleOptions = () => {
+        setShowOptions(!showOptions);
     };
 
     return (
-        <div className='map_changer_container'>
-            <p>{currentMapName}</p>
-            <button onClick={handleNextMap}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20">
-                    <g fill="var(--logo_yellow)" fillRule="evenodd" clipRule="evenodd">
-                        <path d="M15.499 9.134a1 1 0 0 1 0 1.732l-10 5.769A1 1 0 0 1 4 15.769V4.23a1 1 0 0 1 1.5-.866z" />
-                        <path d="M5.5 16.635a1 1 0 0 1-1.5-.866V4.23a1 1 0 0 1 1.5-.866l9.999 5.769a1 1 0 0 1 0 1.732zM10.997 10L7 7.694v4.612z" />
-                    </g>
-                </svg>
-            </button>
-        </div>
+        <>
+
+            <div className='map_changeSelection_container'>
+                <div className='map_changeSelection_current'>
+                    <p>{currentMapName}</p>
+                    <button onClick={toggleOptions} style={{transform: showOptions ? 'rotate(180deg)' : '' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 16 16">
+                            <path fill="var(--logo_yellow)" d="M9.312 14.223a1.5 1.5 0 0 1-2.629 0l-5.5-10a1.5 1.5 0 0 1 1.315-2.222h10.999a1.5 1.5 0 0 1 1.314 2.223z" />
+                        </svg>
+                    </button>
+                </div>
+                <div className='map_changeSelection_options' style={{ display: showOptions ? 'flex' : 'none' }}>
+                    {maps.map((map) => (
+                        <button key={map.name} onClick={() => handleMapSelect(map.name)}>
+                            {map.name}
+                        </button>
+                    ))}
+                </div>
+
+
+
+            </div>
+
+        </>
     );
 }
 

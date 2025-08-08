@@ -80,25 +80,13 @@
 
 
 
-@media (max-width: 1100px){
-    .navigation_container{
-        left: 5vw;
-        bottom: 9vh;
-    }
-}
+
+
 
 @media (max-width: 900px){
     .navigation_container{
-        left: 5vw;
-        bottom: 8vh;
-    }
-}
-
-
-@media (max-width: 700px){
-    .navigation_container{
         left: 8vw;
-        bottom: 9.5vh;
+        bottom:10vh;
     }
     .map_minimap_waypoint_button{
         opacity: 1;

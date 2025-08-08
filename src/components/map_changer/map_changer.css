@@ -1,35 +1,58 @@
 
+/*-----------------------------------------------------------------*/
 
-
-
-.map_changer_container{
-    display: flex;
+.map_changeSelection_container{
     position: fixed;
     left: 0;
     top: 0;
     background-color: var(--background_1);
-    padding: 0.5vw;
-    gap: 0.5vw;
+
+    min-width: 8vw;
+
+    display: flex;
+    flex-direction: column;
     border-radius: 0 0 0.7vw 0;
-    align-items: center;
-    
+
+
 }
 
-.map_changer_container button{
-    width: 1.3vw;
-    height: 1.3vw;
-    cursor: pointer;
-    padding: 0.1vw;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
+
+
+
+
+
+
+
+
+
+.map_changeSelection_current{
     display: flex;
+    background-color: var(--background_1);
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
 }
-.map_changer_container button:hover, .map_changer_container button:hover{
+
+.map_changeSelection_current{
+    padding-left: 10px;
+}
+
+.map_changeSelection_current button{
+    width: 1.2vw;
+    height: 1.2vw;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: 0.2vw;
+    padding: 0.2vw;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.map_changeSelection_current button:hover{
     background-color: var(--onHover_background);
 }
 
-.map_changer_container button:active svg g, .map_changer_container button:active svg g{
+.map_changeSelection_current button:active svg path{
     fill: var(--logo_white);
 }
 
@@ -37,8 +60,43 @@
 
 
 
+
+.map_changeSelection_options{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+.map_changeSelection_options button{
+    color: var(--logo_white);
+    width: 100%;
+    cursor: pointer;
+}
+.map_changeSelection_options button:hover{
+    background-color: var(--logo_yellow);
+    color: var(--logo_black);
+}
+
+
+
+/*-----------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 900px) {/*for mobile view*/
-    .map_changer_container button{
+    .map_changeSelection_current button{
         width: 2vw;
         height: 2vw;
     }
