@@ -40,28 +40,28 @@ function Distance_calc({ onDistanceChange, currentMapUrl }: DistanceCalcProps) {
                     setDistanceValue("400");
                     break;
                 case 'Moscow':
-                    setDistanceValue("246");
+                    setDistanceValue("437");
                     break;
                 case 'Normandy':
-                    setDistanceValue("264");
+                    setDistanceValue("452");
                     break;
                 case 'Novosokolniki':
                     setDistanceValue("400");
                     break;
                 case 'Prokhorovka':
-                    setDistanceValue("612");
+                    setDistanceValue("802");
                     break;
                 case 'Rheinland':
-                    setDistanceValue("224");
+                    setDistanceValue("350");
                     break;
                 case 'Stalingrad':
-                    setDistanceValue("458");
+                    setDistanceValue("392");
                     break;
                 case 'Vluki':
-                    setDistanceValue("490");
+                    setDistanceValue("481");
                     break;
                 case 'Western_front':
-                    setDistanceValue("391");
+                    setDistanceValue("281");
                     break;
                 default:
                     setDistanceValue("50"); // Default value
