@@ -7,11 +7,10 @@
     top: 0;
     background-color: var(--background_1);
 
-    min-width: 8vw;
+    min-width: 9vw;
 
     display: flex;
     flex-direction: column;
-    border-radius: 0 0 0.7vw 0;
 
 
 }
@@ -34,7 +33,7 @@
 }
 
 .map_changeSelection_current{
-    padding-left: 10px;
+    padding-left: 0.3vw;
 }
 
 .map_changeSelection_current button{
