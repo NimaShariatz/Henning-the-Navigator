@@ -4,6 +4,7 @@ import "./minimap.css"
 
 import Navigation_set from "../navigation_set/navigation_set"
 import Misc_set from "../misc_set/misc_set"
+import Target_set from "../target_set/target_set"
 
 interface MinimapProps {
     on_minimap_click?: (relativeX: number, relativeY: number) => void;
@@ -255,6 +256,7 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
                 </div>
 
 
+                <Target_set/>
 
                 <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change} points_set={points_set}/>
 
