@@ -151,49 +151,50 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
     return(
         <>
-            <div className="navigation_container">
-                <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
-            
+            <div className="minimap_container">
+                <div className="navigation_container">
+                    <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
+                
 
 
 
 
-                {/* SVG overlay for minimap lines */}
-                <svg 
-                    className="waypoint_lines_minimap_overlay"
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: minimapDimensions.width,
-                        height: minimapDimensions.height,
-                        pointerEvents: 'none'
-                    }}
-                >
-                    {
-                        (() => {
-                            const sortedPoints = [...points_set].sort((a, b) => a.id - b.id);
-                            
-                            return sortedPoints.slice(0, -1).map((currentPoint, index) => {
-                                const nextPoint = sortedPoints[index + 1];
-                                const current = calculate_waypoint_for_minimap(currentPoint);
-                                const next = calculate_waypoint_for_minimap(nextPoint);
+                    {/* SVG overlay for minimap lines */}
+                    <svg 
+                        className="waypoint_lines_minimap_overlay"
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: minimapDimensions.width,
+                            height: minimapDimensions.height,
+                            pointerEvents: 'none'
+                        }}
+                    >
+                        {
+                            (() => {
+                                const sortedPoints = [...points_set].sort((a, b) => a.id - b.id);
                                 
-                                return (
-                                    <line 
-                                        className="minimap_lines"
-                                        key={`minimap-line-${currentPoint.id}-to-${nextPoint.id}`}
-                                        x1={current.x} 
-                                        y1={current.y}
-                                        x2={next.x}
-                                        y2={next.y}
-                                        stroke={get_line_color(nextPoint.type)}
-                                    />
-                                );
-                            });
-                        })()
-                    }
-                </svg>
+                                return sortedPoints.slice(0, -1).map((currentPoint, index) => {
+                                    const nextPoint = sortedPoints[index + 1];
+                                    const current = calculate_waypoint_for_minimap(currentPoint);
+                                    const next = calculate_waypoint_for_minimap(nextPoint);
+                                    
+                                    return (
+                                        <line 
+                                            className="minimap_lines"
+                                            key={`minimap-line-${currentPoint.id}-to-${nextPoint.id}`}
+                                            x1={current.x} 
+                                            y1={current.y}
+                                            x2={next.x}
+                                            y2={next.y}
+                                            stroke={get_line_color(nextPoint.type)}
+                                        />
+                                    );
+                                });
+                            })()
+                        }
+                    </svg>
 
 
 
@@ -214,50 +215,53 @@ function Minimap({ on_minimap_click, current_image, on_image_upload, on_waypoint
 
 
 
-                {/* Minimap waypoints */}
-                {points_set.map(point => {
-                    const { x, y, minimap_waypoint_size} = calculate_waypoint_for_minimap(point);
-                   
+                    {/* Minimap waypoints */}
+                    {points_set.map(point => {
+                        const { x, y, minimap_waypoint_size} = calculate_waypoint_for_minimap(point);
+                    
 
-                    return (
-                        <div 
-                            key={`minimap-point-${point.id}`} 
-                            className="minimap_waypoint"
-                            style={{
-                                position: 'absolute',
-                                left: `${x}px`,
-                                top: `${y}px`,
-                                width: `${minimap_waypoint_size}px`,
-                                height: `${minimap_waypoint_size}px`,
-                                transform: 'translate(-50%, -50%)',
-                                pointerEvents: 'none'
-                            }}
-                        >
-                        <button className="map_minimap_waypoint_button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="95%" height="95%" viewBox="0 0 24 24">
-                                <defs>
-                                    <mask id="point">
-                                        <g fill="none">
-                                            <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
-                                            <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
-                                            <circle cx="12" cy="10" r="3" fill="#fff" />
-                                        </g>
-                                    </mask>
-                                </defs>
-                                <path className={get_point_class(point.type)} d="M0 0h24v24H0z" mask="url(#point)" />
-                            </svg>
-                            <p className={`waypoint_id_minimap ${get_point_id_color_class(point.type)}`}>{point.id}</p>
-                        </button>
-                        </div>
-                    );
-                })}
+                        return (
+                            <div 
+                                key={`minimap-point-${point.id}`} 
+                                className="minimap_waypoint"
+                                style={{
+                                    position: 'absolute',
+                                    left: `${x}px`,
+                                    top: `${y}px`,
+                                    width: `${minimap_waypoint_size}px`,
+                                    height: `${minimap_waypoint_size}px`,
+                                    transform: 'translate(-50%, -50%)',
+                                    pointerEvents: 'none'
+                                }}
+                            >
+                            <button className="map_minimap_waypoint_button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="95%" height="95%" viewBox="0 0 24 24">
+                                    <defs>
+                                        <mask id="point">
+                                            <g fill="none">
+                                                <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
+                                                <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
+                                                <circle cx="12" cy="10" r="3" fill="#fff" />
+                                            </g>
+                                        </mask>
+                                    </defs>
+                                    <path className={get_point_class(point.type)} d="M0 0h24v24H0z" mask="url(#point)" />
+                                </svg>
+                                <p className={`waypoint_id_minimap ${get_point_id_color_class(point.type)}`}>{point.id}</p>
+                            </button>
+                            </div>
+                        );
+                    })}
+                </div>
+
+
+
+                <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change} points_set={points_set}/>
+
+                <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} toggleInfoContainer={toggle_info_container} points={points_set} flightNotes={flightNotes || ""} onDataImport={on_data_import}/>
+                
+            
             </div>
-
-
-
-            <Navigation_set onWaypointSelectionChange={on_waypoint_selection_change} points_set={points_set}/>
-
-            <Misc_set onImageUpload={on_image_upload} onClearPoints={on_clear_points} toggleInfoContainer={toggle_info_container} points={points_set} flightNotes={flightNotes || ""} onDataImport={on_data_import}/>
         </>
     )
 }

@@ -5,11 +5,9 @@
 
 .misc_button_set{
     display: flex;
-    position: fixed;
-    left: 4vw;
-    bottom: 4vh;
+    height: fit-content;
     padding-block: 0.7vw;
-
+    margin-top: auto;
 
     background: var(--background_1);
 
@@ -72,18 +70,3 @@
 
 
 
-
-
-
-@media (max-width: 900px){
-    .option_button{
-        width: 5vw;
-        height: 5vw;
-        margin-inline: 1.2vw;
-    }
-
-    .misc_button_set{
-        left: 7vw;
-    }
-
-}

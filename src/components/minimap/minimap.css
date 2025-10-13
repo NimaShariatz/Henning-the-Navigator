@@ -1,7 +1,17 @@
-.navigation_container{
+.minimap_container{
+    position: relative;
     position: fixed;
-    left: 5vw;
-    bottom: 13vh;
+    left: 1%;
+    bottom:3%;
+    display: flex;
+}
+
+
+.navigation_container{
+    position: absolute;
+    left: 4vw;
+    bottom: 4vw;
+    
     opacity: 0.8;
     transition: opacity 0.3s ease;
 
@@ -84,10 +94,9 @@
 
 
 @media (max-width: 900px){
-    .navigation_container{
-        left: 8vw;
-        bottom:10vh;
-    }
+
+    
+    
     .map_minimap_waypoint_button{
         opacity: 1;
     }
@@ -95,8 +104,5 @@
         opacity: 1;
     }
 
-    .minimap_image{
-        max-width: 40vw;
-        max-height: 40vh;
-    }
+
 }

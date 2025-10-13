@@ -6,9 +6,7 @@
 .navigation_button_set{
     display: flex;
     flex-direction: column;
-    position: fixed;
-    left: 0.6vw;
-    bottom: 4vh;
+    width: fit-content;
     padding-inline: 0.7vw;
     
     background: var(--background_1);
@@ -87,12 +85,3 @@
 
 
 
-@media (max-width: 900px){
-    .navigation_button{
-        width: 5vw;
-        height: 5vw;
-        margin-block: 1.6vw;
-    }
-
-
-}
