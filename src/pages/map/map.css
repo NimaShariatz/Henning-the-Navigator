@@ -67,8 +67,11 @@
     position: relative;
     background-color: var(--button_background);
     border-radius: 0.4vw;
+    transform: rotate(45deg);
 }
-
+.map_target_svg{
+    transform: rotate(-45deg);
+}
 
 
 

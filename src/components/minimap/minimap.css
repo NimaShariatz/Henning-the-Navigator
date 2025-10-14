@@ -29,8 +29,8 @@
 
 
 .minimap_image{
-    max-width: 25vw;
-    max-height: 25vh;
+    max-width: 26vw;
+    max-height: 26vh;
     object-fit: contain;
     outline: 0.2vw solid rgba(0, 0, 0, 0.2);
     user-select: none; /*prevents the minimap from being selected, which then gives it a blue tint...*/
@@ -46,11 +46,12 @@
     background-color: var(--button_background);
     border-radius: 10%;
     opacity: 0.9;
-    box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.25);
+    transform: rotate(45deg);
+    overflow: hidden;
 }
 
 .minimap_target svg {
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.8));
+    transform: rotate(-45deg);
 }
 
 .map_minimap_waypoint_button{

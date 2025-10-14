@@ -22,8 +22,8 @@
     --waypoint_navigation: #ffc90e;
     --waypoint_navigation_id_color: #ebc84cd0;
 
-    --red_target:rgb(255, 0, 0);
-    --blue_target:rgb(28, 85, 230);
+    --red_target:rgb(252, 70, 70);
+    --blue_target:rgb(66, 114, 236);
 }
 
 * {

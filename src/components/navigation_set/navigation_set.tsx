@@ -1,15 +1,16 @@
-import {useState, useEffect, useRef} from "react"
+import {useEffect, useRef} from "react"
 
 import "./navigation_set.css"
 
 interface NavigationSetProps {
     onWaypointSelectionChange?: (selection: number) => void;// exclusively just for passing which point is selected to minimap.tsx
     points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
+    selectedWaypoint: number;
 }
 
 
 
-function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSetProps){
+function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint }: NavigationSetProps){
     const extraction = useRef<HTMLButtonElement>(null);
     const navigation = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
@@ -24,17 +25,14 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
     
 
 
-    const [waypointSelection, setWaypointSelection] = useState(-1);
 
 
 
 
 
-    const toggle_waypoint_suggestion = (value: number) => {
-        const newSelection = waypointSelection === value ? -1 : value;
-        setWaypointSelection(newSelection);
-        
-        if (onWaypointSelectionChange) {//if its then notify the component of the change
+    const handleWaypointSelection = (waypointType: number) => {
+        const newSelection = selectedWaypoint === waypointType ? -1 : waypointType;
+        if (onWaypointSelectionChange) {
             onWaypointSelectionChange(newSelection);
         }
     };
@@ -45,7 +43,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
         selectionMap.forEach(item => {
             if (item.ref.current) {
-                if (waypointSelection === item.value) { //the button clicked
+                if (selectedWaypoint === item.value) { //the button clicked
                     item.ref.current.classList.add("button_selected")
                 } else {
                     item.ref.current.classList.remove("button_selected")
@@ -59,17 +57,17 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         const has_one_target_point = points_set.some(point => point.type === 2);//Check for target point. true or false
         
         if(!has_one_start_point){// if we dont have a start point, set selection to it!
-            setWaypointSelection(1);
+            handleWaypointSelection(1);
             if (onWaypointSelectionChange) {
                 onWaypointSelectionChange(1);
             }
         }else if(!has_one_target_point){// if we dont have a target point, set selection to it!
-            setWaypointSelection(2);
+            handleWaypointSelection(2);
             if (onWaypointSelectionChange) {
                 onWaypointSelectionChange(2);
             }
-        } else if ((has_one_start_point && waypointSelection === 1) || (has_one_start_point && waypointSelection === 2)){// if we got both but selection is on either, remove it
-            setWaypointSelection(-1);
+        } else if ((has_one_start_point && selectedWaypoint === 1) || (has_one_start_point && selectedWaypoint === 2)){// if we got both but selection is on either, remove it
+            handleWaypointSelection(-1);
             if (onWaypointSelectionChange) {
                 onWaypointSelectionChange(-1);
             }
@@ -152,7 +150,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
 
         }//if
         
-    }, [waypointSelection, points_set]);
+    }, [selectedWaypoint, points_set]);
 
 
 
@@ -164,7 +162,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
         
             <div className="navigation_button_set"> {/* Note it is not onClick={handleButtonClick(0)} as this would immediatley execute it. rather than create an event handler. so its activating on render than on click */}
 
-                <button className="navigation_button" onClick={() => toggle_waypoint_suggestion(4)} ref={extraction}>
+                <button className="navigation_button" onClick={() => handleWaypointSelection(4)} ref={extraction}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -179,7 +177,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-               <button className="navigation_button"  onClick={() => toggle_waypoint_suggestion(3)} ref={navigation}>
+               <button className="navigation_button"  onClick={() => handleWaypointSelection(3)} ref={navigation}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -194,7 +192,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-               <button className="navigation_button"  onClick={() => toggle_waypoint_suggestion(2)} ref={target}>
+               <button className="navigation_button"  onClick={() => handleWaypointSelection(2)} ref={target}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
@@ -209,7 +207,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set }: NavigationSet
                     </svg>
                 </button>
 
-                <button className="navigation_button"  onClick={() => toggle_waypoint_suggestion(1)} ref={start}>
+                <button className="navigation_button"  onClick={() => handleWaypointSelection(1)} ref={start}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
                             <mask id="point">
