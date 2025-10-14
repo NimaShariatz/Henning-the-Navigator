@@ -37,7 +37,6 @@
     height: 2vw;
     background-color: var(--button_background);
     border-radius: 15%;
-    cursor: pointer;
 
     
     display: flex;
@@ -57,7 +56,18 @@
     
 }
 
-
+.map_target_button {
+    width: 3vw;
+    height: 3vw;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: var(--button_background);
+    border-radius: 0.4vw;
+}
 
 
 

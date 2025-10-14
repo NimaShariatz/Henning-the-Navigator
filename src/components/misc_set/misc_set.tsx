@@ -2,18 +2,31 @@ import "./misc_set.css"
 import { useRef } from "react"
 
 interface MiscSetProps {
-    onImageUpload?: (file: File) => void;
-    onClearPoints?: () => void; // just for accessing clear_all_points() in map.tsx
-    toggleInfoContainer?: () => void;
-
-    onDataImport?: (data: {points: {id: number, x: number, y: number, type: number}[], flightNotes: string}) => void; // for intaking JSON on upload
-
-
-    points?: {id: number, x: number, y: number, type: number}[];
-    flightNotes: string;
+    on_image_upload?: (file: File) => void;
+    on_clear_points?: () => void;
+    toggle_info_container?: () => void;
+    points_set: {id: number, x: number, y: number, type: number}[];
+    targets_set: {id: number, x: number, y: number, type: number, isBlue: boolean}[];
+    flightNotes?: string;
+    on_data_import?: (data: {
+        points: {id: number, x: number, y: number, type: number}[], 
+        targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
+        flightNotes?: string
+    }) => void;
 }
 
-function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImport, points = [], flightNotes }: MiscSetProps){
+
+function Misc_set({ 
+    on_image_upload, 
+    on_clear_points, 
+    toggle_info_container, 
+    points_set, 
+    targets_set, 
+    flightNotes, 
+    on_data_import 
+    }: MiscSetProps) {
+
+
     const fileInputRef = useRef<HTMLInputElement>(null);
     const jsonInputRef = useRef<HTMLInputElement>(null);
     
@@ -39,10 +52,10 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
         }
     };
     
-    const handle_file_change = (e: React.ChangeEvent<HTMLInputElement>) => { //this is what <input/> calls
+    const handle_file_change = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
-        if (files && files.length > 0 && onImageUpload) {
-            onImageUpload(files[0]);// sets onImageUpload variable to this.
+        if (files && files.length > 0 && on_image_upload) { // Fixed: was onImageUpload
+            on_image_upload(files[0]);
         }
     };
     //file changing stuff
@@ -54,27 +67,22 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
 
 
     //download functionality
-    const handle_download = () => {
+    const handle_export = () => {
         const data = {
-            points: points,
-            flightNotes,
-            exportDate: new Date().toISOString()
-
+            points: points_set,
+            targets: targets_set,
+            flightNotes: flightNotes || ""
         };
-
+        
         const dataStr = JSON.stringify(data, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
         
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `navigation_data_${new Date().toISOString().split('T')[0]}.json`;
+        const exportFileDefaultName = `flight_plan_${new Date().toISOString().split('T')[0]}.json`;
         
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        URL.revokeObjectURL(url);
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
     };
     //download functionality
 
@@ -87,98 +95,56 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
     };
 
 
-    const handle_json_file_change = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-            const file = files[0];
-            const reader = new FileReader();
-            
-            reader.onload = (event) => {
-                try {
-                    const result = event.target?.result;
-                    if (typeof result === 'string') {
-                        const data = JSON.parse(result);
-                        
-                        // Validate the JSON structure - only check for points now
-                        if (data.points && Array.isArray(data.points)) {
-                            // Get canvas dimensions for bounds checking
-                            const canvas = document.querySelector('canvas.map_background') as HTMLCanvasElement;
-                            const canvasWidth = canvas?.clientWidth || 0;
-                            const canvasHeight = canvas?.clientHeight || 0;
-                            
-                            // Validate each point has the required structure and is within canvas bounds
-                            const validPoints = data.points.every((point: any) => {
-                                const hasValidStructure = (
-                                    typeof point.id === 'number' &&
-                                    typeof point.x === 'number' &&
-                                    typeof point.y === 'number' &&
-                                    typeof point.type === 'number'
-                                );
-                                
-                                const isWithinBounds = (
-                                    point.x >= 0 && point.x <= canvasWidth &&
-                                    point.y >= 0 && point.y <= canvasHeight
-                                );
-                                
-                                return hasValidStructure && isWithinBounds;
-                            });
-                            
-                            if (validPoints && onDataImport) {
-                                onDataImport({
-                                    points: data.points,
-                                    flightNotes: data.flightNotes
-                                });
-                            } else {
-                                // More specific error message
-                                if (canvasWidth === 0 || canvasHeight === 0) {
-                                    alert('Cannot validate point positions: Canvas not found or has no dimensions.');
-                                } else {
-                                    alert(`Please check the file structure and ensure all points are within canvas bounds (${canvasWidth} x ${canvasHeight}).`);
-                                }
-                            }
-                        } else {
-                            alert('Invalid JSON file format. Missing points data.');
-                        }
+    const handle_import = (event: React.ChangeEvent<HTMLInputElement>) => { // Fixed: was handle_json_file_change
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const jsonData = JSON.parse(e.target?.result as string);
+                
+                if (jsonData.points && Array.isArray(jsonData.points)) {
+                    const importData = {
+                        points: jsonData.points,
+                        targets: jsonData.targets || [],
+                        flightNotes: jsonData.flightNotes || ""
+                    };
+                    
+                    if (on_data_import) {
+                        on_data_import(importData);
                     }
-                } catch (error) {
-                    alert('Error reading JSON file. Please check if the file is valid JSON.');
-                    console.error('JSON parsing error:', error);
+                } else {
+                    alert("Invalid file format. Please select a valid flight plan JSON file.");
                 }
-            };
-            
-            reader.readAsText(file);
-        }
-        
-        // Reset the input value to allow selecting the same file again
-        e.target.value = '';
+            } catch (error) {
+                alert("Error reading file. Please make sure it's a valid JSON file.");
+                console.error("Import error:", error);
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
     };
 
 
 
-    //clear points stuff
-    const handle_clear_points = () => {
-        if (onClearPoints) {
-            onClearPoints();
-        }
-    };
-    //clear points stuff
+
+    
 
 
     return(
         <>
             <div className="misc_button_set">
 
-                <button className="option_button" onClick={toggleInfoContainer}>
+                <button className="option_button" onClick={toggle_info_container}> {/* Fixed: was toggleInfoContainer */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
                         <g fill="none">
-                            <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 
-                            0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                            <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
                             <path className="info_fill" fill="#ae3232" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m0 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16m-.01 6c.558 0 1.01.452 1.01 1.01v5.124A1 1 0 0 1 12.5 18h-.49A1.01 1.01 0 0 1 11 16.99V12a1 1 0 1 1 0-2zM12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2" />
                         </g>
                     </svg>
                 </button>
 
-                {/* Added onClick handler to the folder button */}
                 <button className="option_button" onClick={handle_image_upload}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
                         <path className="map_upload_fill" d="m5 18.31l3-1.16V5.45L5 6.46zm11 .24l3-1.01V5.69l-3 1.17z" opacity="0.3" />
@@ -186,8 +152,7 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
                     </svg>
                 </button>
 
-
-                <button className="option_button" onClick={handle_download}>
+                <button className="option_button" onClick={handle_export}> {/* Fixed: was handle_download */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
                         <path className="download_fill" d="M12 15.575q-.2 0-.375-.062T11.3 15.3l-3.6-3.6q-.3-.3-.288-.7t.288-.7q.3-.3.713-.312t.712.287L11 12.15V5q0-.425.288-.712T12 4t.713.288T13 5v7.15l1.875-1.875q.3-.3.713-.288t.712.313q.275.3.288.7t-.288.7l-3.6 3.6q-.15.15-.325.213t-.375.062M6 20q-.825 0-1.412-.587T4 18v-2q0-.425.288-.712T5 15t.713.288T6 16v2h12v-2q0-.425.288-.712T19 15t.713.288T20 16v2q0 .825-.587 1.413T18 20z" />
                     </svg>
@@ -199,7 +164,7 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
                     </svg>
                 </button>
 
-                <button className="option_button" onClick={handle_clear_points}>
+                <button className="option_button" onClick={on_clear_points}> {/* Fixed: was handle_clear_points */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="65%" height="65%" viewBox="0 0 24 24">
                         <g fill="none" fillRule="evenodd">
                             <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
@@ -208,7 +173,6 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
                     </svg>
                 </button>
                 
-
                 <input 
                 type="file" 
                 ref={fileInputRef}
@@ -221,7 +185,7 @@ function Misc_set({ onImageUpload, onClearPoints, toggleInfoContainer, onDataImp
                 ref={jsonInputRef}
                 accept=".json,application/json"
                 style={{ display: 'none' }}
-                onChange={handle_json_file_change}
+                onChange={handle_import} 
                 />
             </div>
         </>

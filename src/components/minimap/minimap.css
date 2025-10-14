@@ -4,6 +4,7 @@
     left: 1%;
     bottom:3%;
     display: flex;
+    z-index: 4;
 }
 
 
@@ -20,7 +21,6 @@
     background-position: center;
     background-size:30%;
     background-color: var(--logo_yellow);
-    z-index: 4;
 
 }
 .navigation_container:hover{
@@ -36,7 +36,22 @@
     user-select: none; /*prevents the minimap from being selected, which then gives it a blue tint...*/
 }
 
+.minimap_target {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--button_background);
+    border-radius: 10%;
+    opacity: 0.9;
+    box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.25);
+}
 
+.minimap_target svg {
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.8));
+}
 
 .map_minimap_waypoint_button{
     border: none;
