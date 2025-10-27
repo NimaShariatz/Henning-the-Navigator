@@ -486,6 +486,7 @@ function Minimap({
                     onTargetSelectionChange={handleTargetSelectionChange}
                     onColorChange={on_target_color_change}
                     selectedTarget={selectedTarget}
+                    points_set={points_set}
                 />
                 <Navigation_set
                     onWaypointSelectionChange={handleWaypointSelectionChange}
