@@ -1,0 +1,30 @@
+
+.mapDraw_container{
+    position: absolute;
+    right: 1vw;
+    bottom: 1vw;
+
+    width: 32.2vw;
+    height:6.8vw;
+
+    opacity: 0.9;
+
+
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    border-radius: 0 2vw 2vw 0;
+
+    background: var(--background_1);
+    padding-block: 0.7vw;
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(var(--blur_factor));
+    -webkit-backdrop-filter: blur(var(--blur_factor));
+    transition: opacity 0.3s ease, transform 0.8s ease;
+
+
+}
+.mapDraw_container:hover{
+    opacity: 1;
+}

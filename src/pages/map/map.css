@@ -145,7 +145,7 @@
 
 .information_container{
     width: 32vw;
-    height: 90vh;
+    height: 75vh;
     background: var(--background_1);
 
     box-shadow: var(--boxShadow_1);
@@ -156,7 +156,7 @@
     padding: 1vw;
 
     position: absolute;
-    top:40px;
+    top:35px;
     right: 2vw;
 
     border-radius: 1vw;

@@ -7,6 +7,7 @@ import "./map.css"
 import Minimap from "../../components/minimap/minimap.tsx";
 import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
 import Map_changer from "../../components/map_changer/map_changer.tsx";
+import Color_select from "../../components/color_select/color_select.tsx";
 /*
  Info:
  first the image sizes are set up. The width and height of our image is gotten.
@@ -33,7 +34,7 @@ function Map() {
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
 
-    const [selectedNavType, setSelectedNavType] = useState(-1)
+    const [selectedNavType, setSelectedNavType] = useState(-1);
 
     const [targetColor, setTargetColor] = useState(false);
     const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, isBlue: boolean}[]>([]);
@@ -1101,6 +1102,8 @@ function Map() {
             />
 
             <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
+
+            <Color_select/>
 
             <Map_changer 
                 currentImage={currentImage}
