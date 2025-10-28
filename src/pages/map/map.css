@@ -145,7 +145,7 @@
 
 .information_container{
     width: 32vw;
-    height: 75vh;
+    height: 65vh;
     background: var(--background_1);
 
     box-shadow: var(--boxShadow_1);

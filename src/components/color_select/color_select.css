@@ -1,11 +1,8 @@
-
 .mapDraw_container{
     position: absolute;
-    right: 1vw;
-    bottom: 1vw;
+    right: 2vw;
+    bottom: 2vw;
 
-    width: 32.2vw;
-    height:6.8vw;
 
     opacity: 0.9;
 
@@ -13,18 +10,109 @@
     justify-content: center;
     align-items: center;
     justify-items: center;
-    border-radius: 0 2vw 2vw 0;
+    border-radius: 2vw;
 
     background: var(--background_1);
-    padding-block: 0.7vw;
+    
 
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(var(--blur_factor));
     -webkit-backdrop-filter: blur(var(--blur_factor));
     transition: opacity 0.3s ease, transform 0.8s ease;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    padding-inline: 1.2vw;
+    padding-block: 0.6vw;
+
+    gap: 0.5vw;
+
 
 }
+
 .mapDraw_container:hover{
+    opacity: 1;
+}
+
+
+.map_colorSelect_button{
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
+    cursor: pointer;
+    
+}
+
+
+
+
+
+.colorPicker{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+    
+    
+}
+
+
+
+
+
+
+
+.picker-wrapper .react-colorful {
+    width: 100%;
+    height: 100%;
+    gap: 0.5vw;
+}
+
+.picker-wrapper .react-colorful__saturation-pointer,
+.picker-wrapper .react-colorful__hue-pointer,
+.picker-wrapper .react-colorful__alpha-pointer {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  border-width: 0.2vw;
+}
+
+.picker-wrapper .react-colorful__saturation{
+    border-radius: 1vw;
+    width: 12vw;
+    height: 12vw;
+}
+
+.picker-wrapper .react-colorful__hue{
+    border-radius: 1vw;
+    height: 2vw;
+}
+
+.picker-wrapper .react-colorful__alpha{
+    border-radius: 1vw;
+    height: 2vw;
+}
+
+
+
+
+.map_colorSelect_done{
+    background-color: var(--logo_yellow);
+    margin-block: 0.7vw;
+    font-weight: bold;
+    width: 100%;
+    padding-block: 0.3vw;
+    border-radius: 0.4vw;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+.map_colorSelect_done:hover{
+    outline: 0.2vw solid var(--logo_white);
     opacity: 1;
 }
