@@ -95,24 +95,6 @@ function Map() {
 
         // Handle target placement
         if(selectedTargetType > 0 && selectedNavType === -1){ 
-            // Check collision with existing points
-            for (const button of points) {
-                const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
-                
-                if (distance < collision_radius) {
-                    return;
-                }
-            }
-
-            // Check collision with existing targets
-            for (const target of targets) {
-                const distance = Math.sqrt(Math.pow(target.x - x_cord, 2) + Math.pow(target.y - y_cord, 2));
-                
-                if (distance < collision_radius) {
-                    return;
-                }
-            }
-
             const new_target = {
                 id: targets.length > 0 ? Math.max(...targets.map(t => t.id)) + 1 : 1,
                 x: x_cord,
@@ -967,7 +949,6 @@ function Map() {
 
 
 
-
                 {targets.map(target => (
                     <div key={`target-${target.id}`} className="map_icon_div" style={{left: `${target.x}px`, top: `${target.y}px`}}>
                         <button className="map_target_button">
@@ -983,7 +964,8 @@ function Map() {
                             ×
                         </button>
                     </div>
-                ))}
+                ))}{/* targets */}
+
 
 
             </div>

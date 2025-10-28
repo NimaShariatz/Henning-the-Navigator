@@ -101,20 +101,26 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
         }//else
 
 
+
+
+        
+        // Remove
+        targetMap.forEach(item => {
+            if(item.ref.current){
+                item.ref.current.classList.remove("button_selected");
+            }
+        });
+
         
         if((has_one_start_point || has_one_target_point) && selectedTarget >= 1 && selectedTarget <= 13){
+
             const targetIndex = selectedTarget - 1; // Convert to 0-based index
             if(targetMap[targetIndex]?.ref.current){
                 targetMap[targetIndex].ref.current.classList.add("button_selected");
             }
-        } else {
-            // Remove selection from all buttons when selectedTarget is -1
-            targetMap.forEach(item => {
-                if(item.ref.current){
-                    item.ref.current.classList.remove("button_selected");
-                }
-            });
         }
+
+        
 
     }, [points_set, selectedTarget]);
 

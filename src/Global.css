@@ -5,7 +5,7 @@
 
 
     --background_1: rgba(38, 38, 38, 0.76);
-    --boxShadow_1: 0 4px 30px rgba(0, 0, 0, 0.1);
+    --boxShadow_1: 0 3vw 3vw rgba(0, 0, 0, 0.1);
     --blur_factor: 3px;
     --button_background: rgba(7, 7, 7, 0.87);
     --onHover_background: rgba(240, 248, 255, 0.1);
@@ -24,6 +24,26 @@
 
     --red_target:rgb(252, 70, 70);
     --blue_target:rgb(66, 114, 236);
+
+
+
+
+    --information_container_z : 4;
+    --minimap_container_z: 4;
+    --distance_calc_container_z: 4;
+    --target_set_container_z: 4;
+
+    --map_waypoint_z: 2;
+    --map_target_z: 3;
+
+
+
+
+
+
+
+
+
 }
 
 * {

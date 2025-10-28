@@ -25,7 +25,7 @@
 
 .map_icon_div{
     position: absolute;
-    z-index: 2;
+    z-index: var(--map_waypoint_z);
     display: flex;
 
 }
@@ -57,8 +57,8 @@
 }
 
 .map_target_button {
-    width: 3vw;
-    height: 3vw;
+    width: 3.5vw;
+    height: 3.5vw;
     border: none;
     background: transparent;
     display: flex;
@@ -68,9 +68,15 @@
     background-color: var(--button_background);
     border-radius: 0.4vw;
     transform: rotate(45deg);
+    z-index: var(--map_target_z);
+    transition: opacity 0.2s ease;
 }
 .map_target_svg{
     transform: rotate(-45deg);
+}
+
+.map_target_button:hover{
+    opacity: 0.2;
 }
 
 
@@ -78,8 +84,8 @@
 .remove_button{
 
     margin-left: 0.2vw;
-    width: 1.1vw;
-    height: 1.1vw;
+    width: 1.2vw;
+    height: 1.2vw;
     color: var(--logo_white);
     background-color: rgba(7, 7, 7, 0.30);
     border: none;
@@ -115,14 +121,13 @@
 .waypoint_lines_overlay {
     pointer-events: none;
     overflow: visible;
-    z-index: 1;
+
 }
 
 .waypoint_lines{
     stroke-width: 0.4vw;
     stroke-opacity: 0.6;
     stroke-dasharray: none;
-    z-index: 1;
 }
 
 
@@ -160,7 +165,7 @@
     right: 2vw;
 
     border-radius: 1vw;
-    z-index: 2;
+    z-index: var(--information_container_z);
 
     overflow: auto;
 

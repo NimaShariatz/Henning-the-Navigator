@@ -4,7 +4,7 @@
     left: 1%;
     bottom:3%;
     display: flex;
-    z-index: 4;
+    z-index: var(--minimap_container_z);
 }
 
 
@@ -38,16 +38,17 @@
 
 .minimap_target {
     position: absolute;
-    z-index: 3;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--button_background);
     border-radius: 10%;
-    opacity: 0.9;
+    opacity: 1;
     transform: rotate(45deg);
     overflow: hidden;
+    z-index: var(--map_target_z);
+    
 }
 
 .minimap_target svg {
@@ -68,7 +69,7 @@
     align-items: center;
     opacity: 0.7;
     transition: opacity 0.3s ease;
-    z-index: 3;
+    z-index: var(--map_waypoint_z);
 }
 
 .navigation_container:hover .map_minimap_waypoint_button {
