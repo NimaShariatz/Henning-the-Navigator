@@ -10,13 +10,25 @@ interface RgbaColor {
     a: number;
 }
 
-function Color_select() {
+interface ColorSelectProps {
+    onColorChange?: (color: RgbaColor) => void;
+}
+
+
+function Color_select({ onColorChange }: ColorSelectProps) {
     const [selectedColor, setSelectedColor] = useState<RgbaColor>({ r: 0, g: 0, b: 0, a: 1 })
     const [showPicker, setShowPicker] = useState(false)
     
     // Convert RGBA to CSS string for button background
     const rgbaString = `rgba(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b}, ${selectedColor.a})`
     
+    const handleColorChange = (color: RgbaColor) => {
+        setSelectedColor(color);
+        if (onColorChange) {
+            onColorChange(color);
+        }
+    };
+
     return(
         <div className="mapDraw_container">
             <button 
@@ -29,7 +41,7 @@ function Color_select() {
             {showPicker && (
                 <div className="colorPicker">
                     <div className="picker-wrapper">
-                        <RgbaColorPicker color={selectedColor} onChange={setSelectedColor} />
+                        <RgbaColorPicker color={selectedColor} onChange={handleColorChange} />
                     </div>
                     <button className="map_colorSelect_done" onClick={() => setShowPicker(false)}>
                         Done

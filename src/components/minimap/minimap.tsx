@@ -12,8 +12,12 @@ interface MinimapProps {
     current_image: string;//for file import
     on_image_upload?: (file: File) => void;//for file import
     
-    on_waypoint_selection_change?: (selection: number) => void;//this is passed to map.tsx. it comes from navigation_set.tsx
+    on_waypoint_selection_change?: (selection: number) => void;
+    on_target_selection_change?: (selection: number) => void;
+    selectedWaypoint?: number;
+    selectedTarget?: number;
 
+    
     on_clear_points?: () => void; //for on_clear_points() in map.tsx. 
 
     toggle_info_container?: () => void;
@@ -30,7 +34,6 @@ interface MinimapProps {
     }) => void;
 
 
-    on_target_selection_change?:  (Selection: number) => void;
 
     on_target_color_change?: (isBlue: boolean) => void;
 }
@@ -49,30 +52,11 @@ function Minimap({
             targets_set, 
             flightNotes, 
             toggle_info_container, 
-            on_data_import 
+            on_data_import,
+            selectedWaypoint = -1,
+            selectedTarget = -1
         }: MinimapProps) 
     {
-
-    const [selectedWaypoint, setSelectedWaypoint] = useState(-1);
-    const [selectedTarget, setSelectedTarget] = useState(-1);
-
-
-    const handleWaypointSelectionChange = (selection: number) => {
-        setSelectedWaypoint(selection);
-        setSelectedTarget(-1); // Reset target selection
-        if (on_waypoint_selection_change) {
-            on_waypoint_selection_change(selection);
-        }
-    };
-
-    const handleTargetSelectionChange = (selection: number) => {
-        setSelectedTarget(selection);
-        setSelectedWaypoint(-1); // Reset waypoint selection
-        if (on_target_selection_change) {
-            on_target_selection_change(selection);
-        }
-    };
-
 
 
 
@@ -483,13 +467,13 @@ function Minimap({
 
 
                 <Target_set
-                    onTargetSelectionChange={handleTargetSelectionChange}
+                    onTargetSelectionChange={on_target_selection_change}
                     onColorChange={on_target_color_change}
                     selectedTarget={selectedTarget}
                     points_set={points_set}
                 />
                 <Navigation_set
-                    onWaypointSelectionChange={handleWaypointSelectionChange}
+                    onWaypointSelectionChange={on_waypoint_selection_change}
                     points_set={points_set}
                     selectedWaypoint={selectedWaypoint}
                 />

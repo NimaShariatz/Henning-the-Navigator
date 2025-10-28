@@ -33,12 +33,13 @@ function Map() {
 
     //--------------------------
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
-
     const [selectedNavType, setSelectedNavType] = useState(-1);
-
     const [targetColor, setTargetColor] = useState(false);
     const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, isBlue: boolean}[]>([]);
     const [selectedTargetType, setSelectedTargetType] = useState(-1)// gets to <minimap> then to target_set. gets set in there
+    const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 0, g: 0, b: 0, a: 1 });
+
+
 
     const [mapDistance, setMapDistance] = useState(458)
     const [linePositions, setLinePositions] = useState<{
@@ -383,7 +384,7 @@ function Map() {
     };
 
 
-    const handle_waypoint_selection_change = (selection: number) => {
+    const handleWaypointSelectionChange = (selection: number) => {
         setSelectedNavType(selection);
         setSelectedTargetType(-1)
         //console.log("Waypoint selection received in Map:", selection);
@@ -392,11 +393,17 @@ function Map() {
     const handle_target_color_change = (isBlue: boolean) => {
         setTargetColor(isBlue);
     };
-    const handle_target_selection_change = (selection: number) => {
+    const handleTargetSelectionChange = (selection: number) => {
         setSelectedTargetType(selection);
         setSelectedNavType(-1)
         //console.log("Target selection received in Map:", selection);
     };
+
+    useEffect(() => {
+        setSelectedNavType(-1);
+        setSelectedTargetType(-1);
+        
+    }, [drawColor]);
 
     const get_point_class = (type: number) => {
         switch(type) {
@@ -1072,8 +1079,11 @@ function Map() {
                 on_minimap_click={handle_minimap_click} 
                 current_image={currentImage}
                 on_image_upload={handle_image_upload}
-                on_waypoint_selection_change={handle_waypoint_selection_change}
-                on_target_selection_change={handle_target_selection_change}
+                selectedWaypoint={selectedNavType}
+                selectedTarget={selectedTargetType}
+                on_waypoint_selection_change={handleWaypointSelectionChange}
+                on_target_selection_change={handleTargetSelectionChange}
+
                 on_target_color_change={handle_target_color_change}
                 on_clear_points={clear_all_points}
                 toggle_info_container={toggleInfoContainer}
@@ -1085,7 +1095,7 @@ function Map() {
 
             <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
 
-            <Color_select/>
+            <Color_select onColorChange={setDrawColor}/>
 
             <Map_changer 
                 currentImage={currentImage}
