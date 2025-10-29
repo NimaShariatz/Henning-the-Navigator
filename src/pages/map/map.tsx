@@ -39,7 +39,7 @@ function Map() {
     const [selectedTargetType, setSelectedTargetType] = useState(-1)// gets to <minimap> then to target_set. gets set in there
     const [showPicker, setShowPicker] = useState(false);
     const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 0, g: 0, b: 0, a: 1 });
-
+    const [drawline_thickness, setDrawline_thickness] = useState(1);
 
 
 
@@ -1103,6 +1103,7 @@ function Map() {
 
             <Color_select 
                 onColorChange={setDrawColor} 
+                onThicknessChange={setDrawline_thickness}
                 showPicker={showPicker} 
                 setShowPicker={setShowPicker}
             />

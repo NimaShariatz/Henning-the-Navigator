@@ -12,11 +12,13 @@ interface RgbaColor {
 
 interface ColorSelectProps {
     onColorChange?: (color: RgbaColor) => void;
+    onThicknessChange?: (thickness: number) => void;  // ✅ Changed to function
     showPicker: boolean;
     setShowPicker: (show: boolean) => void;
 }
 
-function Color_select({ onColorChange, showPicker, setShowPicker }: ColorSelectProps) {
+
+function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPicker }: ColorSelectProps) {
     const [selectedColor, setSelectedColor] = useState<RgbaColor>({ r: 0, g: 0, b: 0, a: 1 })
     const [lineThickness, setLineThickness] = useState(1);
     
@@ -29,20 +31,26 @@ function Color_select({ onColorChange, showPicker, setShowPicker }: ColorSelectP
             onColorChange(color);
         }
     };
+    const handleThicknessChange = (value: number) => {
+        setLineThickness(value);
+        if(onThicknessChange){
+            onThicknessChange(value)
+        }
+    }
 
 
 
 
 
     const handleIncreaseThickness = () => {
-        const increase_thick = lineThickness + 1
-        setLineThickness(increase_thick);
+        const increase_thick = lineThickness + 1;
+        handleThicknessChange(increase_thick);  // Call the handler to update parent
     };
 
     const handleDecreaseThickness = () => {
-        if(lineThickness > 0){
-            const decrease_thick = lineThickness - 1
-            setLineThickness(decrease_thick);
+        if(lineThickness > 1){
+            const decrease_thick = lineThickness - 1;
+            handleThicknessChange(decrease_thick);  // Call the handler to update parent
         }
     };
 
