@@ -41,10 +41,16 @@
 
 .mapdraw_representation{
     display: flex;
-    gap: 1vw;
+    gap: 0.5vw;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+}
+
+.mapdraw_thickness_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

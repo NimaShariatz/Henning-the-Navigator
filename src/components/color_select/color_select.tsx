@@ -60,7 +60,7 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
 
             <div className="mapdraw_representation">
 
-                <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+                <div className="mapdraw_thickness_container">
                     
                     <button className="left_increment" onClick={handleDecreaseThickness}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20">
@@ -71,7 +71,7 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
                         </svg>
                     </button>
 
-                    <p>{lineThickness}</p>
+                    <p style={{width:"1.5vw", textAlign:"center"}}>{lineThickness}</p>
 
 
                     <button className="right_increment" onClick={handleIncreaseThickness}>
