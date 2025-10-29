@@ -803,9 +803,7 @@ function Map() {
     }
     const handeInput_windHeading_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
         let newValue = e.target.value
-        if (Number(newValue) > 360){
-            newValue = "359"
-        }else if (Number(newValue) < 0){
+        if (Number(newValue) < 0){
             newValue = "0"
         }
         setWindHeading(newValue)
@@ -828,7 +826,7 @@ function Map() {
         const currentValue = Number(planeHeading) || 0;
         let newValue = currentValue - 1;
         if (newValue <= 0) {
-            newValue = 0;
+            newValue = 359;
         }
         setPlaneHeading(String(newValue));
     };

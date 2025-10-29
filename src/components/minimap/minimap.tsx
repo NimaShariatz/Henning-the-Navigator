@@ -141,7 +141,7 @@ function Minimap({
         const minimap_X = relative_X * minimapDimensions.width;
         const minimap_Y = relative_Y * minimapDimensions.height;
         
-        const targetSize = minimapDimensions.width * 0.06; // Slightly smaller than waypoints
+        const targetSize = minimapDimensions.width * 0.05; // Slightly bigger than waypoints
         
         return {
             x: minimap_X,

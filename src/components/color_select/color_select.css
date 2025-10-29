@@ -39,6 +39,14 @@
     opacity: 1;
 }
 
+.mapdraw_representation{
+    display: flex;
+    gap: 1vw;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
 
 .map_colorSelect_button{
     width: 2vw;
@@ -82,12 +90,14 @@
   height: 2vw;
   border-radius: 50%;
   border-width: 0.2vw;
+  cursor: pointer;
 }
 
 .picker-wrapper .react-colorful__saturation{
     border-radius: 1vw;
     width: 12vw;
     height: 12vw;
+
 }
 
 .picker-wrapper .react-colorful__hue{
