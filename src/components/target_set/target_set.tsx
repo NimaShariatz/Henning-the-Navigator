@@ -9,11 +9,12 @@ interface TargetSetProps {
     onColorChange?: (isBlue: boolean) => void;
     selectedTarget: number;
     points_set: {id: number, x: number, y: number, type: number}[];
+    showPicker: boolean;
 }
 
 
 
-function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set }: TargetSetProps){
+function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker }: TargetSetProps){
 
 
 
@@ -80,7 +81,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
     useEffect(() => {
 
-        if(!has_one_start_point || !has_one_target_point){
+        if(!has_one_start_point || !has_one_target_point || showPicker){
             targetMap.forEach(item => {
                 if(item.ref.current){
                     item.ref.current.classList.add("button_disabled");
@@ -122,7 +123,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
         
 
-    }, [points_set, selectedTarget]);
+    }, [points_set, selectedTarget, showPicker]);
 
 
 

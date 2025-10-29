@@ -37,7 +37,9 @@ function Map() {
     const [targetColor, setTargetColor] = useState(false);
     const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, isBlue: boolean}[]>([]);
     const [selectedTargetType, setSelectedTargetType] = useState(-1)// gets to <minimap> then to target_set. gets set in there
+    const [showPicker, setShowPicker] = useState(false);
     const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 0, g: 0, b: 0, a: 1 });
+
 
 
 
@@ -400,10 +402,13 @@ function Map() {
     };
 
     useEffect(() => {
-        setSelectedNavType(-1);
-        setSelectedTargetType(-1);
-        
-    }, [drawColor]);
+        if(showPicker){
+            setSelectedNavType(-1);
+            setSelectedTargetType(-1);
+        }
+    }, [selectedNavType, selectedTargetType, showPicker]);
+
+    
 
     const get_point_class = (type: number) => {
         switch(type) {
@@ -1083,6 +1088,7 @@ function Map() {
                 selectedTarget={selectedTargetType}
                 on_waypoint_selection_change={handleWaypointSelectionChange}
                 on_target_selection_change={handleTargetSelectionChange}
+                showpicker = {showPicker}
 
                 on_target_color_change={handle_target_color_change}
                 on_clear_points={clear_all_points}
@@ -1091,11 +1097,17 @@ function Map() {
                 targets_set={targets}
                 flightNotes={flightNotes}
                 on_data_import={handle_data_import}
+
+
             />
 
             <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
 
-            <Color_select onColorChange={setDrawColor}/>
+            <Color_select 
+                onColorChange={setDrawColor} 
+                showPicker={showPicker} 
+                setShowPicker={setShowPicker}
+            />
 
             <Map_changer 
                 currentImage={currentImage}

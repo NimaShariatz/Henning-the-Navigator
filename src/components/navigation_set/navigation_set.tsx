@@ -6,11 +6,12 @@ interface NavigationSetProps {
     onWaypointSelectionChange?: (selection: number) => void;// exclusively just for passing which point is selected to minimap.tsx
     points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
     selectedWaypoint: number;
+    showPicker: boolean;
 }
 
 
 
-function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint }: NavigationSetProps){
+function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker }: NavigationSetProps){
     const extraction = useRef<HTMLButtonElement>(null);
     const navigation = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
@@ -75,9 +76,23 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
 
 
         if (navigation.current && start.current && target.current && extraction.current) {
-    
+
+
+            if(showPicker){
+                selectionMap.forEach(item => {// Disable all target buttons when there's no start and target point
+                    
+                    if (item.ref.current) {
+
+                        item.ref.current.classList.add("button_disabled");
+                        item.ref.current.disabled = true;
+                        item.ref.current.style.cursor = "not-allowed"
+                        
+                    }
+
+                });
+            }
             
-            if ( (!has_one_start_point && !has_one_target_point) || (!has_one_start_point && has_one_target_point)) {        
+            else if ( (!has_one_start_point && !has_one_target_point) || (!has_one_start_point && has_one_target_point)) {        
 
 
                 
@@ -99,7 +114,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
 
 
                 
-            }else if(has_one_start_point && !has_one_target_point){
+            }else if(has_one_start_point && !has_one_target_point){//if start but no target, set other 3 to disable
 
 
                 selectionMap.forEach(item => {// Disable all
@@ -150,7 +165,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
 
         }//if
         
-    }, [selectedWaypoint, points_set]);
+    }, [selectedWaypoint, points_set, showPicker]);
 
 
 

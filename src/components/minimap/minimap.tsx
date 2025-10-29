@@ -17,6 +17,8 @@ interface MinimapProps {
     selectedWaypoint?: number;
     selectedTarget?: number;
 
+    showpicker: boolean;
+
     
     on_clear_points?: () => void; //for on_clear_points() in map.tsx. 
 
@@ -54,7 +56,8 @@ function Minimap({
             toggle_info_container, 
             on_data_import,
             selectedWaypoint = -1,
-            selectedTarget = -1
+            selectedTarget = -1,
+            showpicker
         }: MinimapProps) 
     {
 
@@ -138,7 +141,7 @@ function Minimap({
         const minimap_X = relative_X * minimapDimensions.width;
         const minimap_Y = relative_Y * minimapDimensions.height;
         
-        const targetSize = minimapDimensions.width * 0.04; // Slightly smaller than waypoints
+        const targetSize = minimapDimensions.width * 0.06; // Slightly smaller than waypoints
         
         return {
             x: minimap_X,
@@ -471,11 +474,13 @@ function Minimap({
                     onColorChange={on_target_color_change}
                     selectedTarget={selectedTarget}
                     points_set={points_set}
+                    showPicker = {showpicker}
                 />
                 <Navigation_set
                     onWaypointSelectionChange={on_waypoint_selection_change}
                     points_set={points_set}
                     selectedWaypoint={selectedWaypoint}
+                    showPicker = {showpicker}
                 />
                 <Misc_set 
                     on_image_upload={on_image_upload}

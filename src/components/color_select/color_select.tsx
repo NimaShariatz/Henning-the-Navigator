@@ -12,12 +12,12 @@ interface RgbaColor {
 
 interface ColorSelectProps {
     onColorChange?: (color: RgbaColor) => void;
+    showPicker: boolean;
+    setShowPicker: (show: boolean) => void;
 }
 
-
-function Color_select({ onColorChange }: ColorSelectProps) {
+function Color_select({ onColorChange, showPicker, setShowPicker }: ColorSelectProps) {
     const [selectedColor, setSelectedColor] = useState<RgbaColor>({ r: 0, g: 0, b: 0, a: 1 })
-    const [showPicker, setShowPicker] = useState(false)
     
     // Convert RGBA to CSS string for button background
     const rgbaString = `rgba(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b}, ${selectedColor.a})`
