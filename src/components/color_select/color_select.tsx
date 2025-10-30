@@ -12,7 +12,7 @@ interface RgbaColor {
 
 interface ColorSelectProps {
     onColorChange?: (color: RgbaColor) => void;
-    onThicknessChange?: (thickness: number) => void;  // ✅ Changed to function
+    onThicknessChange?: (thickness: number) => void;
     showPicker: boolean;
     setShowPicker: (show: boolean) => void;
 }
