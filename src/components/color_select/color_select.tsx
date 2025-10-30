@@ -48,7 +48,7 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
     };
 
     const handleDecreaseThickness = () => {
-        if(lineThickness > 1){
+        if(lineThickness > 2){
             const decrease_thick = lineThickness - 2;
             handleThicknessChange(decrease_thick);  // Call the handler to update parent
         }
