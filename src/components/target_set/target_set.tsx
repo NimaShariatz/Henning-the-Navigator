@@ -128,7 +128,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
 
     return (
-            <div className="targetSet_container" style={{transform: openChevron ? 'translateX(-30vw)' : 'translateX(0)'}}>
+            <div className="targetSet_container" style={{transform: openChevron ? 'translateX(-28.8vw)' : 'translateX(0)'}}>
                 
                 <div className="target_options_container">
                     <div className="target_top_flexContainer">
