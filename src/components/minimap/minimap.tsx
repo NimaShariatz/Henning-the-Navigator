@@ -29,17 +29,20 @@ interface MinimapProps {
 
     flightNotes?: string
 
-    on_data_import?: (data: {
-        points: {id: number, x: number, y: number, type: number}[], 
-        targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
-        flightNotes?: string
-    }) => void;
+
 
 
 
     on_target_color_change?: (isBlue: boolean) => void;
-}
 
+    on_data_import?: (data: {
+        points: {id: number, x: number, y: number, type: number}[], 
+        targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
+        drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
+        flightNotes?: string
+    }) => void;
+    drawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
+}
 
 
 function Minimap({ 
@@ -57,7 +60,8 @@ function Minimap({
             on_data_import,
             selectedWaypoint = -1,
             selectedTarget = -1,
-            showpicker
+            showpicker,
+            drawings_set
         }: MinimapProps) 
     {
 
@@ -388,7 +392,40 @@ function Minimap({
                                 });
                             })()
                         }
-                    </svg>
+
+
+                    {/* Render drawings on minimap */}
+                    {drawings_set.map(drawing => {
+                        // Scale drawing coordinates to minimap
+                        const main_map_image_element = document.querySelector('canvas.map_background');
+                        const main_map_width = main_map_image_element?.clientWidth || 1;
+                        const main_map_height = main_map_image_element?.clientHeight || 1;
+
+                        const scaledPoints = drawing.points.map(point => {
+                            const relativeX = point.x / main_map_width;
+                            const relativeY = point.y / main_map_height;
+                            return {
+                                x: relativeX * minimapDimensions.width,
+                                y: relativeY * minimapDimensions.height
+                            };
+                        });
+
+                        // Scale thickness proportionally
+                        const scaledThickness = drawing.thickness * (minimapDimensions.width / main_map_width);
+
+                        return (
+                            <polyline
+                                key={drawing.id}
+                                points={scaledPoints.map(p => `${p.x},${p.y}`).join(' ')}
+                                fill="none"
+                                stroke={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
+                                strokeWidth={scaledThickness}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        );
+                    })}
+                </svg>
 
 
 
@@ -488,9 +525,10 @@ function Minimap({
                     toggle_info_container={toggle_info_container}
                     points_set={points_set}
                     targets_set={targets_set}
+                    drawings_set={drawings_set}
                     flightNotes={flightNotes}
                     on_data_import={on_data_import}
-                />                
+                />              
             
             </div>
         </>

@@ -7,14 +7,15 @@ interface MiscSetProps {
     toggle_info_container?: () => void;
     points_set: {id: number, x: number, y: number, type: number}[];
     targets_set: {id: number, x: number, y: number, type: number, isBlue: boolean}[];
+    drawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
     flightNotes?: string;
     on_data_import?: (data: {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
+        drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         flightNotes?: string
     }) => void;
 }
-
 
 function Misc_set({ 
     on_image_upload, 
@@ -22,6 +23,7 @@ function Misc_set({
     toggle_info_container, 
     points_set, 
     targets_set, 
+    drawings_set,
     flightNotes, 
     on_data_import 
     }: MiscSetProps) {
@@ -71,18 +73,21 @@ function Misc_set({
         const data = {
             points: points_set,
             targets: targets_set,
-            flightNotes: flightNotes || ""
+            drawings: drawings_set,
+            flightNotes: flightNotes
         };
         
-        const dataStr = JSON.stringify(data, null, 2);
-        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        const json_string = JSON.stringify(data, null, 2);
+        const blob = new Blob([json_string], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
         
-        const exportFileDefaultName = `flight_plan_${new Date().toISOString().split('T')[0]}.json`;
-        
-        const linkElement = document.createElement('a');
-        linkElement.setAttribute('href', dataUri);
-        linkElement.setAttribute('download', exportFileDefaultName);
-        linkElement.click();
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `flight-plan-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     };
     //download functionality
 
@@ -108,6 +113,7 @@ function Misc_set({
                     const importData = {
                         points: jsonData.points,
                         targets: jsonData.targets || [],
+                        drawings: jsonData.drawings || [],
                         flightNotes: jsonData.flightNotes || ""
                     };
                     

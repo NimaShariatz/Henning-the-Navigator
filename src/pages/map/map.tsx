@@ -37,13 +37,24 @@ function Map() {
     const [targetColor, setTargetColor] = useState(false);
     const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, isBlue: boolean}[]>([]);
     const [selectedTargetType, setSelectedTargetType] = useState(-1)// gets to <minimap> then to target_set. gets set in there
+    
+    //--------------------------
     const [showPicker, setShowPicker] = useState(false);
     const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 0, g: 0, b: 0, a: 1 });
-    const [drawline_thickness, setDrawline_thickness] = useState(1);
+    const [drawline_thickness, setDrawline_thickness] = useState(10);
+    const [isDrawing, setIsDrawing] = useState(false);
+    const [drawings, setDrawings] = useState<{
+        id: string;
+        points: {x: number, y: number}[];
+        color: {r: number, g: number, b: number, a: number};
+        thickness: number;
+    }[]>([]);
+    const [currentDrawing, setCurrentDrawing] = useState<{x: number, y: number}[]>([]);
+    //--------------------------
 
 
 
-    const [mapDistance, setMapDistance] = useState(458)
+    const [mapDistance, setMapDistance] = useState(50)
     const [linePositions, setLinePositions] = useState<{
         id: string;
         currentPoint: { id: number, x: number, y: number, type: number };
@@ -65,6 +76,10 @@ function Map() {
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
 
         //console.log("Nav!", selectedNavType , " Target! ", selectedTargetType)
+
+        if (showPicker) {//just stop here if nav and target are -1 and show is true...
+            return;
+        }
 
 
         if (!containerRef.current || (selectedNavType === -1 && selectedTargetType === -1)) return;
@@ -235,6 +250,50 @@ function Map() {
 
         
     }//handle_map_click
+
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!showPicker || !containerRef.current) return;
+
+        const container = containerRef.current;
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left + container.scrollLeft;
+        const y = e.clientY - rect.top + container.scrollTop;
+
+        setIsDrawing(true);
+        setCurrentDrawing([{x, y}]);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDrawing || !showPicker || !containerRef.current) return;
+
+        const container = containerRef.current;
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left + container.scrollLeft;
+        const y = e.clientY - rect.top + container.scrollTop;
+
+        setCurrentDrawing(prev => [...prev, {x, y}]);
+    };
+
+    const handleMouseUp = () => {
+        if (!isDrawing || currentDrawing.length === 0) return;
+
+        const newDrawing = {
+            id: `drawing-${Date.now()}`,
+            points: currentDrawing,
+            color: {...drawColor},
+            thickness: drawline_thickness
+        };
+
+        setDrawings(prev => [...prev, newDrawing]);
+        setIsDrawing(false);
+        setCurrentDrawing([]);
+    };
+
+    const handleMouseLeave = () => {
+        if (isDrawing) {
+            handleMouseUp();
+        }
+    };
 
     const increment_points_fromID_onwards = (id: number) => {// For shifting IDs 
         const updated_points = points.map(point => {
@@ -434,7 +493,8 @@ function Map() {
 
     const clear_all_points = () => {
         setPoints([]);
-        settargets([])
+        settargets([]);
+        setDrawings([]);
     };
 
     
@@ -767,10 +827,12 @@ function Map() {
     const handle_data_import = (data: {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
+        drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         flightNotes?: string
     }) => {
         setPoints(data.points || []);
         settargets(data.targets || []);
+        setDrawings(data.drawings || []);
         setFlightNotes(data.flightNotes || "");
     };
 
@@ -890,7 +952,16 @@ function Map() {
 
     return (
         <>
-            <div className="map_container" ref={containerRef} onClick={handle_map_click}> 
+           <div 
+                className="map_container" 
+                ref={containerRef} 
+                onClick={handle_map_click}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+                style={{ cursor: showPicker ? 'crosshair' : 'default' }}
+            >             
                 <canvas
                     ref={canvasRef}
                     className="map_background"
@@ -920,6 +991,34 @@ function Map() {
                             stroke={get_line_color(line.nextPoint.type)}
                         />
                     ))}
+
+
+                    {drawings.map(drawing => (
+                        <polyline
+                            key={drawing.id}
+                            points={drawing.points.map(p => `${p.x},${p.y}`).join(' ')}
+                            fill="none"
+                            stroke={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
+                            strokeWidth={drawing.thickness}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    ))}
+
+
+                    {/* Render current drawing */}
+                    {isDrawing && currentDrawing.length > 0 && (
+                        <polyline
+                            points={currentDrawing.map(p => `${p.x},${p.y}`).join(' ')}
+                            fill="none"
+                            stroke={`rgba(${drawColor.r}, ${drawColor.g}, ${drawColor.b}, ${drawColor.a})`}
+                            strokeWidth={drawline_thickness}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    )}
+
+
                 </svg>
                 {/* SVG overlay for lines */}
 
@@ -1093,6 +1192,7 @@ function Map() {
                 toggle_info_container={toggleInfoContainer}
                 points_set={points}
                 targets_set={targets}
+                drawings_set={drawings}
                 flightNotes={flightNotes}
                 on_data_import={handle_data_import}
 
