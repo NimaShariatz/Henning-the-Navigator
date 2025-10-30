@@ -19,7 +19,7 @@ interface ColorSelectProps {
 
 
 function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPicker }: ColorSelectProps) {
-    const [selectedColor, setSelectedColor] = useState<RgbaColor>({ r: 0, g: 0, b: 0, a: 1 })
+    const [selectedColor, setSelectedColor] = useState<RgbaColor>({ r: 255, g: 201, b: 14, a: 1 })
     const [lineThickness, setLineThickness] = useState(10);
     
     // Convert RGBA to CSS string for button background

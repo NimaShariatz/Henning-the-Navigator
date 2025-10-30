@@ -40,7 +40,7 @@ function Map() {
     
     //--------------------------
     const [showPicker, setShowPicker] = useState(false);
-    const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 0, g: 0, b: 0, a: 1 });
+    const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 255, g: 201, b: 14, a: 1 });
     const [drawline_thickness, setDrawline_thickness] = useState(10);
     const [isDrawing, setIsDrawing] = useState(false);
     const [drawings, setDrawings] = useState<{
