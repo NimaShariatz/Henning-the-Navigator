@@ -41,7 +41,6 @@
 
 .mapdraw_representation{
     display: flex;
-    gap: 0.5vw;
     align-items: center;
     justify-content: center;
     font-weight: bold;
@@ -59,10 +58,16 @@
     height: 2vw;
     border-radius: 50%;
     cursor: pointer;
+    margin-inline: 1vw;
     
 }
 
-
+.eraser_button{
+    width: 2vw;
+    height: 2vw;
+    cursor: pointer;
+    margin-right: 2vw;
+}
 
 
 

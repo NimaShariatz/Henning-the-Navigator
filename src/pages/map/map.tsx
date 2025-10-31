@@ -43,6 +43,7 @@ function Map() {
     const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 255, g: 201, b: 14, a: 1 });
     const [drawline_thickness, setDrawline_thickness] = useState(10);
     const [isDrawing, setIsDrawing] = useState(false);
+    const lastPointRef = useRef<{x: number, y: number} | null>(null);//for throttling in setCurrentDrawing
     const [drawings, setDrawings] = useState<{
         id: string;
         points: {x: number, y: number}[];
@@ -263,7 +264,9 @@ function Map() {
         setCurrentDrawing([{x, y}]);
     };
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {//setCurrentDrawing() is throttled here to prevent a useState error.
         if (!isDrawing || !showPicker || !containerRef.current) return;
 
         const container = containerRef.current;
@@ -271,6 +274,18 @@ function Map() {
         const x = e.clientX - rect.left + container.scrollLeft;
         const y = e.clientY - rect.top + container.scrollTop;
 
+        // Only update if the point has moved significantly (throttle)
+        const viewportWidth = window.innerWidth * 0.02;//as a percentage of viewWidth!
+        
+        if (lastPointRef.current) {
+            const dx = x - lastPointRef.current.x;
+            const dy = y - lastPointRef.current.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < viewportWidth) return;
+        }
+        console.log(viewportWidth)
+        lastPointRef.current = {x, y};
         setCurrentDrawing(prev => [...prev, {x, y}]);
     };
 
@@ -465,7 +480,7 @@ function Map() {
             setSelectedNavType(-1);
             setSelectedTargetType(-1);
         }
-    }, [selectedNavType, selectedTargetType, showPicker]);
+    }, [showPicker]);
 
     
 

@@ -71,7 +71,7 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
                         </svg>
                     </button>
 
-                    <p style={{width:"1.5vw", textAlign:"center"}}>{lineThickness}</p>
+                    <p style={{width:"2vw", textAlign:"center"}}>{lineThickness}</p>
 
 
                     <button className="right_increment" onClick={handleIncreaseThickness}>
@@ -92,6 +92,9 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
                     style={{ backgroundColor: rgbaString, outline: showPicker ? '0.2vw solid white' : '0.2vw solid transparent' }}
                 >
                 </button>
+
+
+
 
 
             </div>
