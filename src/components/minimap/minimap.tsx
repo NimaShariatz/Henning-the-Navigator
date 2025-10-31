@@ -18,6 +18,7 @@ interface MinimapProps {
     selectedTarget?: number;
 
     showpicker: boolean;
+    eraseDrawing: boolean;
 
     
     on_clear_points?: () => void; //for on_clear_points() in map.tsx. 
@@ -61,6 +62,7 @@ function Minimap({
             selectedWaypoint = -1,
             selectedTarget = -1,
             showpicker,
+            eraseDrawing,
             drawings_set
         }: MinimapProps) 
     {
@@ -512,12 +514,14 @@ function Minimap({
                     selectedTarget={selectedTarget}
                     points_set={points_set}
                     showPicker = {showpicker}
+                    eraseDrawing = {eraseDrawing}
                 />
                 <Navigation_set
                     onWaypointSelectionChange={on_waypoint_selection_change}
                     points_set={points_set}
                     selectedWaypoint={selectedWaypoint}
                     showPicker = {showpicker}
+                    eraseDrawing = {eraseDrawing}
                 />
                 <Misc_set 
                     on_image_upload={on_image_upload}

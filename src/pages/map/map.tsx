@@ -51,6 +51,7 @@ function Map() {
         thickness: number;
     }[]>([]);
     const [currentDrawing, setCurrentDrawing] = useState<{x: number, y: number}[]>([]);
+    const [eraseDrawing, setEraseDrawing] = useState(false);
     //--------------------------
 
 
@@ -78,7 +79,7 @@ function Map() {
 
         //console.log("Nav!", selectedNavType , " Target! ", selectedTargetType)
 
-        if (showPicker) {//just stop here if nav and target are -1 and show is true...
+        if (showPicker || eraseDrawing) {//just stop here if nav and target are -1 and show is true...
             return;
         }
 
@@ -252,8 +253,43 @@ function Map() {
         
     }//handle_map_click
 
+
+
+
+
+
+    const isPointNearLine = (//for erasing only. calculates if a point (eraser cursor) is close enough to a line segment to "erase" it
+        point: {x: number, y: number},
+        lineStart: {x: number, y: number},
+        lineEnd: {x: number, y: number},
+        threshold: number
+    ): boolean => {
+        const dx = lineEnd.x - lineStart.x;
+        const dy = lineEnd.y - lineStart.y;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        
+        if (length === 0) return false;
+        
+        const t = Math.max(0, Math.min(1, ((point.x - lineStart.x) * dx + (point.y - lineStart.y) * dy) / (length * length)));
+        const projectionX = lineStart.x + t * dx;
+        const projectionY = lineStart.y + t * dy;
+        
+        const distance = Math.sqrt(Math.pow(point.x - projectionX, 2) + Math.pow(point.y - projectionY, 2));
+        return distance <= threshold;
+    };
+
+
+
+
+
+
+
+
+
+
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!showPicker || !containerRef.current) return;
+        // Allow interaction when either showPicker is true OR eraseDrawing is true
+        if ((!showPicker && !eraseDrawing) || !containerRef.current) return;
 
         const container = containerRef.current;
         const rect = container.getBoundingClientRect();
@@ -261,21 +297,63 @@ function Map() {
         const y = e.clientY - rect.top + container.scrollTop;
 
         setIsDrawing(true);
-        setCurrentDrawing([{x, y}]);
+        
+        // Only start a new drawing if not erasing
+        if (!eraseDrawing) {
+            setCurrentDrawing([{x, y}]);
+        }
     };
 
     
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {//setCurrentDrawing() is throttled here to prevent a useState error.
-        if (!isDrawing || !showPicker || !containerRef.current) return;
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Allow interaction when either showPicker is true OR eraseDrawing is true
+        if (!isDrawing || (!showPicker && !eraseDrawing) || !containerRef.current) return;
 
         const container = containerRef.current;
         const rect = container.getBoundingClientRect();
         const x = e.clientX - rect.left + container.scrollLeft;
         const y = e.clientY - rect.top + container.scrollTop;
 
-        // Only update if the point has moved significantly (throttle)
-        const viewportWidth = window.innerWidth * 0.02;//as a percentage of viewWidth!
+        // If erasing, check for intersections with existing drawings
+        if (eraseDrawing) {
+            
+            const viewportWidth = window.innerWidth * 0.01;// Throttle eraser to improve performance
+            
+            if (lastPointRef.current) {
+                const dx = x - lastPointRef.current.x;
+                const dy = y - lastPointRef.current.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Only erase if mouse has moved enough
+                if (distance < viewportWidth) return;
+            }
+            
+            lastPointRef.current = {x, y};
+            
+            const eraserRadius = drawline_thickness;
+            
+            setDrawings(prevDrawings => 
+                prevDrawings.filter(drawing => {
+                    // Check if any segment of this drawing intersects with the eraser point
+                    for (let i = 0; i < drawing.points.length - 1; i++) {
+                        if (isPointNearLine(
+                            {x, y},
+                            drawing.points[i],
+                            drawing.points[i + 1],
+                            eraserRadius
+                        )) {
+                            return false; // Remove this drawing
+                        }
+                    }
+                    return true; // Keep this drawing
+                })
+            );
+            return; // Don't add points when erasing
+        }
+
+        
+        const viewportWidth = window.innerWidth * 0.01;// Only update if the point has moved significantly (throttle for drawing)
         
         if (lastPointRef.current) {
             const dx = x - lastPointRef.current.x;
@@ -284,22 +362,26 @@ function Map() {
             
             if (distance < viewportWidth) return;
         }
-        console.log(viewportWidth)
+        
         lastPointRef.current = {x, y};
         setCurrentDrawing(prev => [...prev, {x, y}]);
     };
 
     const handleMouseUp = () => {
-        if (!isDrawing || currentDrawing.length === 0) return;
+        if (!isDrawing) return;
+        
+        // Only save the drawing if not erasing and there are points
+        if (!eraseDrawing && currentDrawing.length > 0) {
+            const newDrawing = {
+                id: `drawing-${Date.now()}`,
+                points: currentDrawing,
+                color: {...drawColor},
+                thickness: drawline_thickness
+            };
 
-        const newDrawing = {
-            id: `drawing-${Date.now()}`,
-            points: currentDrawing,
-            color: {...drawColor},
-            thickness: drawline_thickness
-        };
-
-        setDrawings(prev => [...prev, newDrawing]);
+            setDrawings(prev => [...prev, newDrawing]);
+        }
+        
         setIsDrawing(false);
         setCurrentDrawing([]);
     };
@@ -476,11 +558,11 @@ function Map() {
     };
 
     useEffect(() => {
-        if(showPicker){
+        if(showPicker || eraseDrawing){
             setSelectedNavType(-1);
             setSelectedTargetType(-1);
         }
-    }, [showPicker]);
+    }, [showPicker, eraseDrawing]);
 
     
 
@@ -975,7 +1057,7 @@ function Map() {
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
-                style={{ cursor: showPicker ? 'crosshair' : 'default' }}
+                style={{ cursor: (showPicker || eraseDrawing) ? 'crosshair' : 'default' }}
             >             
                 <canvas
                     ref={canvasRef}
@@ -1009,15 +1091,27 @@ function Map() {
 
 
                     {drawings.map(drawing => (
-                        <polyline
-                            key={drawing.id}
-                            points={drawing.points.map(p => `${p.x},${p.y}`).join(' ')}
-                            fill="none"
-                            stroke={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
-                            strokeWidth={drawing.thickness}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
+                        drawing.points.length === 1 ? (
+                            // Render single point as circle
+                            <circle
+                                key={drawing.id}
+                                cx={drawing.points[0].x}
+                                cy={drawing.points[0].y}
+                                r={drawing.thickness / 2}
+                                fill={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
+                            />
+                        ) : (
+                            // Render multiple points as polyline
+                            <polyline
+                                key={drawing.id}
+                                points={drawing.points.map(p => `${p.x},${p.y}`).join(' ')}
+                                fill="none"
+                                stroke={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
+                                strokeWidth={drawing.thickness}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        )
                     ))}
 
 
@@ -1201,6 +1295,7 @@ function Map() {
                 on_waypoint_selection_change={handleWaypointSelectionChange}
                 on_target_selection_change={handleTargetSelectionChange}
                 showpicker = {showPicker}
+                eraseDrawing = {eraseDrawing}
 
                 on_target_color_change={handle_target_color_change}
                 on_clear_points={clear_all_points}
@@ -1221,6 +1316,8 @@ function Map() {
                 onThicknessChange={setDrawline_thickness}
                 showPicker={showPicker} 
                 setShowPicker={setShowPicker}
+                eraseDrawing={eraseDrawing}
+                setEraseDrawing={setEraseDrawing}
             />
 
             <Map_changer 

@@ -67,6 +67,8 @@
     height: 2vw;
     cursor: pointer;
     margin-right: 2vw;
+    border-radius: 50%;
+    padding: 0.1vw;
 }
 
 

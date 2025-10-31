@@ -7,11 +7,12 @@ interface NavigationSetProps {
     points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
     selectedWaypoint: number;
     showPicker: boolean;
+    eraseDrawing: boolean;
 }
 
 
 
-function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker }: NavigationSetProps){
+function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker, eraseDrawing }: NavigationSetProps){
     const extraction = useRef<HTMLButtonElement>(null);
     const navigation = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
@@ -78,7 +79,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
         if (navigation.current && start.current && target.current && extraction.current) {
 
 
-            if(showPicker){
+            if(showPicker || eraseDrawing){
                 selectionMap.forEach(item => {// Disable all target buttons when there's no start and target point
                     
                     if (item.ref.current) {
@@ -165,7 +166,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
 
         }//if
         
-    }, [selectedWaypoint, points_set, showPicker]);
+    }, [selectedWaypoint, points_set, showPicker, eraseDrawing]);
 
 
 

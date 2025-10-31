@@ -10,11 +10,12 @@ interface TargetSetProps {
     selectedTarget: number;
     points_set: {id: number, x: number, y: number, type: number}[];
     showPicker: boolean;
+    eraseDrawing: boolean;
 }
 
 
 
-function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker }: TargetSetProps){
+function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker, eraseDrawing }: TargetSetProps){
 
 
 
@@ -81,7 +82,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
     useEffect(() => {
 
-        if(!has_one_start_point || !has_one_target_point || showPicker){
+        if(!has_one_start_point || !has_one_target_point || showPicker || eraseDrawing){
             targetMap.forEach(item => {
                 if(item.ref.current){
                     item.ref.current.classList.add("button_disabled");
@@ -123,7 +124,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
         
 
-    }, [points_set, selectedTarget, showPicker]);
+    }, [points_set, selectedTarget, showPicker, eraseDrawing]);
 
 
 
