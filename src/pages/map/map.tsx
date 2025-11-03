@@ -8,6 +8,7 @@ import Minimap from "../../components/minimap/minimap.tsx";
 import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
 import Map_changer from "../../components/map_changer/map_changer.tsx";
 import Color_select from "../../components/color_select/color_select.tsx";
+import Target_picture from "../../components/target_picture/target_picture.tsx";
 /*
  Info:
  first the image sizes are set up. The width and height of our image is gotten.
@@ -1193,6 +1194,8 @@ function Map() {
             <div className="information_container" style={{ display: showInfoContainer ? 'block' : 'none' }}>
                 <p>Flight Notes</p>
                 <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
+                <p>Target Site</p>
+                <Target_picture/>
 
                 {linePositions.map(line=> (
                     <div key = {line.id}>

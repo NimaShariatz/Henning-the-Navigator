@@ -56,7 +56,7 @@ function Misc_set({
     
     const handle_file_change = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
-        if (files && files.length > 0 && on_image_upload) { // Fixed: was onImageUpload
+        if (files && files.length > 0 && on_image_upload) {
             on_image_upload(files[0]);
         }
     };
