@@ -53,6 +53,18 @@ function Map() {
     }[]>([]);
     const [currentDrawing, setCurrentDrawing] = useState<{x: number, y: number}[]>([]);
     const [eraseDrawing, setEraseDrawing] = useState(false);
+
+
+
+
+    const [Targetdrawings, setTargetdrawings] = useState<{
+        id: string;
+        points: {x: number, y: number}[];
+        color: {r: number, g: number, b: number, a: number};
+    }[]>([]);
+
+
+
     //--------------------------
 
 
@@ -371,8 +383,8 @@ function Map() {
     const handleMouseUp = () => {
         if (!isDrawing) return;
         
-        // Only save the drawing if not erasing and there are points
-        if (!eraseDrawing && currentDrawing.length > 0) {
+        // Only save the drawing if not erasing and there are points(note: make '... > 0' if you want to save single click lines)
+        if (!eraseDrawing && currentDrawing.length > 1) {
             const newDrawing = {
                 id: `drawing-${Date.now()}`,
                 points: currentDrawing,
@@ -926,11 +938,13 @@ function Map() {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
+        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
     }) => {
         setPoints(data.points || []);
         settargets(data.targets || []);
         setDrawings(data.drawings || []);
+        setTargetdrawings(data.Targetdrawings || []);
         setFlightNotes(data.flightNotes || "");
     };
 
@@ -1092,8 +1106,11 @@ function Map() {
 
 
                     {drawings.map(drawing => (
-                        drawing.points.length === 1 ? (
-                            // Render single point as circle
+
+                        /*
+                        drawing.points.length === 1 ? 
+                        (
+                            // Render single point as circle. which is disabled in handleMouseUp
                             <circle
                                 key={drawing.id}
                                 cx={drawing.points[0].x}
@@ -1101,7 +1118,11 @@ function Map() {
                                 r={drawing.thickness / 2}
                                 fill={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
                             />
-                        ) : (
+                        ) : 
+                        */ 
+
+                        
+                        (
                             // Render multiple points as polyline
                             <polyline
                                 key={drawing.id}
@@ -1195,7 +1216,7 @@ function Map() {
                 <p>Flight Notes</p>
                 <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
                 <p>Target Site</p>
-                <Target_picture/>
+                <Target_picture drawing_color={drawColor} eraser={eraseDrawing} Targetdrawings={Targetdrawings}onTargetDrawingsChange={setTargetdrawings}/>
 
                 {linePositions.map(line=> (
                     <div key = {line.id}>
@@ -1306,6 +1327,7 @@ function Map() {
                 points_set={points}
                 targets_set={targets}
                 drawings_set={drawings}
+                Targetdrawings_set={Targetdrawings}
                 flightNotes={flightNotes}
                 on_data_import={handle_data_import}
 

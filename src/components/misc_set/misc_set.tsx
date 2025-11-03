@@ -8,11 +8,13 @@ interface MiscSetProps {
     points_set: {id: number, x: number, y: number, type: number}[];
     targets_set: {id: number, x: number, y: number, type: number, isBlue: boolean}[];
     drawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
+    Targetdrawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[];
     flightNotes?: string;
     on_data_import?: (data: {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
+        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
     }) => void;
 }
@@ -24,6 +26,7 @@ function Misc_set({
     points_set, 
     targets_set, 
     drawings_set,
+    Targetdrawings_set,
     flightNotes, 
     on_data_import 
     }: MiscSetProps) {
@@ -74,6 +77,7 @@ function Misc_set({
             points: points_set,
             targets: targets_set,
             drawings: drawings_set,
+            Targetdrawings: Targetdrawings_set,
             flightNotes: flightNotes
         };
         
@@ -114,6 +118,7 @@ function Misc_set({
                         points: jsonData.points,
                         targets: jsonData.targets || [],
                         drawings: jsonData.drawings || [],
+                        Targetdrawings: jsonData.Targetdrawings || [],
                         flightNotes: jsonData.flightNotes || ""
                     };
                     

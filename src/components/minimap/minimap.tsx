@@ -29,7 +29,7 @@ interface MinimapProps {
     targets_set: {id: number, x: number, y: number, type: number, isBlue: boolean}[]; // Add this
 
     flightNotes?: string
-
+    
 
 
 
@@ -40,8 +40,11 @@ interface MinimapProps {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
+        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
     }) => void;
+
+    Targetdrawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[];
     drawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
 }
 
@@ -63,7 +66,8 @@ function Minimap({
             selectedTarget = -1,
             showpicker,
             eraseDrawing,
-            drawings_set
+            drawings_set,
+            Targetdrawings_set
         }: MinimapProps) 
     {
 
@@ -530,6 +534,7 @@ function Minimap({
                     points_set={points_set}
                     targets_set={targets_set}
                     drawings_set={drawings_set}
+                    Targetdrawings_set={Targetdrawings_set}
                     flightNotes={flightNotes}
                     on_data_import={on_data_import}
                 />              
