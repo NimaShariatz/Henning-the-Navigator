@@ -75,14 +75,10 @@ function Minimap({
 
 
 
-
-
     const imageRef = useRef<HTMLImageElement>(null); //ref is used for .minimap_container
     const [minimapDimensions, setMinimapDimensions] = useState({ width: 0, height: 0 });//for waypoints on minimap
 
-
-
-
+    const [ripples, setRipples] = useState<{id: number, x: number, y: number}[]>([]);
 
 
 
@@ -314,21 +310,36 @@ function Minimap({
 
 
 
-
     const handle_minimap_click = (e: React.MouseEvent<HTMLDivElement>) => {
-       
-        if (!imageRef.current || !on_minimap_click) return;// make sure we have image and on_minimap_click is provided in component arguement
+    
+        if (!imageRef.current || !on_minimap_click) return;
         
         const rect = imageRef.current.getBoundingClientRect();
         
-        const x = (e.clientX - rect.left) / rect.width;// gives a percentages of x location
-        const y = (e.clientY - rect.top) / rect.height;// gives a percentages of y location
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
 
-        //console.log(x, y)// eg 0.5, 0.5 is the middle
 
-        on_minimap_click(x, y); //<Minimap on_minimap_click={handleMinimapClick} />
+
+
+        // Add ripple effect
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+        const rippleId = Date.now();
+        
+        setRipples(prev => [...prev, { id: rippleId, x: clickX, y: clickY }]);
+        
+        
+        setTimeout(() => {
+            setRipples(prev => prev.filter(r => r.id !== rippleId));//removes it after 600ms
+        }, 500); // Match this with CSS animation duration
+
+
+
+
+        on_minimap_click(x, y);
     };
-    
+        
 
 
 
@@ -359,7 +370,16 @@ function Minimap({
                 <div className="navigation_container">
                     <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
                 
-
+                    {ripples.map(ripple => (
+                        <div
+                            key={ripple.id}
+                            className="minimap_ripple"
+                            style={{
+                                left: `${ripple.x}px`,
+                                top: `${ripple.y}px`
+                            }}
+                        />
+                    ))}
 
 
 

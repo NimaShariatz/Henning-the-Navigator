@@ -103,7 +103,29 @@
 
 
 
+.minimap_ripple {
+    position: absolute;
+    width: 0.5vw;
+    height: 0.5vw;
+    border: 0.2vw solid rgba(59, 59, 59, 0.505);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: ripple-effect 0.5s ease-out;
+}
 
+@keyframes ripple-effect {
+    0% {
+        width: 0.5vw;
+        height: 0.5vw;
+        opacity: 1;
+    }
+    100% {
+        width: 2.5vw;
+        height: 2.5vw;
+        opacity: 0;
+    }
+}
 
 
 
