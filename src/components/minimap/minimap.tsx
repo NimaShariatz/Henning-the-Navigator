@@ -332,7 +332,7 @@ function Minimap({
         
         setTimeout(() => {
             setRipples(prev => prev.filter(r => r.id !== rippleId));//removes it after 600ms
-        }, 500); // Match this with CSS animation duration
+        }, 450); // Match this with CSS animation duration. tho a little sooner preferably.
 
 
 
