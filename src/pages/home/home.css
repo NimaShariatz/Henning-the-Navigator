@@ -1,0 +1,126 @@
+.home_container{
+    
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+}
+
+
+
+
+
+.logo_container{
+    padding-left: 5vw;
+    padding-top: 15vw;
+    padding-bottom:15vw;
+    padding-right: 15vw;
+    background-color: var(--logo_yellow);
+    transform: rotate(45deg) translateX(-26vw) translateY(-2vw);
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 3;
+    box-shadow: 0vw 0vw 3vw 0vw rgba(0,0,0,0.61);
+    
+}
+
+.logo{
+    border-radius: 50%;
+    width: 15vw;
+    height: 15vw;
+    transform: rotate(-45deg) translate(11vw,8vw);
+
+}
+
+
+
+.home_start_container{
+    position: absolute;
+    bottom:0;
+    left:0;
+    z-index: 2;
+
+    width: 100vw;
+    height: 100vw;
+    background-color: #ffc90e;
+    transform: rotate(50deg) translate(0vw, 86vw);
+
+    display: flex;
+    justify-content: center;
+
+    transition: opacity 0.4s ease;
+    opacity: 0.7;
+    
+
+}
+
+.home_start_container:hover{
+    opacity: 1;
+}
+
+
+.home_start_container a{
+    background-color: var(--button_background);
+    height: fit-content;
+
+    transform: rotate(-50deg) translateY(18vw) translateX(-5vw);
+    text-decoration: none;
+    color: var(--logo_white);
+    padding-block: 0.5vw;
+    padding-inline: 5.5vw;
+    font-size: 3vw;
+    border-radius: 0.5vw;
+    outline: 0.3vw solid transparent;
+    
+
+    
+}
+
+.home_start_container a:hover{
+    outline-color: var(--logo_white);
+}
+
+
+
+
+
+
+
+
+
+
+
+.home_background_img_1, .home_background_img_2, .home_background_img_3, .home_background_img_4, .home_background_img_5, .home_background_img_6, .home_background_img_7{
+    width: 100%;
+    height: 100%;
+
+    background-image: url(/home_img/heink.jpg);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+
+    /*
+    background-color: #000000;
+    background-blend-mode:luminosity;
+    */
+}
+.home_background_img_2{
+    background-image: url(/home_img/nieup.jpg);
+}
+.home_background_img_3{
+    background-image: url(/home_img/yak.jpg);
+}
+.home_background_img_4{
+    background-image: url(/home_img/ww1.jpg);
+}
+.home_background_img_5{
+    background-image: url(/home_img/a20.jpg);
+}
+.home_background_img_6{
+    background-image: url(/home_img/ta152.jpg);
+}
+.home_background_img_7{
+    background-image: url(/home_img/fw190.jpg);
+}
