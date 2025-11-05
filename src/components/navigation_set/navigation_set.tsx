@@ -181,60 +181,60 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
                 <button className="navigation_button" onClick={() => handleWaypointSelection(4)} ref={extraction}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
-                            <mask id="point">
+                            <mask id="point-extraction">
                                 <g fill="none">
-                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
-                                    <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
-                                    <circle cx="12" cy="10" r="3" fill="#fff" />
+                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="1" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
+                                    <path fill="#fff" fillOpacity="0.25" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
+                                    <circle cx="12" cy="10" r="3" fillOpacity="0.85" fill="#fff" />
                                 </g>
                             </mask>
                         </defs>
-                        <path className="extraction_fill" d="M0 0h24v24H0z" mask="url(#point)" />
+                        <path className="extraction_fill" d="M0 0h24v24H0z" mask="url(#point-extraction)" />
                     </svg>
                 </button>
 
-               <button className="navigation_button"  onClick={() => handleWaypointSelection(3)} ref={navigation}>
+                <button className="navigation_button"  onClick={() => handleWaypointSelection(3)} ref={navigation}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
-                            <mask id="point">
+                            <mask id="point-navigation">
                                 <g fill="none">
-                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
-                                    <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
-                                    <circle cx="12" cy="10" r="3" fill="#fff" />
+                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="1" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
+                                    <path fill="#fff" fillOpacity="0.25" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
+                                    <circle cx="12" cy="10" r="3" fillOpacity="0.85" fill="#fff" />
                                 </g>
                             </mask>
                         </defs>
-                        <path className="navigation_fill" d="M0 0h24v24H0z" mask="url(#point)" />
+                        <path className="navigation_fill" d="M0 0h24v24H0z" mask="url(#point-navigation)" />
                     </svg>
                 </button>
 
-               <button className="navigation_button"  onClick={() => handleWaypointSelection(2)} ref={target}>
+                <button className="navigation_button"  onClick={() => handleWaypointSelection(2)} ref={target}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
-                            <mask id="point">
+                            <mask id="point-target">
                                 <g fill="none">
-                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
-                                    <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
-                                    <circle cx="12" cy="10" r="3" fill="#fff" />
+                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="1" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
+                                    <path fill="#fff" fillOpacity="0.25" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
+                                    <circle cx="12" cy="10" r="3" fillOpacity="0.85" fill="#fff" />
                                 </g>
                             </mask>
                         </defs>
-                        <path className="target_fill" d="M0 0h24v24H0z" mask="url(#point)" />
+                        <path className="target_fill" d="M0 0h24v24H0z" mask="url(#point-target)" />
                     </svg>
                 </button>
 
                 <button className="navigation_button"  onClick={() => handleWaypointSelection(1)} ref={start}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                         <defs>
-                            <mask id="point">
+                            <mask id="point-start">
                                 <g fill="none">
-                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="0.75" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
-                                    <path fill="#fff" fillOpacity="0.35" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
-                                    <circle cx="12" cy="10" r="3" fill="#fff" />
+                                    <path stroke="#ffffff" strokeLinecap="round" strokeOpacity="1" d="M19.361 18c.746.456 1.139.973 1.139 1.5s-.393 1.044-1.139 1.5s-1.819.835-3.111 1.098s-2.758.402-4.25.402s-2.958-.139-4.25-.402S5.385 21.456 4.639 21S3.5 20.027 3.5 19.5s.393-1.044 1.139-1.5" />
+                                    <path fill="#fff" fillOpacity="0.25" d="M19 10c0 5.016-5.119 8.035-6.602 8.804a.86.86 0 0 1-.796 0C10.119 18.034 5 15.016 5 10a7 7 0 0 1 14 0" />
+                                    <circle cx="12" cy="10" r="3" fillOpacity="0.85" fill="#fff" />
                                 </g>
                             </mask>
                         </defs>
-                        <path className="start_fill" d="M0 0h24v24H0z" mask="url(#point)" />
+                        <path className="start_fill" d="M0 0h24v24H0z" mask="url(#point-start)" />
                     </svg>
                 </button>
 

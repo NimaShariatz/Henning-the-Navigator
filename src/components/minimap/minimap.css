@@ -48,6 +48,8 @@
     transform: rotate(45deg);
     overflow: hidden;
     z-index: var(--map_target_z);
+    width: 1vw;
+    height: 1vw;
     
 }
 
@@ -63,6 +65,8 @@
     border-radius: 15%;
     cursor: pointer;
 
+    width: 0.9vw;
+    height: 0.9vw;
     
     display: flex;
     justify-content: center;
@@ -81,8 +85,8 @@
 
 .waypoint_id_minimap{
     position: absolute;
-    font-size: 0.75vw;
-  text-shadow:
+    font-size: 0.6vw;
+    text-shadow:
     0.053vw 0.053vw 0 #1d1d1da9,
     -0.053vw 0.053vw 0 #1d1d1da9,
     -0.053vw -0.053vw 0 #1d1d1da9,
@@ -97,8 +101,8 @@
 }
 
 .minimap_lines {
-  stroke-width: 0.2vw;
-  stroke-opacity: 0.9;
+  stroke-width: 0.15vw;
+  stroke-opacity: 0.8;
 }
 
 
