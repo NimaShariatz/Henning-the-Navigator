@@ -115,7 +115,7 @@ function Map() {
         }        
             
         //for preventing too many next to each other
-        const button_size = window.innerWidth * 0.016; //button is 2vw
+        const button_size = window.innerWidth * 0.016; //button is 1.6vw
 
         const x_cord = x_raw - (button_size / 2);//centres the button based on where user clicked
         const y_cord = y_raw - (button_size / 2);

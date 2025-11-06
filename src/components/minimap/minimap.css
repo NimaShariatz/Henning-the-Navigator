@@ -48,8 +48,8 @@
     transform: rotate(45deg);
     overflow: hidden;
     z-index: var(--map_target_z);
-    width: 1vw;
-    height: 1vw;
+
+    
     
 }
 
@@ -65,8 +65,6 @@
     border-radius: 15%;
     cursor: pointer;
 
-    width: 0.9vw;
-    height: 0.9vw;
     
     display: flex;
     justify-content: center;

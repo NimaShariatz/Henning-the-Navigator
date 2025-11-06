@@ -137,7 +137,7 @@ function Minimap({
         const main_map_width = main_map_image_element?.clientWidth || 1;
         const main_map_height = main_map_image_element?.clientHeight || 1;
         
-        const button_size = window.innerWidth * 0.025; // 2.5vw - target button size
+        const button_size = window.innerWidth * 0.02; // 2vw - target button size
         const adjusted_x = target.x + (button_size / 2);
         const adjusted_y = target.y + (button_size / 2);
 
@@ -147,7 +147,7 @@ function Minimap({
         const minimap_X = relative_X * minimapDimensions.width;
         const minimap_Y = relative_Y * minimapDimensions.height;
         
-        const targetSize = minimapDimensions.width * 0.05; // Slightly bigger than waypoints
+        const targetSize = minimapDimensions.width * 0.05; 
         
         return {
             x: minimap_X,
@@ -520,7 +520,8 @@ function Minimap({
                                 style={{
                                     left: `${pos.x - pos.minimap_target_size/2}px`,
                                     top: `${pos.y - pos.minimap_target_size/2}px`,
-
+                                    width: `${pos.minimap_target_size}px`,
+                                    height: `${pos.minimap_target_size}px`, 
                                 }}
                             >
                                 {get_minimap_target_icon(target.type, target.isBlue)}
