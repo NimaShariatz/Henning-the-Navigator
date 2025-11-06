@@ -21,13 +21,15 @@ function Home(){
 
 
 
-            <div className="home_background_img_1"></div>
-            <div className="home_background_img_2"></div>
-            <div className="home_background_img_3"></div>
-            <div className="home_background_img_4"></div>
-            <div className="home_background_img_5"></div>
-            <div className="home_background_img_6"></div>
-            <div className="home_background_img_7"></div>
+            <div className="home_background_img_1 img1"></div>
+            <div className="home_background_img_2 img2"></div>
+
+            
+            <div className="home_background_img_3 img3"></div>
+            <div className="home_background_img_4 img4"></div>
+            <div className="home_background_img_5 img5"></div>
+            <div className="home_background_img_6 img6"></div>
+            <div className="home_background_img_7 img7"></div>
             
 
 
