@@ -21,7 +21,12 @@ function Home(){
 
 
 
-            <div className="home_background_img_1 img1"></div>
+            <div className="home_background_img_1 img1">
+                <div className="content_container">
+
+                </div>
+
+            </div>
             <div className="home_background_img_2 img2"></div>
 
             
