@@ -244,7 +244,7 @@
 
 .home_content_container{
     width: 60vw;
-    height: 14vh;
+    height: 15vw;
     padding-inline: 0.7vw;
     padding-block: 0.7vw;
     position: absolute;
@@ -268,6 +268,49 @@
 .home_info_sect{
     width: 25%;
     height: 100%;
-    background-color: red;
+    background-color: var(--background_2);
+    border-radius: 0.2vw;
+    padding: 0.5vw;
+}
+.home_info_sect_title{
+    text-decoration: underline;
 }
 
+.home_help_sect{
+    padding: 0.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+    background-color: rgba(255, 0, 0, 0.45);
+}
+
+
+
+
+/**/
+.home_numberSetter{
+    background-color: rgba(38, 38, 38, 0.493);
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    outline: 0.2vw solid var(--logo_white);
+}
+.home_numberSetter p{
+    width: fit-content;
+    padding-inline: 0.5vw;
+    background-color: rgba(7, 7, 7, 0.47);
+}
+
+
+.home_icon{
+    width: 2vw;
+    height: 2vw;
+    background-color: var(--button_background);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: 0.2vw solid var(--logo_white);
+}

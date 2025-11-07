@@ -5,6 +5,8 @@
 
 
     --background_1: rgba(38, 38, 38, 0.76);
+    --background_2: rgba(7, 7, 7, 0.30);
+
     --boxShadow_1: 0 3vw 3vw rgba(0, 0, 0, 0.1);
     --blur_factor: 3px;
     --button_background: rgba(7, 7, 7, 0.87);
