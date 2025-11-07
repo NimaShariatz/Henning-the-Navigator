@@ -282,21 +282,96 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1vw;
-    background-color: rgba(255, 0, 0, 0.45);
+    gap: 1.5vw;
+    /*background-color: rgba(255, 0, 0, 0.45);*/
+    height: 88%;
 }
 
 
 
 
 /**/
+.tooltip_needed{
+    position: relative;
+}
+.tooltip_text{
+    visibility: visible;
+    width: fit-content;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--logo_white);
+    text-align: center;
+    border-radius: 0.3vw;
+    padding-block: 0.2vw;
+    padding-inline: 0.5vw;
+    width: 15vw;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 0.8vw;
+}
+
+.tooltip_text::after{
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -0.5vw;
+    border-width: 0.5vw;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+.tooltip_needed:hover .tooltip_text{
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.home_mapSelect_sect{
+    background-color: rgba(7, 7, 7, 0.47);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    outline: 0.2vw solid transparent;
+    padding-inline: 0.3vw;
+    align-items: center;
+}
+.home_mapSelect_sect:hover{
+    outline-color: var(--logo_white);
+}
+
+
+
 .home_numberSetter{
     background-color: rgba(38, 38, 38, 0.493);
     width: 100%;
     display: flex;
     justify-content: right;
-    outline: 0.2vw solid var(--logo_white);
+    outline: 0.2vw solid transparent;
 }
+.home_numberSetter:hover{
+    outline-color: var(--logo_white);
+}
+
 .home_numberSetter p{
     width: fit-content;
     padding-inline: 0.5vw;
@@ -312,5 +387,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: 0.2vw solid var(--logo_white);
+    outline: 0.2vw solid transparent;
+}
+.home_icon:hover{
+    outline-color: var(--logo_white);
 }
