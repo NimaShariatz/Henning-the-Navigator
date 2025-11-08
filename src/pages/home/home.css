@@ -357,6 +357,9 @@
 .home_mapSelect_sect:hover{
     outline-color: var(--logo_white);
 }
+.home_mapSelect_sect p {
+    user-select: none;
+}
 
 
 
@@ -375,6 +378,7 @@
     width: fit-content;
     padding-inline: 0.5vw;
     background-color: rgba(7, 7, 7, 0.47);
+    user-select: none;
 }
 
 
@@ -440,6 +444,13 @@
     align-items: center;
     justify-content: center;
 }
+.home_mapdraw_thickness_container p{
+    width: 1.8vw;
+    text-align: center;
+    font-weight: bold;
+    user-select: none;
+}
+
 .home_left_increment{
     width: 1.5vw;
     height: 1.5vw;
@@ -480,7 +491,6 @@
 .home_drawEraser{
     width: 2vw;
     height: 2vw;
-    cursor: pointer;
     margin-right: 1.5vw;
     border-radius: 50%;
     padding: 0.1vw;

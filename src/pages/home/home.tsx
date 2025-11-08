@@ -202,7 +202,7 @@ function Home(){
                                     </svg>
                                 </button>
 
-                                <p style={{width:"1.8vw", textAlign:"center", fontWeight: "bold"}}>10</p>
+                                <p>10</p>
 
 
                                 <button className="home_right_increment">
@@ -246,8 +246,6 @@ function Home(){
 
             <div className="home_background_img_1 img1"></div>
             <div className="home_background_img_2 img2"></div>
-
-            
             <div className="home_background_img_3 img3"></div>
             <div className="home_background_img_4 img4"></div>
             <div className="home_background_img_5 img5"></div>
