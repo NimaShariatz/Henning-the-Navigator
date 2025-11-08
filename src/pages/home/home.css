@@ -244,7 +244,7 @@
 
 .home_content_container{
     width: 60vw;
-    height: 15vw;
+    height: 14vw;
     padding-inline: 0.7vw;
     padding-block: 0.7vw;
     position: absolute;
@@ -281,8 +281,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 1.5vw;
+    justify-content: space-evenly;
     /*background-color: rgba(255, 0, 0, 0.45);*/
     height: 88%;
 }
@@ -391,4 +390,110 @@
 }
 .home_icon:hover{
     outline-color: var(--logo_white);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.home_icon_row{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.home_drawing_row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 2vw;
+    padding-block: 0.3vw;
+
+    background-color: rgba(38, 38, 38, 0.493);
+}
+
+
+
+
+
+
+
+
+.home_mapdraw_thickness_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.home_left_increment{
+    width: 1.5vw;
+    height: 1.5vw;
+    transform: rotate(180deg);
+    margin-inline: 0.3vw;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.1vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.home_right_increment{
+    width: 1.6vw;
+    height: 1.6vw;
+    margin-inline: 0.3vw;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.1vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.home_left_increment svg g, .home_right_increment svg g{
+    fill: var(--logo_yellow);
+}
+
+.home_left_increment:hover, .home_right_increment:hover{
+    background-color: var(--onHover_background);
+}
+
+
+.home_drawCircle{
+    width: 1.5vw;
+    height: 1.5vw;
+    background-color: var(--logo_yellow);
+    border-radius: 50%;
+    margin-inline: 1vw;
+}
+
+.home_drawEraser{
+    width: 2vw;
+    height: 2vw;
+    cursor: pointer;
+    margin-right: 1.5vw;
+    border-radius: 50%;
+    padding: 0.1vw;
+}
+
+
+
+
+
+
+@media (max-width: 900px) {/*for mobile view*/
+    .tooltip_text{
+        font-size: 1.5vw;
+    }
 }
