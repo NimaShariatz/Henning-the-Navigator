@@ -1,4 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+//import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+//to fix github 404 issue. when you navigate to /map by url than by home link.
+//problem is when you do it by home link, react router takes care of it and it works
+//but when you do it by copy-paste address, github pages takes care of it and gives a 404.
 
 import "./Global.css"
 import Map from "./pages/map/map.tsx"
@@ -17,7 +21,7 @@ const pageTitles: Record<string, string> = {
 function TitleUpdater() {
   const location = useLocation();
   useEffect(() => {
-    let title = 'UAlberta iGEM';// Set default title
+    let title = 'Henning the Navigator';// Set default title
     if (location.pathname in pageTitles) {// Update title based on current path if it exists in our mapping
       title = pageTitles[location.pathname];
     }
@@ -34,8 +38,8 @@ function App() {
 
   
   return (
-    
-    <Router basename="/Henning-the-Navigator">
+    //<Router basename="/Henning-the-Navigator">
+    <Router>
       <TitleUpdater />
       <Routes>
         <Route path="/" element={<Home />} />

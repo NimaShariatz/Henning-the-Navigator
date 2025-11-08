@@ -422,8 +422,12 @@
     padding-block: 0.3vw;
 
     background-color: rgba(38, 38, 38, 0.493);
-}
+    outline: 0.2vw solid transparent;
 
+}
+.home_drawing_row:hover{
+    outline-color: var(--logo_white);
+}
 
 
 
@@ -441,7 +445,6 @@
     height: 1.5vw;
     transform: rotate(180deg);
     margin-inline: 0.3vw;
-    cursor: pointer;
     border-radius: 50%;
     padding: 0.1vw;
     justify-content: center;
@@ -453,7 +456,6 @@
     width: 1.6vw;
     height: 1.6vw;
     margin-inline: 0.3vw;
-    cursor: pointer;
     border-radius: 50%;
     padding: 0.1vw;
     justify-content: center;
@@ -465,9 +467,6 @@
     fill: var(--logo_yellow);
 }
 
-.home_left_increment:hover, .home_right_increment:hover{
-    background-color: var(--onHover_background);
-}
 
 
 .home_drawCircle{
