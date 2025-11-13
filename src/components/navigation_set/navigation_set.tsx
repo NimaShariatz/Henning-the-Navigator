@@ -42,131 +42,90 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
 
     
     useEffect(() => {
-
+        // Handle button visual selection states
         selectionMap.forEach(item => {
             if (item.ref.current) {
-                if (selectedWaypoint === item.value) { //the button clicked
-                    item.ref.current.classList.add("button_selected")
+                if (selectedWaypoint === item.value) {
+                    item.ref.current.classList.add("button_selected");
                 } else {
-                    item.ref.current.classList.remove("button_selected")
+                    item.ref.current.classList.remove("button_selected");
                 }
             }
         });
 
-
-        const has_one_start_point = points_set.some(point => point.type === 1);//Check if points_set contains at least one start point. true or false
-    
-        const has_one_target_point = points_set.some(point => point.type === 2);//Check for target point. true or false
+        const has_one_start_point = points_set.some(point => point.type === 1);
+        const has_one_target_point = points_set.some(point => point.type === 2);
         
-        if(!has_one_start_point){// if we dont have a start point, set selection to it!
-            handleWaypointSelection(1);
-            if (onWaypointSelectionChange) {
-                onWaypointSelectionChange(1);
-            }
-        }else if(!has_one_target_point){// if we dont have a target point, set selection to it!
-            handleWaypointSelection(2);
-            if (onWaypointSelectionChange) {
-                onWaypointSelectionChange(2);
-            }
-        } else if ((has_one_start_point && selectedWaypoint === 1) || (has_one_start_point && selectedWaypoint === 2)){// if we got both but selection is on either, remove it
-            handleWaypointSelection(-1);
-            if (onWaypointSelectionChange) {
-                onWaypointSelectionChange(-1);
-            }
+        // Auto-select waypoints based on requirements
+        if (!has_one_start_point && selectedWaypoint !== 1) {
+            onWaypointSelectionChange?.(1);
+        } else if (has_one_start_point && !has_one_target_point && selectedWaypoint !== 2) {
+            onWaypointSelectionChange?.(2);
+        } else if (has_one_start_point && has_one_target_point && (selectedWaypoint === 1 || selectedWaypoint === 2)) {
+            onWaypointSelectionChange?.(-1);
         }
 
+        // Handle button disabled states
+        if (!navigation.current || !start.current || !target.current || !extraction.current) return;
 
-        if (navigation.current && start.current && target.current && extraction.current) {
-
-
-            if(showPicker || eraseDrawing){
-                selectionMap.forEach(item => {// Disable all target buttons when there's no start and target point
-                    
-                    if (item.ref.current) {
-
+        if (showPicker || eraseDrawing) {
+            // Disable all buttons when drawing tools are active
+            selectionMap.forEach(item => {
+                if (item.ref.current) {
+                    item.ref.current.classList.add("button_disabled");
+                    item.ref.current.disabled = true;
+                    item.ref.current.style.cursor = "not-allowed";
+                    onWaypointSelectionChange?.(-1);
+                }
+            });
+        } else if (!has_one_start_point) {
+            // Only enable start button
+            selectionMap.forEach(item => {
+                if (item.ref.current) {
+                    if (item.value === 1) {
+                        item.ref.current.classList.remove("button_disabled");
+                        item.ref.current.disabled = false;
+                        item.ref.current.style.cursor = "pointer";
+                    } else {
                         item.ref.current.classList.add("button_disabled");
                         item.ref.current.disabled = true;
-                        item.ref.current.style.cursor = "not-allowed"
-                        
+                        item.ref.current.style.cursor = "not-allowed";
                     }
-
-                });
-            }
-            
-            else if ( (!has_one_start_point && !has_one_target_point) || (!has_one_start_point && has_one_target_point)) {        
-
-
-                
-                selectionMap.forEach(item => {// Disable all target buttons when there's no start and target point
-                    
-                    if (item.ref.current) {
-                        if (item.value !== 1) {
-                            item.ref.current.classList.add("button_disabled");
-                            item.ref.current.disabled = true;
-                            item.ref.current.style.cursor = "not-allowed"
-                        }else{//except for start
-                            item.ref.current.classList.remove("button_disabled");
-                            item.ref.current.disabled = false;
-                            item.ref.current.style.cursor = "pointer"
-                        }
+                }
+            });
+        } else if (!has_one_target_point) {
+            // Only enable target button
+            selectionMap.forEach(item => {
+                if (item.ref.current) {
+                    if (item.value === 2) {
+                        item.ref.current.classList.remove("button_disabled");
+                        item.ref.current.disabled = false;
+                        item.ref.current.style.cursor = "pointer";
+                    } else {
+                        item.ref.current.classList.add("button_disabled");
+                        item.ref.current.disabled = true;
+                        item.ref.current.style.cursor = "not-allowed";
                     }
-
-                });
-
-
-                
-            }else if(has_one_start_point && !has_one_target_point){//if start but no target, set other 3 to disable
-
-
-                selectionMap.forEach(item => {// Disable all
-                    
-                    if (item.ref.current) {
-                        if (item.value !== 2) {
-                            item.ref.current.classList.add("button_disabled");
-                            item.ref.current.style.cursor = "not-allowed"
-                            item.ref.current.disabled = true;
-                        }else{//except for target
-                            item.ref.current.classList.remove("button_disabled");
-                            item.ref.current.disabled = false;
-                            item.ref.current.style.cursor = "pointer"
-                        }
+                }
+            });
+        } else {
+            // Enable navigation and extraction, disable start and target
+            selectionMap.forEach(item => {
+                if (item.ref.current) {
+                    if (item.value === 3 || item.value === 4) {
+                        item.ref.current.classList.remove("button_disabled");
+                        item.ref.current.disabled = false;
+                        item.ref.current.style.cursor = "pointer";
+                    } else {
+                        item.ref.current.classList.add("button_disabled");
+                        item.ref.current.disabled = true;
+                        item.ref.current.style.cursor = "not-allowed";
                     }
-
-                });
-
-  
-
-
-            
-            } else {
-
-                
-                selectionMap.forEach(item => {// Disable all
-                    
-                    if (item.ref.current) {
-                        if ((item.value !== 1) && (item.value !== 2)) {
-                            item.ref.current.classList.remove("button_disabled");
-                            item.ref.current.disabled = false;
-                            item.ref.current.style.cursor = "pointer"
-                        }else{//except for target and start
-                            item.ref.current.classList.add("button_disabled");
-                            item.ref.current.disabled = true;
-                            item.ref.current.style.cursor = "not-allowed"
-                        }
-                    }
-
-                });
-
-                
-            }
-
-
-
-
-
-        }//if
-        
+                }
+            });
+        }
     }, [selectedWaypoint, points_set, showPicker, eraseDrawing]);
+
 
 
 

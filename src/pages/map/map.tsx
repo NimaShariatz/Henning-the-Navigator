@@ -36,7 +36,7 @@ function Map() {
     const [points, setPoints] = useState<{id: number, x: number, y: number, type: number}[]>([]);
     const [selectedNavType, setSelectedNavType] = useState(-1);
     const [targetColor, setTargetColor] = useState(false);
-    const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, isBlue: boolean}[]>([]);
+    const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[]>([]);
     const [selectedTargetType, setSelectedTargetType] = useState(-1)// gets to <minimap> then to target_set. gets set in there
     
     //--------------------------
@@ -54,9 +54,6 @@ function Map() {
     const [currentDrawing, setCurrentDrawing] = useState<{x: number, y: number}[]>([]);
     const [eraseDrawing, setEraseDrawing] = useState(false);
 
-
-
-
     const [Targetdrawings, setTargetdrawings] = useState<{
         id: string;
         points: {x: number, y: number}[];
@@ -64,7 +61,16 @@ function Map() {
     }[]>([]);
 
 
-
+    const [textMode_active, setTextMode_active] = useState(false);
+    /*
+    const [textCreations, setTextCreation] = useState<{
+        id: number,
+        x: number,
+        y: number,
+        text: string,
+        fontSize: number;
+    }[]>([]);
+    */
     //--------------------------
 
 
@@ -133,6 +139,7 @@ function Map() {
                 x: x_cord,
                 y: y_cord,
                 type: selectedTargetType,
+                targetName: '',
                 isBlue: targetColor // Store the current color state when target is created
             };
 
@@ -934,7 +941,7 @@ function Map() {
 
     const handle_data_import = (data: {
         points: {id: number, x: number, y: number, type: number}[], 
-        targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
+        targets: {id: number, x: number, y: number, type: number, targetName: string; isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
@@ -955,6 +962,13 @@ function Map() {
         setFlightNotes(newValue)
         //console.log(newValue)
     }
+    const handle_target_name_change = (targetId: number, newName: string) => {
+        settargets(targets.map(target => 
+            target.id === targetId 
+                ? { ...target, targetName: newName }
+                : target
+        ));
+    };
     const handleInput_Speed_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value
         setSpeedCalcInput(newValue)
@@ -1155,7 +1169,7 @@ function Map() {
 
 
                 {points.map(button => (
-                    <div key={button.id} className="map_icon_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
+                    <div key={button.id} className="map_waypoint_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
                         <button className="map_waypoint_button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                                 <defs>
@@ -1188,19 +1202,31 @@ function Map() {
 
 
                 {targets.map(target => (
-                    <div key={`target-${target.id}`} className="map_icon_div" style={{left: `${target.x}px`, top: `${target.y}px`}}>
-                        <button className="map_target_button">
-                            {get_target_svg(target.type, target.isBlue)}
-                        </button>
-                        <button 
-                            className="remove_button" 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handle_remove_target(target.id);
-                            }}
-                        >
-                            ×
-                        </button>
+                    <div key={`target-${target.id}`} className="map_target_div" style={{left: `${target.x}px`, top: `${target.y}px`}}>
+                        <div>
+                            <button className="map_target_button">
+                                {get_target_svg(target.type, target.isBlue)}
+                            </button>
+                            <button 
+                                className="remove_button" 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handle_remove_target(target.id);
+                                }}
+                            >
+                                ×
+                            </button>
+                            <input type="text" className="target_textfield"  placeholder="" value={target.targetName} style={{opacity: (target.targetName=='') ? "0.3" : "1"}}
+                                onChange={(e) => {
+                                    e.stopPropagation();
+                                    handle_target_name_change(target.id, e.target.value);
+                                }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                }}>
+
+                            </input>
+                        </div>
                     </div>
                 ))}{/* targets */}
 
@@ -1214,7 +1240,7 @@ function Map() {
                 <p>Flight Notes</p>
                 <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
                 <p>Target Site</p>
-                <Target_picture drawing_color={drawColor} eraser={eraseDrawing} Targetdrawings={Targetdrawings}onTargetDrawingsChange={setTargetdrawings}/>
+                <Target_picture drawing_color={drawColor} eraser={eraseDrawing} Targetdrawings={Targetdrawings} onTargetDrawingsChange={setTargetdrawings}/>
 
                 {linePositions.map(line=> (
                     <div key = {line.id}>
@@ -1341,6 +1367,10 @@ function Map() {
                 setShowPicker={setShowPicker}
                 eraseDrawing={eraseDrawing}
                 setEraseDrawing={setEraseDrawing}
+
+                textMode_active={textMode_active}
+                setTextMode_active={setTextMode_active}
+
             />
 
             <Map_changer 

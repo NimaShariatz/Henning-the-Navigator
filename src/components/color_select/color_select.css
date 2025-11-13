@@ -1,7 +1,15 @@
-.mapDraw_container{
+.mapDraw_positioning{
     position: absolute;
-    right: 2vw;
-    bottom: 2vw;
+    right: 1.5%;
+    bottom: 3%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 1vw;
+
+}
+
+.mapDraw_container{
 
 
     opacity: 0.9;
@@ -15,7 +23,7 @@
     background: var(--background_1);
     
 
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--boxShadow_1);
     backdrop-filter: blur(var(--blur_factor));
     -webkit-backdrop-filter: blur(var(--blur_factor));
     transition: opacity 0.3s ease, transform 0.8s ease;
@@ -25,8 +33,8 @@
     justify-content: center;
     flex-direction: column;
 
-    padding-inline: 1.2vw;
-    padding-block: 0.6vw;
+    padding-inline: 1vw;
+    padding-block: 0.5vw;
 
     gap: 0.5vw;
 
@@ -42,34 +50,30 @@
 .mapdraw_representation{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     font-weight: bold;
+    width: 100%;
 }
 
 .mapdraw_thickness_container{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 0.5vw;
+}
+.increment_color_customization{
+    margin-inline: 0.2vw;
 }
 
-
 .map_colorSelect_button{
-    width: 2vw;
-    height: 2vw;
+    width: 1.8vw;
+    height: 1.8vw;
     border-radius: 50%;
     cursor: pointer;
-    margin-inline: 1vw;
     
 }
 
-.eraser_button{
-    width: 2vw;
-    height: 2vw;
-    cursor: pointer;
-    margin-right: 2vw;
-    border-radius: 50%;
-    padding: 0.1vw;
-}
+
 
 
 
@@ -131,7 +135,7 @@
     margin-block: 0.7vw;
     font-weight: bold;
     width: 100%;
-    padding-block: 0.3vw;
+    padding-block: 0.1vw;
     border-radius: 0.4vw;
     cursor: pointer;
     opacity: 0.8;
@@ -140,4 +144,50 @@
 .map_colorSelect_done:hover{
     outline: 0.2vw solid var(--logo_white);
     opacity: 1;
+}
+
+
+
+
+
+
+.mapDraw2_container{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 1vw;
+
+    border-radius: 2vw;
+
+    background: var(--background_1);
+    
+    
+
+    box-shadow: var(--boxShadow_1);
+    backdrop-filter: blur(var(--blur_factor));
+    -webkit-backdrop-filter: blur(var(--blur_factor));
+    transition: opacity 0.3s ease, transform 0.8s ease;
+    padding-inline: 1.2vw;
+    padding-block: 0.5vw;
+    width: fit-content;
+    height: fit-content;
+
+    opacity: 0.9;
+}
+.mapDraw2_container:hover{
+    opacity: 1;
+}
+
+
+
+
+.eraser_button, .createText_button{
+    width: 2vw;
+    height: 2vw;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.1vw;
+}
+.createText_button{
+    padding: 0.3vw;
 }

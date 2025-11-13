@@ -18,7 +18,7 @@
 
     backdrop-filter: blur(var(--blur_factor));
     -webkit-backdrop-filter: blur(var(--blur_factor));
-    transition: opacity 0.3s ease, transform 0.8s ease;
+    transition: opacity 0.3s ease;
 
     z-index: var(--target_set_container_z);
 
@@ -119,7 +119,6 @@
 .chevron_svg{
     max-width: 85%;
     max-height: 85%;
-    transition: transform 0.75s ease;
 
 }
 

@@ -26,7 +26,7 @@ interface MinimapProps {
     toggle_info_container?: () => void;
 
     points_set: {id: number, x: number, y: number, type: number}[];//passed from map.tsx
-    targets_set: {id: number, x: number, y: number, type: number, isBlue: boolean}[]; // Add this
+    targets_set: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[]; // Add this
 
     flightNotes?: string
     
@@ -38,7 +38,7 @@ interface MinimapProps {
 
     on_data_import?: (data: {
         points: {id: number, x: number, y: number, type: number}[], 
-        targets: {id: number, x: number, y: number, type: number, isBlue: boolean}[],
+        targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
