@@ -62,15 +62,14 @@ function Map() {
 
 
     const [textMode_active, setTextMode_active] = useState(false);
-    /*
     const [textCreations, setTextCreation] = useState<{
         id: number,
         x: number,
         y: number,
         text: string,
-        fontSize: number;
     }[]>([]);
-    */
+    const [hoveredTextId, setHoveredTextId] = useState<number | null>(null);
+
     //--------------------------
 
 
@@ -98,12 +97,12 @@ function Map() {
 
         //console.log("Nav!", selectedNavType , " Target! ", selectedTargetType)
 
-        if (showPicker || eraseDrawing) {//just stop here if nav and target are -1 and show is true...
+        if (showPicker || eraseDrawing) {
             return;
         }
 
 
-        if (!containerRef.current || (selectedNavType === -1 && selectedTargetType === -1)) return;
+        if (!containerRef.current || (selectedNavType === -1 && selectedTargetType === -1 && textMode_active === false)) return;
 
         
         const container = containerRef.current;
@@ -129,6 +128,21 @@ function Map() {
         const collision_radius = button_size * 1.1 // multiplier radius! for the 'for' statement
 
 
+
+
+        
+        //Handle comment creation
+        if(textMode_active && selectedNavType === -1 && selectedTargetType === -1){
+            const new_text = {
+                id: textCreations.length > 0 ? Math.max(...textCreations.map(t => t.id)) + 1 : 1,
+                x: x_cord,
+                y: y_cord,
+                text: ''
+            }
+            
+            setTextCreation([...textCreations, new_text]);
+            return;
+        }
 
 
 
@@ -450,6 +464,10 @@ function Map() {
         settargets(targets.filter(target => target.id !== id));
     };
 
+    const handle_remove_text = (id: number) => {
+        setTextCreation(textCreations.filter(text => text.id !== id));
+    }
+
     const get_target_svg = (type: number, isBlue: boolean) => {
         const fillColor = isBlue ? 'var(--blue_target)' : 'var(--red_target)';
         
@@ -578,11 +596,11 @@ function Map() {
     };
 
     useEffect(() => {
-        if(showPicker || eraseDrawing){
+        if(showPicker || eraseDrawing || textMode_active){
             setSelectedNavType(-1);
             setSelectedTargetType(-1);
         }
-    }, [showPicker, eraseDrawing]);
+    }, [showPicker, eraseDrawing, textMode_active]);
 
     
 
@@ -612,6 +630,7 @@ function Map() {
         setPoints([]);
         settargets([]);
         setDrawings([]);
+        setTextCreation([]);
     };
 
     
@@ -945,12 +964,14 @@ function Map() {
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
+        textCreations?: {id: number, x: number, y: number, text: string}[];
     }) => {
         setPoints(data.points || []);
         settargets(data.targets || []);
         setDrawings(data.drawings || []);
         setTargetdrawings(data.Targetdrawings || []);
         setFlightNotes(data.flightNotes || "");
+        setTextCreation(data.textCreations || []);
     };
 
 
@@ -967,6 +988,13 @@ function Map() {
             target.id === targetId 
                 ? { ...target, targetName: newName }
                 : target
+        ));
+    };
+    const handle_text_textField_change = (textID: number, newText: string) => {
+        setTextCreation(textCreations.map(text => 
+            text.id === textID 
+                ? { ...text, text: newText }
+                : text
         ));
     };
     const handleInput_Speed_Change = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1084,7 +1112,7 @@ function Map() {
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
-                style={{ cursor: (showPicker || eraseDrawing) ? 'crosshair' : 'default' }}
+                style={{ cursor: (showPicker || eraseDrawing || textMode_active) ? 'crosshair' : 'default' }}
             >             
                 <canvas
                     ref={canvasRef}
@@ -1218,7 +1246,7 @@ function Map() {
                             </button>
                             <input type="text" className="target_textfield"  placeholder="" value={target.targetName} style={{opacity: (target.targetName=='') ? "0.3" : "1"}}
                                 onChange={(e) => {
-                                    e.stopPropagation();
+                                    
                                     handle_target_name_change(target.id, e.target.value);
                                 }}
                                 onClick={(e) => {
@@ -1230,6 +1258,61 @@ function Map() {
                     </div>
                 ))}{/* targets */}
 
+
+
+
+                {textCreations.map(text => (
+                    <div key={`text-${text.id}`} className="map_text_div" style={{left: `${text.x}px`, top: `${text.y}px`, zIndex: (hoveredTextId === text.id) ? 'var(--map_text_onhover)' : 'var(--map_text_z)'}}>
+                        <div>
+
+                            {hoveredTextId !== text.id && (
+                                <>
+                                    <button className="map_text_button" onMouseEnter={() => setHoveredTextId(text.id)} onMouseLeave={() => setHoveredTextId(null)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width={"100%"} height={"100%"} viewBox="0 0 24 24">
+                                            <g fill="var(--background_1)">
+                                                <path fill="var(--logo_yellow)" fillOpacity="0.16" d="M19 16h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65a1 1 0 0 1-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3" />
+                                                <path stroke="var(--logo_yellow)" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.5" d="M8 8h8m-8 3h8m3 5h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65a1 1 0 0 1-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3" />
+                                            </g>
+                                        </svg>
+                                    </button>
+
+                                    <button 
+                                        className="remove_button" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handle_remove_text(text.id);
+                                        }}
+                                    >
+                                        ×
+                                    </button>
+                                </>
+                            )}{/* so if not hovered on, show the button. else dont. */}
+
+
+
+
+                            {hoveredTextId === text.id && (
+
+
+                                    <textarea className="map_text_inputField" value={text.text} placeholder="comment..."
+                                    onClick={(e) => {e.stopPropagation();}}
+                                    onMouseEnter={() => setHoveredTextId(text.id)}//set it to the id we hoverin
+                                    onMouseLeave={() => setHoveredTextId(null)} 
+                                        onChange={(e) => {
+                                            handle_text_textField_change(text.id, e.target.value);
+                                        }}
+                                    ></textarea>
+           
+                                
+                            )}{/* if it matches id were hoverin, show it */}
+
+
+                        </div>
+
+                    </div>
+
+                ))}{/* texts */}
 
 
             </div>
@@ -1344,6 +1427,7 @@ function Map() {
                 on_target_selection_change={handleTargetSelectionChange}
                 showpicker = {showPicker}
                 eraseDrawing = {eraseDrawing}
+                textMode_active = {textMode_active}
 
                 on_target_color_change={handle_target_color_change}
                 on_clear_points={clear_all_points}
@@ -1353,6 +1437,7 @@ function Map() {
                 drawings_set={drawings}
                 Targetdrawings_set={Targetdrawings}
                 flightNotes={flightNotes}
+                textCreations={textCreations}
                 on_data_import={handle_data_import}
 
 

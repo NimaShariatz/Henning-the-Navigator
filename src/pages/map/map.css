@@ -78,6 +78,29 @@
 .map_target_button:hover{
     opacity: 0.2;
 }
+.waypoint_id{
+    position: absolute;
+    text-shadow:
+    0.09vw 0.09vw 0 #1d1d1da9,
+    -0.09vw 0.09vw 0 #1d1d1da9,
+    -0.09vw -0.09vw 0 #1d1d1da9,
+    0.09vw -0.09vw 0 #1d1d1da9;
+}
+
+
+
+.waypoint_lines_overlay {
+    pointer-events: none;
+    overflow: visible;
+
+}
+
+.waypoint_lines{
+    stroke-width: 0.3vw;
+    stroke-opacity: 0.7;
+    stroke-dasharray: none;
+}
+
 
 
 
@@ -116,11 +139,11 @@
     position: relative;
 }
 .target_textfield{
-    width: 150%;
+    width: 160%;
     position: absolute;
     top: 120%;
-    left: -42%;
-    font-size: 0.6vw;
+    left: -45%;
+    font-size: 0.7vw;
     height: 1vw;
     padding-block: 0.1vw;
     padding-inline: 0.2vw;
@@ -130,35 +153,59 @@
     color: var(--logo_white);
     background-color: var(--background_2);
     text-overflow: ellipsis;
+    text-align: center;
 }
 .target_textfield:focus{
     outline: 0.2vw solid var(--logo_yellow);
 }
 
 
-
-.waypoint_id{
+.map_text_div{
     position: absolute;
-    text-shadow:
-    0.09vw 0.09vw 0 #1d1d1da9,
-    -0.09vw 0.09vw 0 #1d1d1da9,
-    -0.09vw -0.09vw 0 #1d1d1da9,
-    0.09vw -0.09vw 0 #1d1d1da9;
+    z-index: var(--map_text_z);
+    
+}
+.map_text_div div{
+    display: flex;
+    position: relative;
+}
+
+.map_text_button{
+    width: 2vw;
+    height: 2vw;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 
+.map_text_inputField{
+    background-color: var(--background_2);
+    color: var(--logo_white);
+    width: 18vw;
+    height: 8vw;
+    resize:none;
+    padding: 0.3vw;
+    outline: 0.3vw solid var(--logo_yellow);
+    border-radius: 0.3vw;
+    font-size: 1vw;
 
-.waypoint_lines_overlay {
-    pointer-events: none;
-    overflow: visible;
-
+    transform: translateX(-40%) translateY(-10%);
+    border: none;
+    scrollbar-color: var(--logo_white) transparent;
+    scrollbar-width: thin;
+    
+}
+.map_text_inputField:focus{
+    outline: 0.3vw solid var(--logo_yellow);
+    background-color: var(--background_1);
 }
 
-.waypoint_lines{
-    stroke-width: 0.3vw;
-    stroke-opacity: 0.7;
-    stroke-dasharray: none;
-}
+
 
 
 

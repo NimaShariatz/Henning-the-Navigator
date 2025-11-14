@@ -10,12 +10,14 @@ interface MiscSetProps {
     drawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
     Targetdrawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[];
     flightNotes?: string;
+    textCreations?: {id: number, x: number, y: number, text: string}[];
     on_data_import?: (data: {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
         flightNotes?: string
+        textCreations?: {id: number, x: number, y: number, text: string}[];
     }) => void;
 }
 
@@ -27,7 +29,8 @@ function Misc_set({
     targets_set, 
     drawings_set,
     Targetdrawings_set,
-    flightNotes, 
+    flightNotes,
+    textCreations,
     on_data_import 
     }: MiscSetProps) {
 
@@ -78,7 +81,8 @@ function Misc_set({
             targets: targets_set,
             drawings: drawings_set,
             Targetdrawings: Targetdrawings_set,
-            flightNotes: flightNotes
+            flightNotes: flightNotes,
+            textCreations: textCreations
         };
         
         const json_string = JSON.stringify(data, null, 2);
@@ -119,7 +123,8 @@ function Misc_set({
                         targets: jsonData.targets || [],
                         drawings: jsonData.drawings || [],
                         Targetdrawings: jsonData.Targetdrawings || [],
-                        flightNotes: jsonData.flightNotes || ""
+                        flightNotes: jsonData.flightNotes || "",
+                        textCreations: jsonData.textCreations || []
                     };
                     
                     if (on_data_import) {

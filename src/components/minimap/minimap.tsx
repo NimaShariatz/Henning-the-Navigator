@@ -19,6 +19,8 @@ interface MinimapProps {
 
     showpicker: boolean;
     eraseDrawing: boolean;
+    textMode_active: boolean;
+    textCreations: {id: number, x: number, y: number, text: string}[];
 
     
     on_clear_points?: () => void; //for on_clear_points() in map.tsx. 
@@ -41,7 +43,8 @@ interface MinimapProps {
         targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
-        flightNotes?: string
+        flightNotes?: string,
+        textCreations?: {id: number, x: number, y: number, text: string}[];
     }) => void;
 
     Targetdrawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[];
@@ -59,13 +62,15 @@ function Minimap({
             on_clear_points, 
             points_set, 
             targets_set, 
-            flightNotes, 
+            flightNotes,
+            textCreations,
             toggle_info_container, 
             on_data_import,
             selectedWaypoint = -1,
             selectedTarget = -1,
             showpicker,
             eraseDrawing,
+            textMode_active,
             drawings_set,
             Targetdrawings_set
         }: MinimapProps) 
@@ -539,6 +544,7 @@ function Minimap({
                     points_set={points_set}
                     showPicker = {showpicker}
                     eraseDrawing = {eraseDrawing}
+                    textMode_active = {textMode_active}
                 />
                 <Navigation_set
                     onWaypointSelectionChange={on_waypoint_selection_change}
@@ -546,6 +552,7 @@ function Minimap({
                     selectedWaypoint={selectedWaypoint}
                     showPicker = {showpicker}
                     eraseDrawing = {eraseDrawing}
+                    textMode_active = {textMode_active}
                 />
                 <Misc_set 
                     on_image_upload={on_image_upload}
@@ -557,6 +564,7 @@ function Minimap({
                     Targetdrawings_set={Targetdrawings_set}
                     flightNotes={flightNotes}
                     on_data_import={on_data_import}
+                    textCreations={textCreations}
                 />              
             
             </div>

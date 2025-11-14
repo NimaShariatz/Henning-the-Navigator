@@ -30,14 +30,19 @@
 
 
 
-    --information_container_z : 4;
-    --minimap_container_z: 4;
-    --distance_calc_container_z: 4;
-    --target_set_container_z: 4;
-    --colorSelect_container_z: 5;
+    --information_container_z : 7;
+    --minimap_container_z: 6;
+    --distance_calc_container_z: 7;
+    --map_selection_container_z: 6;
+    --target_set_container_z: 7;
 
-    --map_waypoint_z: 2;
-    --map_target_z: 3;
+    --colorSelect_container_z: 8;
+
+    --map_text_z: 2;
+    --map_text_onhover: 5;
+
+    --map_waypoint_z: 3;
+    --map_target_z: 4;
 
 
 

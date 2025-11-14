@@ -11,11 +11,12 @@ interface TargetSetProps {
     points_set: {id: number, x: number, y: number, type: number}[];
     showPicker: boolean;
     eraseDrawing: boolean;
+    textMode_active: boolean;
 }
 
 
 
-function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker, eraseDrawing }: TargetSetProps){
+function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker, eraseDrawing, textMode_active }: TargetSetProps){
 
 
 
@@ -26,7 +27,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
         }
     };
 
-    const [openChevron, setopenChevron] = useState(false)
+    const [openChevron, setopenChevron] = useState(true)
     const handle_openChevron = () =>{
         setopenChevron(!openChevron)
     }
@@ -82,7 +83,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
     useEffect(() => {
 
-        if(!has_one_start_point || !has_one_target_point || showPicker || eraseDrawing){
+        if(!has_one_start_point || !has_one_target_point || showPicker || eraseDrawing || textMode_active){
             targetMap.forEach(item => {
                 if(item.ref.current){
                     item.ref.current.classList.add("button_disabled");
@@ -124,7 +125,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
         
 
-    }, [points_set, selectedTarget, showPicker, eraseDrawing]);
+    }, [points_set, selectedTarget, showPicker, eraseDrawing, textMode_active]);
 
 
 

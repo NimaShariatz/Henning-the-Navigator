@@ -8,11 +8,12 @@ interface NavigationSetProps {
     selectedWaypoint: number;
     showPicker: boolean;
     eraseDrawing: boolean;
+    textMode_active: boolean;
 }
 
 
 
-function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker, eraseDrawing }: NavigationSetProps){
+function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker, eraseDrawing, textMode_active }: NavigationSetProps){
     const extraction = useRef<HTMLButtonElement>(null);
     const navigation = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
@@ -68,7 +69,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
         // Handle button disabled states
         if (!navigation.current || !start.current || !target.current || !extraction.current) return;
 
-        if (showPicker || eraseDrawing) {
+        if (showPicker || eraseDrawing || textMode_active) {
             // Disable all buttons when drawing tools are active
             selectionMap.forEach(item => {
                 if (item.ref.current) {
@@ -124,7 +125,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
                 }
             });
         }
-    }, [selectedWaypoint, points_set, showPicker, eraseDrawing]);
+    }, [selectedWaypoint, points_set, showPicker, eraseDrawing, textMode_active]);
 
 
 

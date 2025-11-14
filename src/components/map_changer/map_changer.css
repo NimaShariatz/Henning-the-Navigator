@@ -12,6 +12,8 @@
     display: flex;
     flex-direction: column;
 
+    z-index: var(--map_selection_container_z);
+
 
 }
 
