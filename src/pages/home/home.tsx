@@ -216,6 +216,19 @@ function Home(){
 
 
                                 <div className="home_drawCircle"></div>
+                            </div>
+
+                            <span className="tooltip_text">When the color selector circle is selected, drawing mode is enabled. You may change the thickness, opacity, and color of your drawings in addition to erasing them. Changing thickness only applies to drawings on the map, not the target picture.</span>
+
+                        </div>
+
+
+
+
+
+                        <div className="home_drawing_row tooltip_needed">
+
+                            <div className="home_erase_and_text_container">
 
                                 <button className="home_drawEraser">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -225,16 +238,37 @@ function Home(){
                                     </svg>
                                 </button>
 
+                                <button className="home_comment">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width={"80%"} height={"80%"} viewBox="0 0 24 24">
+                                        <g fill="var(--background_1)">
+                                            <path fill="var(--logo_yellow)" fillOpacity="0.16" d="M19 16h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65a1 1 0 0 1-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3" />
+                                            <path stroke="var(--logo_yellow)" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.5" d="M8 8h8m-8 3h8m3 5h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65a1 1 0 0 1-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3" />
+                                        </g>
+                                    </svg>
+                                </button>
+
+
+
 
                                 
                             </div>
 
-                            <span className="tooltip_text">When the color selector circle is selected, drawing mode is enabled. You may change the thickness, opacity, and color of your drawings in addition to erasing them. Changing thickness only applies to drawings on the map, not the target picture.</span>
+                            <span className="tooltip_text">The eraser applies to drawings on the map and on the target picture inside the information panel. You may add comments to the map as well which appear on cursor hover.</span>
 
                         </div>
 
 
+
+
+
+
+
+
+
+
                     </div>
+
+                    
                 </div>
                 
 
