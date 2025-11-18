@@ -45,7 +45,7 @@
     opacity: 0.7;
     transition: opacity 0.2s ease;
 
-    box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.75);
+    box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.55);
 
     
 }
@@ -65,19 +65,26 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: var(--button_background);
     border-radius: 0.4vw;
     transform: rotate(45deg);
     z-index: var(--map_target_z);
-    transition: opacity 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 .map_target_svg{
     transform: rotate(-45deg);
 }
-
-.map_target_button:hover{
-    opacity: 0.2;
+.target_map_blue_colorSetter{
+    background-color: var(--blue_target_background);
 }
+.target_map_red_colorSetter{
+    background-color: var(--red_target_background);
+}
+.target_map_blue_colorSetter:hover, .target_map_red_colorSetter:hover{
+    background-color: var(--button_background);
+}
+
+
+
 .waypoint_id{
     position: absolute;
     text-shadow:

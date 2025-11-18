@@ -1232,7 +1232,7 @@ function Map() {
                 {targets.map(target => (
                     <div key={`target-${target.id}`} className="map_target_div" style={{left: `${target.x}px`, top: `${target.y}px`}}>
                         <div>
-                            <button className="map_target_button">
+                            <button className={`map_target_button ${target.isBlue ? 'target_map_blue_colorSetter' : 'target_map_red_colorSetter'}`}>
                                 {get_target_svg(target.type, target.isBlue)}
                             </button>
                             <button 
