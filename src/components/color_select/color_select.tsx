@@ -48,13 +48,15 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
 
 
     const handleIncreaseThickness = () => {
-        const increase_thick = lineThickness + 5;
-        handleThicknessChange(increase_thick);  // Call the handler to update parent
+        if (lineThickness < 100){
+            const increase_thick = lineThickness + 10;
+            handleThicknessChange(increase_thick);  // Call the handler to update parent
+        }
     };
 
     const handleDecreaseThickness = () => {
-        if(lineThickness > 5){
-            const decrease_thick = lineThickness - 5;
+        if(lineThickness > 10){
+            const decrease_thick = lineThickness - 10;
             handleThicknessChange(decrease_thick);  // Call the handler to update parent
         }
     };
@@ -80,7 +82,7 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
                             </svg>
                         </button>
 
-                        <p style={{width:"2vw", textAlign:"center"}}>{lineThickness}</p>
+                        <p style={{width:"2vw", textAlign:"center"}}>{lineThickness/10}</p>
 
 
                         <button className="right_increment increment_color_customization" onClick={handleIncreaseThickness}>
