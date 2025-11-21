@@ -24,5 +24,6 @@ This is a front-end static application using ReactJS and Typscript. No specific 
 
 ### Current dependencies (for tracking what was used):
 
-react-router-dom -> for loading pages
-react-colorful -> for the color RGB selection
+`react-router-dom` -> for loading pages
+
+`react-colorful` -> for the color RGB selection
