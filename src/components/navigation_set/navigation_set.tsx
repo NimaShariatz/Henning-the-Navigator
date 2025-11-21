@@ -73,7 +73,6 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
             // Disable all buttons when drawing tools are active
             selectionMap.forEach(item => {
                 if (item.ref.current) {
-                    item.ref.current.classList.add("button_disabled");
                     item.ref.current.disabled = true;
                     item.ref.current.style.cursor = "not-allowed";
                     onWaypointSelectionChange?.(-1);
@@ -84,11 +83,9 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
             selectionMap.forEach(item => {
                 if (item.ref.current) {
                     if (item.value === 1) {
-                        item.ref.current.classList.remove("button_disabled");
                         item.ref.current.disabled = false;
                         item.ref.current.style.cursor = "pointer";
-                    } else {
-                        item.ref.current.classList.add("button_disabled");
+                    } else {;
                         item.ref.current.disabled = true;
                         item.ref.current.style.cursor = "not-allowed";
                     }
@@ -99,11 +96,9 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
             selectionMap.forEach(item => {
                 if (item.ref.current) {
                     if (item.value === 2) {
-                        item.ref.current.classList.remove("button_disabled");
                         item.ref.current.disabled = false;
                         item.ref.current.style.cursor = "pointer";
                     } else {
-                        item.ref.current.classList.add("button_disabled");
                         item.ref.current.disabled = true;
                         item.ref.current.style.cursor = "not-allowed";
                     }
@@ -114,11 +109,9 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
             selectionMap.forEach(item => {
                 if (item.ref.current) {
                     if (item.value === 3 || item.value === 4) {
-                        item.ref.current.classList.remove("button_disabled");
                         item.ref.current.disabled = false;
                         item.ref.current.style.cursor = "pointer";
                     } else {
-                        item.ref.current.classList.add("button_disabled");
                         item.ref.current.disabled = true;
                         item.ref.current.style.cursor = "not-allowed";
                     }

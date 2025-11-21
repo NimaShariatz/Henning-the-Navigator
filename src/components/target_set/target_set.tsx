@@ -86,7 +86,6 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
         if(!has_one_start_point || !has_one_target_point || showPicker || eraseDrawing || textMode_active){
             targetMap.forEach(item => {
                 if(item.ref.current){
-                    item.ref.current.classList.add("button_disabled");
                     item.ref.current.disabled = true;
                     item.ref.current.style.cursor = "not-allowed"
                 }
@@ -96,7 +95,6 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
         }else{
             targetMap.forEach(item => {
                 if(item.ref.current){
-                        item.ref.current.classList.remove("button_disabled");
                         item.ref.current.disabled = false;
                         item.ref.current.style.cursor = "pointer"
                 }
