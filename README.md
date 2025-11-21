@@ -9,14 +9,18 @@ Live Link: https://nimashariatz.github.io/Henning-the-Navigator/
 
 Navigation points can be set with calculations based on distances. The grid size is expected to be a 10 x 10 Kilometer grid.
 
-Various forms of waypoints can be set to signify start point, navigational points, the target, and extraction routes.
+Various forms of waypoints can be set to signify start point, navigational points, the target, egress routes.
 
 Both background images and waypoints can be exported and imported so that group flights can be updated to the same standard of flight information. A preset of IL-2 maps is included.
+
+Targets, comments, and drawings by cursor can be placed on the map as well.
+
+All waypoints, targets, comments, flight notes, and drawings are included in the JSON download. Images are excluded.
 
 
 ## Tech Stack
 
-This is a front-end static application using ReactJS and Typscript. No specific JS libraries were used in it's development.
+This is a front-end static application using ReactJS and Typscript. No specific mapping JS libraries were used in it's development.
 
 ### Current dependencies (for tracking what was used):
 
