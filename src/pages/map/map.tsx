@@ -899,7 +899,7 @@ function Map() {
         return(
             <div className="information_row_container">
                 <div className="information_waypoint_row">
-                    <button className="information_waypoint">
+                    <button className="information_waypoint" onClick={scroll_to_waypoint_from_info(currentPoint.x, currentPoint.y)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                             <defs>
                                 <mask id="point_information">
@@ -929,7 +929,7 @@ function Map() {
 
 
 
-                    <button className="information_waypoint">
+                    <button className="information_waypoint" onClick={scroll_to_waypoint_from_info(nextPoint.x, nextPoint.y)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                             <defs>
                                 <mask id="point">
@@ -957,6 +957,22 @@ function Map() {
             </div>
         )
     }
+    const scroll_to_waypoint_from_info = (position_x: number, position_y: number) => () => {
+        if(containerRef.current){
+        const container = containerRef.current;
+        const viewport_width = container.clientWidth;// gives the width and height, which does not include overflow distance
+        const viewport_height = container.clientHeight;// gives the width and height, which does not include overflow distance
+        const scrollLeft = Math.max(0, position_x - viewport_width / 2);
+        const scrollTop = Math.max(0, position_y - viewport_height / 2);
+            containerRef.current.scrollTo({
+                left: scrollLeft,
+                top: scrollTop
+            })
+        }
+
+
+    }
+
 
     const handle_data_import = (data: {
         points: {id: number, x: number, y: number, type: number}[], 
