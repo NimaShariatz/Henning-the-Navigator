@@ -29,19 +29,44 @@
 
 }
 
-.waypoint_hover_infoCard{
-    position: absolute;
-    left: -120%;
-    bottom: 120%;
-    background-color: var(--background_1);
-    display: none;
-    padding: 0.5vw;
+.tooltip_waypoint_text{
+    visibility: visible;
+    width: fit-content;
+    background-color: var(--button_background);
+    color: var(--logo_white);
+    text-align: center;
     border-radius: 0.3vw;
+    padding-block: 0.2vw;
+    padding-inline: 0.5vw;
     white-space: nowrap;
+    
+
+    pointer-events: none;
+    user-select: none;
+
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
-.map_waypoint_div:hover .waypoint_hover_infoCard{
-    display: block;
+
+.tooltip_waypoint_text::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -0.5vw;
+    border-width: 0.5vw;
+    border-style: solid;
+    border-color: var(--button_background) transparent transparent transparent;
 }
+.tooltip_waypoint_needed:hover .tooltip_waypoint_text{
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
 
 .map_waypoint_button, .information_waypoint{
     
@@ -52,7 +77,7 @@
     background-color: var(--button_background);
     border-radius: 15%;
 
-    
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;

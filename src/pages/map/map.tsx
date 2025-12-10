@@ -1232,7 +1232,7 @@ function Map() {
 
                 {points.map(button => (
                     <div key={button.id} className="map_waypoint_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
-                        <button className="map_waypoint_button">
+                        <button className="map_waypoint_button tooltip_waypoint_needed">
                             <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                                 <defs>
                                     <mask id="point">
@@ -1246,6 +1246,13 @@ function Map() {
                                 <path className={get_point_class(button.type)} d="M0 0h24v24H0z" mask="url(#point)" />
                             </svg>
                             <p className={`waypoint_id ${get_point_id_color_class(button.type)}`}>{button.id}</p>
+
+
+
+                            <span className="tooltip_waypoint_text">Distance: {getWaypointInfo(button).distance} {isKilometers ? 'km' : 'mi'} <br/> Heading: {getWaypointInfo(button).heading}°</span>
+
+
+
                         </button>
                         <button 
                             className="remove_button" 
@@ -1256,10 +1263,6 @@ function Map() {
                             ×
                         </button>
 
-                        <div className="waypoint_hover_infoCard" onClick={(e) => {e.stopPropagation();}}>
-                            <div>Distance: {getWaypointInfo(button).distance} {isKilometers ? 'km' : 'mi'}</div>
-                            <div>Heading: {getWaypointInfo(button).heading}°</div>
-                        </div>
 
 
 
