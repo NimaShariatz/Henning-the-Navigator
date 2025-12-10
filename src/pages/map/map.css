@@ -31,7 +31,7 @@
 
 .waypoint_hover_infoCard{
     position: absolute;
-    left: -130%;
+    left: -120%;
     bottom: 120%;
     background-color: var(--background_1);
     display: none;
@@ -298,12 +298,18 @@
 
 .information_row_container{
     padding-block: 1.5vw;
+    padding-inline: 1vw;
+    border-radius: 0.3vw;
 }
-
+.information_row_container:hover{
+    background-color: var(--background_1);
+}
 
 .information_waypoint_row{
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    padding-block: 0.5vw;
 }
 
 

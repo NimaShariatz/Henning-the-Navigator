@@ -949,7 +949,7 @@ function Map() {
 
 
                     <svg 
-                        style={{height: "1vw", width:"75%", margin: "1vw 0.5vw"}}
+                        style={{height: "1vw", width:"75%", marginInline: "0.5vw", marginTop:"0.7vw"}}
                     >
                         <line 
                             x1="0" 
@@ -1195,23 +1195,7 @@ function Map() {
                     ))}
 
 
-                    {drawings.map(drawing => (
-
-                        /*
-                        drawing.points.length === 1 ? 
-                        (
-                            // Render single point as circle. which is disabled in handleMouseUp
-                            <circle
-                                key={drawing.id}
-                                cx={drawing.points[0].x}
-                                cy={drawing.points[0].y}
-                                r={drawing.thickness / 2}
-                                fill={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
-                            />
-                        ) : 
-                        */ 
-
-                        
+                    {drawings.map(drawing => (                        
                         (
                             // Render multiple points as polyline
                             <polyline
