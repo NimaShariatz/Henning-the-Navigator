@@ -22,13 +22,27 @@
 
 
 
-
 .map_waypoint_div{
     position: absolute;
     z-index: var(--map_waypoint_z);
     display: flex;
 
 }
+
+.waypoint_hover_infoCard{
+    position: absolute;
+    left: -130%;
+    bottom: 120%;
+    background-color: var(--background_1);
+    display: none;
+    padding: 0.5vw;
+    border-radius: 0.3vw;
+    white-space: nowrap;
+}
+.map_waypoint_div:hover .waypoint_hover_infoCard{
+    display: block;
+}
+
 .map_waypoint_button, .information_waypoint{
     
     border: none;

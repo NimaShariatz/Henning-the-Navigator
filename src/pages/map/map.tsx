@@ -817,8 +817,8 @@ function Map() {
 
 
 
-    useEffect(() => {//for any changes made
-        
+    useEffect(() => {//for getting total distances of things...
+    
         let newTotalDistance = 0;
         let newWaypointDistance = 0;
         let newExtractDistance = 0;
@@ -857,9 +857,6 @@ function Map() {
         newTotalDistance = Math.round(newTotalDistance * 10) / 10
         setTotalDistance(newTotalDistance);//updates
 
-
-
-
     }, [linePositions, mapDistance, isKilometers]);//when points are added or removed, distance is changed, or isKilometers changes
 
 
@@ -870,6 +867,45 @@ function Map() {
         setMapDistance(distance);
         //console.log("Distance in Map:", distance);
     };
+
+
+
+
+
+    const getWaypointInfo = (button: {id: number, x: number, y: number, type: number}) => {
+        // Find the line that starts from this waypoint
+        const lineFromPoint = linePositions.find(line => line.currentPoint.id === button.id);//see if we can find the point ahead of current
+        
+        if (!lineFromPoint) {//if does NOT exist, just quit
+            return { distance: '-', heading: '-' };
+        }
+        
+        const dx = lineFromPoint.position.next_point_x - lineFromPoint.position.current_point_x;
+        const dy = lineFromPoint.position.next_point_y - lineFromPoint.position.current_point_y;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        
+        const pixelLength = length;
+        let distance = (pixelLength / mapDistance) * 10;
+        
+        if (!isKilometers) {
+            distance = distance * 0.621371;
+        }
+        
+        const actualDistance = Math.round(distance * 10) / 10;
+        
+        // Calculate heading
+        let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+        angle = angle + 90;
+        angle = (angle + 360) % 360;
+        const heading = Math.round(angle);
+        
+        return { distance: actualDistance, heading };
+    };
+
+
+
+
+
 
     const calculations = ( currentPoint:({ id: number, x: number, y: number, type: number }), nextPoint: { id: number, x: number, y: number, type: number }, position: {current_point_x: number; current_point_y: number; next_point_x: number; next_point_y: number} ) => {
         const dx = position.next_point_x - position.current_point_x;
@@ -892,9 +928,7 @@ function Map() {
         angle = angle + 90; // to make 0 north instead ofeast
         angle = (angle + 360) % 360;//within 360 range
         const heading = Math.round(angle);
-        
-
-
+    
     
         return(
             <div className="information_row_container">
@@ -1237,6 +1271,11 @@ function Map() {
                         >
                             ×
                         </button>
+
+                        <div className="waypoint_hover_infoCard" onClick={(e) => {e.stopPropagation();}}>
+                            <div>Distance: {getWaypointInfo(button).distance} {isKilometers ? 'km' : 'mi'}</div>
+                            <div>Heading: {getWaypointInfo(button).heading}°</div>
+                        </div>
 
 
 
