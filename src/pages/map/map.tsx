@@ -92,6 +92,17 @@ function Map() {
     const [windSpeed, setWindSpeed] = useState("")
 
 
+
+
+
+
+    
+    const [showUI, setShowUI] = useState(true);
+    const handleShowUI = () => {
+        setShowUI(!showUI);
+    }
+
+
     
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
 
@@ -1365,7 +1376,7 @@ function Map() {
 
 
 
-            <div className="information_container" style={{ display: showInfoContainer ? 'block' : 'none' }}>
+            <div className="information_container" style={{ display: (showInfoContainer && showUI) ? 'block' : 'none' }}>
                 <p>Flight Notes</p>
                 <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
                 <p>Target Site</p>
@@ -1463,56 +1474,72 @@ function Map() {
             </div>
 
 
-            <Minimap 
-                on_minimap_click={handle_minimap_click} 
-                current_image={currentImage}
-                on_image_upload={handle_image_upload}
-                selectedWaypoint={selectedNavType}
-                selectedTarget={selectedTargetType}
-                on_waypoint_selection_change={handleWaypointSelectionChange}
-                on_target_selection_change={handleTargetSelectionChange}
-                showpicker = {showPicker}
-                eraseDrawing = {eraseDrawing}
-                textMode_active = {textMode_active}
-
-                on_target_color_change={handle_target_color_change}
-                on_clear_points={clear_all_points}
-                toggle_info_container={toggleInfoContainer}
-                points_set={points}
-                targets_set={targets}
-                drawings_set={drawings}
-                Targetdrawings_set={Targetdrawings}
-                flightNotes={flightNotes}
-                textCreations={textCreations}
-                on_data_import={handle_data_import}
 
 
-            />
+            <button className="minimap_dissappear_button" style={{filter: showUI ? 'grayscale(100%)' : "none"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" onClick={() => handleShowUI()}>
+                    <g fill="none" stroke="var(--logo_yellow)" strokeWidth="1.2">
+                        <path fill="var(--logo_yellow)" fillOpacity="0.25" d="M6.887 5.172c.578-.578.867-.868 1.235-1.02S8.898 4 9.716 4h4.61c.826 0 1.239 0 1.61.155c.37.155.66.45 1.239 1.037l1.674 1.699c.568.576.852.865 1.002 1.23c.149.364.149.768.149 1.578v4.644c0 .818 0 1.226-.152 1.594s-.441.656-1.02 1.235l-1.656 1.656c-.579.579-.867.867-1.235 1.02c-.368.152-.776.152-1.594.152H9.7c-.81 0-1.214 0-1.579-.15c-.364-.149-.653-.433-1.229-1.001l-1.699-1.674c-.588-.58-.882-.87-1.037-1.24S4 15.152 4 14.326v-4.61c0-.818 0-1.226.152-1.594s.442-.657 1.02-1.235z" />
+                        <path strokeLinecap="round" d="m8 11l.422.211a8 8 0 0 0 7.156 0L16 11m-4 1.5V14m-3-2l-.5 1m6.5-1l.5 1" />
+                    </g>
+                </svg>
+            </button>
 
-            <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
+            
+            
+            <div style={{ display: showUI ? 'block' : 'none' }}>{/* div exists just to make everything dissappear */}
+                <Minimap 
+                    on_minimap_click={handle_minimap_click} 
+                    current_image={currentImage}
+                    on_image_upload={handle_image_upload}
+                    selectedWaypoint={selectedNavType}
+                    selectedTarget={selectedTargetType}
+                    on_waypoint_selection_change={handleWaypointSelectionChange}
+                    on_target_selection_change={handleTargetSelectionChange}
+                    showpicker = {showPicker}
+                    eraseDrawing = {eraseDrawing}
+                    textMode_active = {textMode_active}
 
-            <Color_select 
-                onColorChange={setDrawColor} 
-                onThicknessChange={setDrawline_thickness}
-                showPicker={showPicker} 
-                setShowPicker={setShowPicker}
-                eraseDrawing={eraseDrawing}
-                setEraseDrawing={setEraseDrawing}
+                    on_target_color_change={handle_target_color_change}
+                    on_clear_points={clear_all_points}
+                    toggle_info_container={toggleInfoContainer}
+                    points_set={points}
+                    targets_set={targets}
+                    drawings_set={drawings}
+                    Targetdrawings_set={Targetdrawings}
+                    flightNotes={flightNotes}
+                    textCreations={textCreations}
+                    on_data_import={handle_data_import}
 
-                textMode_active={textMode_active}
-                setTextMode_active={setTextMode_active}
 
-            />
+                />
+            
 
-            <Map_changer 
-                currentImage={currentImage}
-                customMapName={customMapName}
-                onChangeMap={(newMapUrl) => {
-                    setCurrentImage(newMapUrl);
-                    setCustomMapName(undefined); // Reset custom name when switching to a predefined map
-                    clear_all_points(); // Clear points when changing map
-                }}
-            />
+                <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
+
+                <Color_select 
+                    onColorChange={setDrawColor} 
+                    onThicknessChange={setDrawline_thickness}
+                    showPicker={showPicker} 
+                    setShowPicker={setShowPicker}
+                    eraseDrawing={eraseDrawing}
+                    setEraseDrawing={setEraseDrawing}
+
+                    textMode_active={textMode_active}
+                    setTextMode_active={setTextMode_active}
+
+                />
+
+                <Map_changer 
+                    currentImage={currentImage}
+                    customMapName={customMapName}
+                    onChangeMap={(newMapUrl) => {
+                        setCurrentImage(newMapUrl);
+                        setCustomMapName(undefined); // Reset custom name when switching to a predefined map
+                        clear_all_points(); // Clear points when changing map
+                    }}
+                />
+            </div>
 
         </>
     )
