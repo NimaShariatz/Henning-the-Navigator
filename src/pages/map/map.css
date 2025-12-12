@@ -39,29 +39,78 @@
     padding-block: 0.2vw;
     padding-inline: 0.5vw;
     white-space: nowrap;
-    
-
     pointer-events: none;
     user-select: none;
-
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    
     position: absolute;
+}
+.tooltip_waypoint_text_top{
     bottom: 150%;
     left: 50%;
     transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
 }
 
-.tooltip_waypoint_text::after{
+.tooltip_waypoint_text_bottom{
+    top: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tooltip_waypoint_text_right{
+    bottom: 50%;
+    left: 150%;
+    transform: translateY(50%);
+}
+
+.tooltip_waypoint_text_left{
+    bottom: 50%;
+    right: 150%;
+    transform: translateY(50%);
+}
+
+
+
+
+
+.tooltip_waypoint_text::after {
     content: "";
     position: absolute;
-    top: 100%;
-    left: 50%;
     margin-left: -0.5vw;
     border-width: 0.5vw;
     border-style: solid;
-    border-color: var(--button_background) transparent transparent transparent;
 }
+
+.tooltip_waypoint_text_top::after{
+    border-color: var(--button_background) transparent transparent transparent;
+    top: 100%;
+    left: 50%;
+}
+
+.tooltip_waypoint_text_bottom::after{
+    border-color: transparent transparent var(--button_background) transparent;
+    bottom: 100%;
+    left: 50%;
+}
+
+.tooltip_waypoint_text_right::after{
+    border-color: transparent var(--button_background) transparent transparent;
+    top: 35%;
+    right: 100%;
+}
+
+.tooltip_waypoint_text_left::after{
+    border-color: transparent transparent transparent var(--button_background);
+    top: 35%;
+    left: 106%;
+}
+
+
+
+
+
+
 .tooltip_waypoint_needed:hover .tooltip_waypoint_text{
     opacity: 1;
     transition: opacity 0.15s ease;
