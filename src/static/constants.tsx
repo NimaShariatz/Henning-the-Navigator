@@ -12,7 +12,9 @@ export const Stalingrad = "/Henning-the-Navigator/Stalingrad.jpg";
 export const Vluki = "/Henning-the-Navigator/Vluki.jpg";
 
 export const Western_front = "/Henning-the-Navigator/Western_front.jpg";
-export const Henning_logo = "/Henning-the-Navigator/Henning_logo.webp"
+export const Henning_logo = "/Henning-the-Navigator/Henning_logo.webp";
+
+export const button_viewWidth_size = 0.016;
 
 
 

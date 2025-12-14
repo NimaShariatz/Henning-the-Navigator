@@ -1,12 +1,14 @@
 import {useRef, useState, useEffect} from "react"
 import "./minimap.css"
 
+import {button_viewWidth_size} from "../../static/constants"
 
 import Navigation_set from "../navigation_set/navigation_set"
 import Misc_set from "../misc_set/misc_set"
 import Target_set from "../target_set/target_set"
 
 interface MinimapProps {
+    showUI: boolean;
     on_minimap_click?: (relativeX: number, relativeY: number) => void;
 
     current_image: string;//for file import
@@ -52,7 +54,8 @@ interface MinimapProps {
 }
 
 
-function Minimap({ 
+function Minimap({
+            showUI,
             on_minimap_click, 
             current_image, 
             on_image_upload, 
@@ -116,7 +119,7 @@ function Minimap({
         const main_map_width = main_map_image_element?.clientWidth || 1; // the '|| 1' is for null prevention
         const main_map_height = main_map_image_element?.clientHeight || 1;
         
-        const button_size = window.innerWidth * 0.016; // 1.6vw - same as in map.tsx
+        const button_size = window.innerWidth * button_viewWidth_size; // 1.6vw - same as in map.tsx
         const adjusted_x = point.x + (button_size / 2);// accounts for the centering effect in map.tsx (for cursor)
         const adjusted_y = point.y + (button_size / 2);
 
@@ -126,8 +129,8 @@ function Minimap({
         const minimap_X = relative_X * minimapDimensions.width;
         const minimap_Y = relative_Y * minimapDimensions.height;
         
-         const waypointSize = minimapDimensions.width * 0.05;// vw doesnt seem to work as zooming doesnt have
-         //the same effect it would have on the minimap. So gotta use pixels as unit
+        const waypointSize = minimapDimensions.width * 0.05;// vw doesnt seem to work as zooming doesnt have
+        //the same effect it would have on the minimap. So gotta use pixels as unit
         
         return {
             x: minimap_X,
@@ -376,7 +379,7 @@ function Minimap({
 
 
 
-            <div className="minimap_container">
+            <div className="minimap_container" style={{ display: showUI ? 'flex' : 'none' }}>
                 <div className="navigation_container">
                     <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
                 

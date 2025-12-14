@@ -3,12 +3,13 @@ import './map_changer.css';
 import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front } from "../../static/constants.tsx"
 
 interface MapChangerProps {
-  currentImage: string;
-  onChangeMap: (newMapUrl: string) => void;
-  customMapName?: string;  // Add this optional property
+    showUI: boolean;
+    currentImage: string;
+    onChangeMap: (newMapUrl: string) => void;
+    customMapName?: string;  // Add this optional property
 }
 
-function Map_changer({ currentImage, onChangeMap, customMapName }: MapChangerProps) {
+function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapChangerProps) {
     const [currentMapName, setCurrentMapName] = useState<string>('');
     const [showOptions, setShowOptions] = useState<boolean>(false);
     
@@ -59,30 +60,23 @@ function Map_changer({ currentImage, onChangeMap, customMapName }: MapChangerPro
     };
 
     return (
-        <>
-
-            <div className='map_changeSelection_container'>
-                <div className='map_changeSelection_current'>
-                    <p>{currentMapName}</p>
-                    <button onClick={toggleOptions} style={{transform: showOptions ? 'rotate(180deg)' : '' }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 16 16">
-                            <path fill="var(--logo_yellow)" d="M9.312 14.223a1.5 1.5 0 0 1-2.629 0l-5.5-10a1.5 1.5 0 0 1 1.315-2.222h10.999a1.5 1.5 0 0 1 1.314 2.223z" />
-                        </svg>
-                    </button>
-                </div>
-                <div className='map_changeSelection_options' style={{ display: showOptions ? 'flex' : 'none' }}>
-                    {maps.map((map) => (
-                        <button key={map.name} onClick={() => handleMapSelect(map.name)}>
-                            {map.name}
-                        </button>
-                    ))}
-                </div>
-
-
-
+        <div className='map_changeSelection_container' style={{ display: showUI ? 'block' : 'none' }}>
+            <div className='map_changeSelection_current'>
+                <p>{currentMapName}</p>
+                <button onClick={toggleOptions} style={{transform: showOptions ? 'rotate(180deg)' : '' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 16 16">
+                        <path fill="var(--logo_yellow)" d="M9.312 14.223a1.5 1.5 0 0 1-2.629 0l-5.5-10a1.5 1.5 0 0 1 1.315-2.222h10.999a1.5 1.5 0 0 1 1.314 2.223z" />
+                    </svg>
+                </button>
             </div>
-
-        </>
+            <div className='map_changeSelection_options' style={{ display: showOptions ? 'flex' : 'none' }}>
+                {maps.map((map) => (
+                    <button key={map.name} onClick={() => handleMapSelect(map.name)}>
+                        {map.name}
+                    </button>
+                ))}
+            </div>
+        </div>
     );
 }
 

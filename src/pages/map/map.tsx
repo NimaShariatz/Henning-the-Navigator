@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react"
 
-import { Stalingrad } from "../../static/constants.tsx"
+import { Stalingrad, button_viewWidth_size } from "../../static/constants.tsx"
 import "./map.css"
 
 
@@ -127,7 +127,7 @@ function Map() {
         }        
             
         //for preventing too many next to each other
-        const button_size = window.innerWidth * 0.016; //button is 1.6vw
+        const button_size = window.innerWidth * button_viewWidth_size; //button is 1.6vw
 
         const x_cord = x_raw - (button_size / 2);//centres the button based on where user clicked
         const y_cord = y_raw - (button_size / 2);
@@ -763,7 +763,7 @@ function Map() {
         const viewportWidth = window.innerWidth;
         
         // Calculate button size dynamically based on current viewport width
-        const button_size = viewportWidth * 0.016;
+        const button_size = viewportWidth * button_viewWidth_size;
         const center_offset = button_size / 2;
 
         return {
@@ -1175,59 +1175,60 @@ function Map() {
 
             
             
-            <div style={{ display: showUI ? 'block' : 'none' }}>{/* div exists just to make everything dissappear */}
-                <Minimap 
-                    on_minimap_click={handle_minimap_click} 
-                    current_image={currentImage}
-                    on_image_upload={handle_image_upload}
-                    selectedWaypoint={selectedNavType}
-                    selectedTarget={selectedTargetType}
-                    on_waypoint_selection_change={handleWaypointSelectionChange}
-                    on_target_selection_change={handleTargetSelectionChange}
-                    showpicker = {showPicker}
-                    eraseDrawing = {eraseDrawing}
-                    textMode_active = {textMode_active}
+            <Minimap
+                showUI={showUI}
+                on_minimap_click={handle_minimap_click} 
+                current_image={currentImage}
+                on_image_upload={handle_image_upload}
+                selectedWaypoint={selectedNavType}
+                selectedTarget={selectedTargetType}
+                on_waypoint_selection_change={handleWaypointSelectionChange}
+                on_target_selection_change={handleTargetSelectionChange}
+                showpicker = {showPicker}
+                eraseDrawing = {eraseDrawing}
+                textMode_active = {textMode_active}
 
-                    on_target_color_change={handle_target_color_change}
-                    on_clear_points={clear_all_points}
-                    toggle_info_container={toggleInfoContainer}
-                    points_set={points}
-                    targets_set={targets}
-                    drawings_set={drawings}
-                    Targetdrawings_set={Targetdrawings}
-                    flightNotes={flightNotes}
-                    textCreations={textCreations}
-                    on_data_import={handle_data_import}
+                on_target_color_change={handle_target_color_change}
+                on_clear_points={clear_all_points}
+                toggle_info_container={toggleInfoContainer}
+                points_set={points}
+                targets_set={targets}
+                drawings_set={drawings}
+                Targetdrawings_set={Targetdrawings}
+                flightNotes={flightNotes}
+                textCreations={textCreations}
+                on_data_import={handle_data_import}
 
 
-                />
-            
+            />
+        
 
-                <Distance_calc onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
+            <Distance_calc showUI={showUI} onDistanceChange={handleDistanceChange} currentMapUrl={currentImage}/>{/* pass */}
 
-                <Color_select 
-                    onColorChange={setDrawColor} 
-                    onThicknessChange={setDrawline_thickness}
-                    showPicker={showPicker} 
-                    setShowPicker={setShowPicker}
-                    eraseDrawing={eraseDrawing}
-                    setEraseDrawing={setEraseDrawing}
+            <Color_select 
+                showUI={showUI}
+                onColorChange={setDrawColor} 
+                onThicknessChange={setDrawline_thickness}
+                showPicker={showPicker} 
+                setShowPicker={setShowPicker}
+                eraseDrawing={eraseDrawing}
+                setEraseDrawing={setEraseDrawing}
 
-                    textMode_active={textMode_active}
-                    setTextMode_active={setTextMode_active}
+                textMode_active={textMode_active}
+                setTextMode_active={setTextMode_active}
 
-                />
+            />
 
-                <Map_changer 
-                    currentImage={currentImage}
-                    customMapName={customMapName}
-                    onChangeMap={(newMapUrl) => {
-                        setCurrentImage(newMapUrl);
-                        setCustomMapName(undefined); // Reset custom name when switching to a predefined map
-                        clear_all_points(); // Clear points when changing map
-                    }}
-                />
-            </div>
+            <Map_changer 
+                showUI={showUI}
+                currentImage={currentImage}
+                customMapName={customMapName}
+                onChangeMap={(newMapUrl) => {
+                    setCurrentImage(newMapUrl);
+                    setCustomMapName(undefined); // Reset custom name when switching to a predefined map
+                    clear_all_points(); // Clear points when changing map
+                }}
+            />
 
         </>
     )

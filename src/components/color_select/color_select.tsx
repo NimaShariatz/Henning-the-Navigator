@@ -11,6 +11,7 @@ interface RgbaColor {
 }
 
 interface ColorSelectProps {
+    showUI: boolean;
     onColorChange?: (color: RgbaColor) => void;
     onThicknessChange?: (thickness: number) => void;
     showPicker: boolean;
@@ -23,7 +24,7 @@ interface ColorSelectProps {
 }
 
 
-function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPicker, eraseDrawing, setEraseDrawing, textMode_active, setTextMode_active }: ColorSelectProps) {
+function Color_select({showUI, onColorChange, onThicknessChange, showPicker, setShowPicker, eraseDrawing, setEraseDrawing, textMode_active, setTextMode_active }: ColorSelectProps) {
     const [selectedColor, setSelectedColor] = useState<RgbaColor>({ r: 255, g: 201, b: 14, a: 1 })
     const [lineThickness, setLineThickness] = useState(10);
     
@@ -63,7 +64,7 @@ function Color_select({ onColorChange, onThicknessChange, showPicker, setShowPic
 
 
     return(
-        <div className="mapDraw_positioning">
+        <div className="mapDraw_positioning" style={{ display: showUI ? 'flex' : 'none' }}>
 
             
 

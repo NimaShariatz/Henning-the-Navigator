@@ -4,6 +4,7 @@ import "./distance_calc.css"
 
 
 interface DistanceCalcProps {
+    showUI: boolean;
     onDistanceChange?: (distance: number) => void;
     currentMapUrl?: string; // Add this new prop
 }
@@ -15,7 +16,7 @@ interface DistanceCalcProps {
 
 
 
-function Distance_calc({ onDistanceChange, currentMapUrl }: DistanceCalcProps) {
+function Distance_calc({showUI, onDistanceChange, currentMapUrl }: DistanceCalcProps) {
     const [distanceValue, setDistanceValue] = useState("50") // has to be string and not number, otherwise a zero placed in front of it every time. for some reason...
 
 
@@ -108,7 +109,7 @@ function Distance_calc({ onDistanceChange, currentMapUrl }: DistanceCalcProps) {
 
     return(
         <>
-            <div className="distance_setter" style={{ width: calculatedWidth }}>
+            <div className="distance_setter" style={{ width: calculatedWidth, display: showUI ? 'flex' : 'none' }}>
                 <form>
                     <input 
                     
