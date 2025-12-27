@@ -1,5 +1,5 @@
 .mapDraw_positioning{
-    position: absolute;
+    position: fixed;
     right: 1.5%;
     bottom: 3%;
     display: flex;

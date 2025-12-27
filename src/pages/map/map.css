@@ -300,6 +300,36 @@
 
 
 
+
+.minimap_dissappear_button{
+    position: fixed;
+    bottom: 2.2%;
+    left: 0.2%;
+    width: 1vw;
+    height: 1vw;
+    background-color: var(--background_1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.2vw;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 900px) {/*for mobile view*/
     .map_waypoint_button{
         transform: scale(3);
