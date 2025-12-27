@@ -300,3 +300,19 @@
 
 
 
+@media (max-width: 900px) {/*for mobile view*/
+    .map_waypoint_button{
+        transform: scale(3);
+    }
+
+    .map_target_button{
+        transform: scale(3) rotate(45deg);
+    }
+    .target_textfield{
+        width: 500%;
+        top: 270%;
+        left: -225%;
+        font-size: 1.5vw;
+        height: 2vw;
+    }
+}
