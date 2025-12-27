@@ -339,10 +339,18 @@
         transform: scale(3) rotate(45deg);
     }
     .target_textfield{
-        width: 500%;
+        width: 310%;
         top: 270%;
-        left: -225%;
+        left: -140%;
         font-size: 1.5vw;
         height: 2vw;
+    }
+    .remove_button{
+        font-size: 2vw;
+        width: 2vw;
+        height: 2vw;
+        margin-left: 2vw;
+        margin-top: -2.2vw;
+
     }
 }
