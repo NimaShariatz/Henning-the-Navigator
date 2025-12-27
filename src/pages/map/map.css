@@ -335,6 +335,10 @@
         transform: scale(3);
     }
 
+    .waypoint_lines{
+        stroke-width: 0.8vw;
+    }
+
     .map_target_button{
         transform: scale(3) rotate(45deg);
     }
