@@ -70,6 +70,7 @@
     opacity: 0.7;
     transition: opacity 0.3s ease;
     z-index: var(--map_waypoint_z);
+    user-select: none;
 }
 
 .navigation_container:hover .map_minimap_waypoint_button {

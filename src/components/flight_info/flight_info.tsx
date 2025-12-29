@@ -58,24 +58,6 @@ interface Flight_infoProps {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function Flight_info({
         showInfoContainer, 
         showUI,
@@ -115,6 +97,8 @@ function Flight_info({
     const [totalDistance, setTotalDistance] = useState(0);
 
 
+
+    const [timerMode, setTimerMode] = useState(1)
 
 
     const handleRightIncrement = () => {
@@ -333,56 +317,69 @@ function Flight_info({
 
 
 
-        useEffect(() => {//for getting total distances of things...
+    useEffect(() => {//for getting total distances of things...
+    
+        let newTotalDistance = 0;
+        let newWaypointDistance = 0;
+        let newExtractDistance = 0;
         
-            let newTotalDistance = 0;
-            let newWaypointDistance = 0;
-            let newExtractDistance = 0;
+        // Calculate the sum of all distances
+        linePositions.forEach(line => {
+            const dx = line.position.next_point_x - line.position.current_point_x;
+            const dy = line.position.next_point_y - line.position.current_point_y;
+            const length = Math.sqrt(dx * dx + dy * dy);
             
-            // Calculate the sum of all distances
-            linePositions.forEach(line => {
-                const dx = line.position.next_point_x - line.position.current_point_x;
-                const dy = line.position.next_point_y - line.position.current_point_y;
-                const length = Math.sqrt(dx * dx + dy * dy);
-                
-                const pixelLength = length;
-                let distance = (pixelLength / mapDistance) * 10;
-                
-                if (!isKilometers) {
-                    distance = distance * 0.621371;
-                }
-                
-                const actualDistance = Math.round(distance * 10) / 10;
-    
-                if(line.nextPoint.type === 2 || line.nextPoint.type === 3){
-                    newWaypointDistance += actualDistance
-                }
-                if(line.nextPoint.type === 4){
-                    newExtractDistance+= actualDistance
-                }
-    
-                newTotalDistance += actualDistance;
-            });
+            const pixelLength = length;
+            let distance = (pixelLength / mapDistance) * 10;
             
-            newWaypointDistance = Math.round(newWaypointDistance * 10) / 10
-            setTotalWaypointDistance(newWaypointDistance);//updates
-    
-            newExtractDistance = Math.round(newExtractDistance * 10) / 10
-            setTotalExtractDisstance(newExtractDistance);//updates
-    
-            newTotalDistance = Math.round(newTotalDistance * 10) / 10
-            setTotalDistance(newTotalDistance);//updates
-    
-        }, [linePositions, mapDistance, isKilometers]);//when points are added or removed, distance is changed, or isKilometers changes
+            if (!isKilometers) {
+                distance = distance * 0.621371;
+            }
+            
+            const actualDistance = Math.round(distance * 10) / 10;
+
+            if(line.nextPoint.type === 2 || line.nextPoint.type === 3){
+                newWaypointDistance += actualDistance
+            }
+            if(line.nextPoint.type === 4){
+                newExtractDistance+= actualDistance
+            }
+
+            newTotalDistance += actualDistance;
+        });
+        
+        newWaypointDistance = Math.round(newWaypointDistance * 10) / 10
+        setTotalWaypointDistance(newWaypointDistance);//updates
+
+        newExtractDistance = Math.round(newExtractDistance * 10) / 10
+        setTotalExtractDisstance(newExtractDistance);//updates
+
+        newTotalDistance = Math.round(newTotalDistance * 10) / 10
+        setTotalDistance(newTotalDistance);//updates
+
+    }, [linePositions, mapDistance, isKilometers]);//when points are added or removed, distance is changed, or isKilometers changes
+
+
+
+
+
+
+
+    const handlesetTimerMode = (timer_select: number) => {
+        const newSelection = timerMode === timer_select ? -1 : timer_select;
+        setTimerMode(newSelection);
+    };
+
+
 
 
 
     
     return(
         <div className="information_container" style={{ display: (showInfoContainer && showUI) ? 'block' : 'none' }}>
-            <p>Flight Notes</p>
+            <p className="calculation_header_text">Flight Notes</p>
             <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
-            <p>Target Site</p>
+            <p className="calculation_header_text">Target Site</p>
             <Target_picture drawing_color={drawColor} eraser={eraseDrawing} Targetdrawings={Targetdrawings} onTargetDrawingsChange={setTargetdrawings}/>
 
 
@@ -415,12 +412,12 @@ function Flight_info({
                 <p className="calculation_header_text">Distance Speed Calculator</p>
                 <div>
                     <p>Distance:</p>
-                    <form><input type="number" onChange={handeInput_Distance_Change} value={distanceCalcInput}></input></form>
+                    <form><input className='calculations_inputField' type="number" onChange={handeInput_Distance_Change} value={distanceCalcInput}></input></form>
                     <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'km' : 'mi'}</button>
                 </div>
                 <div>
                     <p>Speed:</p>
-                    <form><input type="number" onChange={handleInput_Speed_Change} value={speedCalcInput}></input></form>
+                    <form><input className='calculations_inputField' type="number" onChange={handleInput_Speed_Change} value={speedCalcInput}></input></form>
                     <button className="distance_marker" onClick={toggleUnitType}>{isKilometers ? 'kph' : 'mph'}</button>
                 </div>
                 <div>
@@ -443,7 +440,7 @@ function Flight_info({
                         </svg>
                     </button>
 
-                    <form><input type="number" onChange={handeInput_Heading_Change} value={planeHeading}></input></form>
+                    <form><input className='calculations_inputField' type="number" onChange={handeInput_Heading_Change} value={planeHeading}></input></form>
 
                     <button className="right_increment" onClick={handleRightIncrement}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20">
@@ -457,12 +454,12 @@ function Flight_info({
 
                 <div>
                     <p>Wind Heading</p>
-                    <form><input onChange={handeInput_windHeading_Change} value={windHeading} type="number"></input></form>
+                    <form><input className='calculations_inputField' onChange={handeInput_windHeading_Change} value={windHeading} type="number"></input></form>
                 </div>
 
                 <div>
                     <p>Wind Speed &#40;m/s&#41;</p>
-                    <form><input onChange={handeInput_windSpeed_Change} value={windSpeed} type="number"></input></form>
+                    <form><input className='calculations_inputField' onChange={handeInput_windSpeed_Change} value={windSpeed} type="number"></input></form>
                 </div>
 
                 <div>
@@ -471,6 +468,45 @@ function Flight_info({
                 </div>
 
             </div>
+
+
+
+            <div className="engineManagement_container">
+                <p className="calculation_header_text">Engine Management</p>
+                <div>
+                    <div className='engine_mode_container engine_continuous_container' style={{backgroundColor: timerMode === 1 ? 'rgba(119, 255, 95, 0.2)' : 'transparent'}}>
+                        <button className='engine_mode_button engine_continuous_button' onClick={() => handlesetTimerMode(1)}>continuous</button>  
+                    </div>
+                </div>
+
+                <div>
+                    <div className='engine_mode_container engine_combat_container' style={{backgroundColor: timerMode === 2 ? 'rgba(255, 217, 48, 0.2)' : 'transparent'}}>
+                        <button className='engine_mode_button engine_combat_button' onClick={() => handlesetTimerMode(2)}>combat</button>
+
+                        <form style={{display:"flex"}}>
+                            <input className='timer_inputField' type="number"/>
+                                <p className='timer_colon'>:</p>
+                            <input className='timer_inputField' type="number"/>
+                        </form>
+                    </div>
+                </div>
+
+                <div>
+                    <div className='engine_mode_container engine_emergency_container' style={{backgroundColor: timerMode === 3 ? 'rgba(255, 47, 47, 0.2)' : 'transparent'}}>
+                        <button className='engine_mode_button engine_emergency_button' onClick={() => handlesetTimerMode(3)}>emergency</button>
+
+                        <form style={{display:"flex"}}>
+                            <input className='timer_inputField' type="number"/>
+                                <p className='timer_colon'>:</p>
+                            <input className='timer_inputField' type="number"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
         </div>
     )

@@ -128,7 +128,7 @@
     opacity: 1;
 }
 .distance_marker:active{
-    background-color: var(--logo_white);;
+    background-color: var(--logo_white);
 }
 
 
@@ -155,7 +155,7 @@
 .calculations_container{
     padding-block: 1vw;
 }
-.calculations_container .calculation_header_text{
+.calculation_header_text{
     border-style: solid;
     border-width: 0 0 0.2vw 0;
     border-color: var(--logo_white);
@@ -169,7 +169,7 @@
 .calculations_container div p{
     padding-right: 0.2vw;
 }
-.calculations_container div form input{
+.calculations_inputField{
     background-color: rgba(7, 7, 7, 0.70);
     color: var(--logo_white);
     border: none;
@@ -180,10 +180,9 @@
     border-radius: 0.3vw;
     text-align: center;
 }
-.calculations_container div form input:focus{
+.calculations_inputField:focus{
     border: none;
     outline: none;
-    background-color: rgba(7, 7, 7, 0.70);
 }
 
 
@@ -232,6 +231,96 @@
 
 
 
+
+
+.engineManagement_container{
+    padding-block: 1vw;
+}
+
+.engineManagement_container div{
+    display: flex;
+    margin-block: 0.5vw;
+    align-items: center;
+}
+
+
+
+.engine_mode_container{
+    display: flex;
+    width: 100%;
+    border-radius: 0.2vw;
+    padding-block: 1vw;
+    padding-inline: 1vw;
+    justify-content:space-between;
+    align-items: center;
+}
+.engine_continuous_container{
+    outline: 0.2vw solid rgb(119, 255, 95);
+}
+.engine_combat_container{
+    outline: 0.2vw solid rgb(255, 217, 48);
+}
+.engine_emergency_container{
+    outline: 0.2vw solid #ff2f2f;
+}
+
+
+
+
+.engine_mode_button{
+    border: 0.2vw solid transparent;
+    border-radius: 0.3vw;
+    padding: 0.6vw;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    text-transform: uppercase;
+    min-width: 30%;
+
+}
+.engine_continuous_button{
+    background-color: rgb(119, 255, 95);
+}
+.engine_combat_button{
+    background-color: rgb(255, 217, 48);
+}
+.engine_emergency_button{
+    background-color: rgb(255, 47, 47);
+}
+
+
+
+
+.engine_mode_button:hover{
+    border-color: var(--logo_white);
+    opacity: 1;
+}
+.engine_mode_button:active{
+    background-color: var(--logo_white);
+}
+
+
+
+
+.timer_inputField{
+    background-color: rgba(7, 7, 7, 0.70);
+    color: var(--logo_white);
+    border: none;
+    width: 4vw;
+    padding-inline: 0.2vw;
+    font-weight: 600;
+    padding-block: 0.2vw;
+    border-radius: 0.3vw;
+    text-align: center;
+}
+.timer_inputField:focus{
+    border: none;
+    outline: none;
+}
+.timer_colon{
+    padding-inline: 0.3vw;
+}
 
 
 

@@ -134,6 +134,7 @@
     transition: opacity 0.2s ease;
 
     box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.55);
+    user-select: none;
 
     
 }
@@ -214,6 +215,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
 .remove_button:hover{

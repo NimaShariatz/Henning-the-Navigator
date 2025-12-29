@@ -6,7 +6,7 @@
     align-items: end;
     justify-content: center;
     gap: 1vw;
-
+    z-index: var(--colorSelect_container_z);
 }
 
 .mapDraw_container{
@@ -38,7 +38,7 @@
 
     gap: 0.5vw;
 
-    z-index: var(--colorSelect_container_z);
+    
 
 
 }
