@@ -239,7 +239,7 @@
 
 .engineManagement_container div{
     display: flex;
-    margin-block: 0.5vw;
+    margin-block: 0.3vw;
     align-items: center;
 }
 
@@ -301,18 +301,22 @@
 }
 
 
-
+.timer_form_container{
+    display: flex;
+    align-items: center;
+}
 
 .timer_inputField{
     background-color: rgba(7, 7, 7, 0.70);
     color: var(--logo_white);
     border: none;
-    width: 4vw;
+    width: 4.5vw;
     padding-inline: 0.2vw;
     font-weight: 600;
     padding-block: 0.2vw;
     border-radius: 0.3vw;
     text-align: center;
+    font-size: 1.5vw;
 }
 .timer_inputField:focus{
     border: none;
@@ -320,6 +324,31 @@
 }
 .timer_colon{
     padding-inline: 0.3vw;
+}
+
+
+
+.timer_inputField_maxInput{
+    background-color: rgba(7, 7, 7, 0.70);
+    color: var(--logo_white);
+    border: none;
+    width: 2vw;
+    padding-inline: 0.1vw;
+    font-weight: 600;
+    padding-block: 0.1vw;
+    border-radius: 0.15vw;
+    text-align: center;
+    font-size: 0.7vw;
+}
+.timer_inputField_maxInput:focus{
+    border: none;
+    outline: none;
+}
+.timer_colon_maxInput{
+    padding-inline: 0.2vw;
+}
+.timer_form_container small{
+    padding-right: 0.3vw;
 }
 
 

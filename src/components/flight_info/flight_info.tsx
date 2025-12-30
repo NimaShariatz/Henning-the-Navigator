@@ -471,7 +471,7 @@ function Flight_info({
 
 
 
-            <div className="engineManagement_container">
+            <div className="engineManagement_container" style={{display:"none"}}>
                 <p className="calculation_header_text">Engine Management</p>
                 <div>
                     <div className='engine_mode_container engine_continuous_container' style={{backgroundColor: timerMode === 1 ? 'rgba(119, 255, 95, 0.2)' : 'transparent'}}>
@@ -483,11 +483,19 @@ function Flight_info({
                     <div className='engine_mode_container engine_combat_container' style={{backgroundColor: timerMode === 2 ? 'rgba(255, 217, 48, 0.2)' : 'transparent'}}>
                         <button className='engine_mode_button engine_combat_button' onClick={() => handlesetTimerMode(2)}>combat</button>
 
-                        <form style={{display:"flex"}}>
+                        <form className='timer_form_container'>
                             <input className='timer_inputField' type="number"/>
                                 <p className='timer_colon'>:</p>
                             <input className='timer_inputField' type="number"/>
                         </form>
+
+                        <form className='timer_form_container'>
+                            <small>Max</small>
+                            <input className='timer_inputField_maxInput' type="number"/>
+                                <p className='timer_colon_maxInput'>:</p>
+                            <input className='timer_inputField_maxInput' type="number"/>
+                        </form>
+
                     </div>
                 </div>
 
@@ -495,11 +503,8 @@ function Flight_info({
                     <div className='engine_mode_container engine_emergency_container' style={{backgroundColor: timerMode === 3 ? 'rgba(255, 47, 47, 0.2)' : 'transparent'}}>
                         <button className='engine_mode_button engine_emergency_button' onClick={() => handlesetTimerMode(3)}>emergency</button>
 
-                        <form style={{display:"flex"}}>
-                            <input className='timer_inputField' type="number"/>
-                                <p className='timer_colon'>:</p>
-                            <input className='timer_inputField' type="number"/>
-                        </form>
+
+
                     </div>
                 </div>
             </div>
