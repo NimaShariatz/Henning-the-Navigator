@@ -98,7 +98,14 @@ function Flight_info({
 
 
 
-    const [timerMode, setTimerMode] = useState(1)
+    const [timerMode, setTimerMode] = useState(1);
+    
+
+    const [combatTimer, setCombatTimer] = useState({ combatMinutes: "30", combatSeconds: "00", combatMaxMinutes: "30", combatMaxSeconds: "00" });
+    const [emergencyTimer, setEmergencyTimer] = useState({ emergencyMinutes: "05", emergencySeconds: "00", emergencyMaxMinutes: "05", emergencyMaxSeconds: "00" });
+
+
+
 
 
     const handleRightIncrement = () => {
@@ -201,10 +208,57 @@ function Flight_info({
         )
     }
 
+    const handlesetTimerMode = (timer_select: number) => {
+        const newSelection = timerMode === timer_select ? -1 : timer_select;
+        setTimerMode(newSelection);
+    };
+
+
+    const handleInput_Combat_Change = (field: keyof typeof combatTimer) => 
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+        let newValue = e.target.value;
+
+
+        // Limit to 2 digits
+        if (newValue.length > 2) {
+            newValue = newValue.slice(0, 2);
+        }
+        
+        // Validate seconds to be max 59
+        if ((field === 'combatSeconds' || field === 'combatMaxSeconds') && parseInt(newValue) > 59) {
+            newValue = '59';
+        }
+        
+        // Validate minutes to be max 99
+        if ((field === 'combatMinutes' || field === 'combatMaxMinutes') && parseInt(newValue) > 99) {
+            newValue = '99';
+        }
 
 
 
+        setCombatTimer({ ...combatTimer, [field]: newValue });
+    };
 
+    const handleInput_Emergency_Change = (field: keyof typeof emergencyTimer) => 
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+            let newValue = e.target.value;
+    
+            // Limit to 2 digits
+            if (newValue.length > 2) {
+                newValue = newValue.slice(0, 2);
+            }
+            
+            // Validate seconds to be max 59
+            if ((field === 'emergencySeconds' || field === 'emergencyMaxSeconds') && parseInt(newValue) > 59) {
+                newValue = '59';
+            }
+            
+            // Validate minutes to be max 99
+            if ((field === 'emergencyMinutes' || field === 'emergencyMaxMinutes') && parseInt(newValue) > 99) {
+                newValue = '99';
+            }
+        setEmergencyTimer({ ...emergencyTimer, [field]: newValue });
+    };
 
 
 
@@ -361,14 +415,138 @@ function Flight_info({
 
 
 
+    
+    useEffect(() => {
+        let interval: number | null = null;
+        
+        if (timerMode === 2) {
+            // Countdown when combat mode is active
+            interval = setInterval(() => {
+                setCombatTimer(prev => {
+                    const totalSeconds = (parseInt(prev.combatMinutes) || 0) * 60 + (parseInt(prev.combatSeconds) || 0);
+                    
+                    if (totalSeconds <= 0) {
+                        return prev;
+                    }
+                    
+                    const newTotalSeconds = totalSeconds - 1;
+                    const newMinutes = Math.floor(newTotalSeconds / 60);
+                    const newSeconds = newTotalSeconds % 60;
+                    
+                    return {
+                        ...prev,
+                        combatMinutes: String(newMinutes).padStart(2, '0'),
+                        combatSeconds: String(newSeconds).padStart(2, '0')
+                    };
+                });
+                
+                
+                setEmergencyTimer(prev => {
+                    const currentTotalSeconds = (parseInt(prev.emergencyMinutes) || 0) * 60 + (parseInt(prev.emergencySeconds) || 0);
+                    const maxTotalSeconds = (parseInt(prev.emergencyMaxMinutes) || 0) * 60 + (parseInt(prev.emergencyMaxSeconds) || 0);
+                    
+                    if (currentTotalSeconds >= maxTotalSeconds) {
+                        return prev;
+                    }
+                    
+                    const newTotalSeconds = currentTotalSeconds + 1;
+                    const newMinutes = Math.floor(newTotalSeconds / 60);
+                    const newSeconds = newTotalSeconds % 60;
+                    
+                    return {
+                        ...prev,
+                        emergencyMinutes: String(newMinutes).padStart(2, '0'),
+                        emergencySeconds: String(newSeconds).padStart(2, '0')
+                    };
+                });
+            }, 1000);
+        } else if (timerMode === 3) {
+            // Countdown when emergency mode is active
+            interval = setInterval(() => {
+                setEmergencyTimer(prev => {
+                    const totalSeconds = (parseInt(prev.emergencyMinutes) || 0) * 60 + (parseInt(prev.emergencySeconds) || 0);
+                    
+                    if (totalSeconds <= 0) {
+                        return prev;
+                    }
+                    
+                    const newTotalSeconds = totalSeconds - 1;
+                    const newMinutes = Math.floor(newTotalSeconds / 60);
+                    const newSeconds = newTotalSeconds % 60;
+                    
+                    return {
+                        ...prev,
+                        emergencyMinutes: String(newMinutes).padStart(2, '0'),
+                        emergencySeconds: String(newSeconds).padStart(2, '0')
+                    };
+                });
 
+                setCombatTimer(prev => {
+                    const currentTotalSeconds = (parseInt(prev.combatMinutes) || 0) * 60 + (parseInt(prev.combatSeconds) || 0);
+                    const maxTotalSeconds = (parseInt(prev.combatMaxMinutes) || 0) * 60 + (parseInt(prev.combatMaxSeconds) || 0);
+                    
+                    if (currentTotalSeconds >= maxTotalSeconds) {
+                        return prev;
+                    }
+                    
+                    const newTotalSeconds = currentTotalSeconds + 1;
+                    const newMinutes = Math.floor(newTotalSeconds / 60);
+                    const newSeconds = newTotalSeconds % 60;
+                    
+                    return {
+                        ...prev,
+                        combatMinutes: String(newMinutes).padStart(2, '0'),
+                        combatSeconds: String(newSeconds).padStart(2, '0')
+                    };
+                });
+            }, 1000);
+        } else if(timerMode === 1) {
+            // Count both timers back up to max when neither mode is active
+            interval = setInterval(() => {
+                setCombatTimer(prev => {
+                    const currentTotalSeconds = (parseInt(prev.combatMinutes) || 0) * 60 + (parseInt(prev.combatSeconds) || 0);
+                    const maxTotalSeconds = (parseInt(prev.combatMaxMinutes) || 0) * 60 + (parseInt(prev.combatMaxSeconds) || 0);
+                    
+                    if (currentTotalSeconds >= maxTotalSeconds) {
+                        return prev;
+                    }
+                    
+                    const newTotalSeconds = currentTotalSeconds + 1;
+                    const newMinutes = Math.floor(newTotalSeconds / 60);
+                    const newSeconds = newTotalSeconds % 60;
+                    
+                    return {
+                        ...prev,
+                        combatMinutes: String(newMinutes).padStart(2, '0'),
+                        combatSeconds: String(newSeconds).padStart(2, '0')
+                    };
+                });
 
+                setEmergencyTimer(prev => {
+                    const currentTotalSeconds = (parseInt(prev.emergencyMinutes) || 0) * 60 + (parseInt(prev.emergencySeconds) || 0);
+                    const maxTotalSeconds = (parseInt(prev.emergencyMaxMinutes) || 0) * 60 + (parseInt(prev.emergencyMaxSeconds) || 0);
+                    
+                    if (currentTotalSeconds >= maxTotalSeconds) {
+                        return prev;
+                    }
+                    
+                    const newTotalSeconds = currentTotalSeconds + 1;
+                    const newMinutes = Math.floor(newTotalSeconds / 60);
+                    const newSeconds = newTotalSeconds % 60;
+                    
+                    return {
+                        ...prev,
+                        emergencyMinutes: String(newMinutes).padStart(2, '0'),
+                        emergencySeconds: String(newSeconds).padStart(2, '0')
+                    };
+                });
+            }, 1000);
+        }
 
-
-    const handlesetTimerMode = (timer_select: number) => {
-        const newSelection = timerMode === timer_select ? -1 : timer_select;
-        setTimerMode(newSelection);
-    };
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [timerMode]);
 
 
 
@@ -471,7 +649,7 @@ function Flight_info({
 
 
 
-            <div className="engineManagement_container" style={{display:"none"}}>
+            <div className="engineManagement_container">
                 <p className="calculation_header_text">Engine Management</p>
                 <div>
                     <div className='engine_mode_container engine_continuous_container' style={{backgroundColor: timerMode === 1 ? 'rgba(119, 255, 95, 0.2)' : 'transparent'}}>
@@ -484,16 +662,28 @@ function Flight_info({
                         <button className='engine_mode_button engine_combat_button' onClick={() => handlesetTimerMode(2)}>combat</button>
 
                         <form className='timer_form_container'>
-                            <input className='timer_inputField' type="number"/>
+                            <input className='timer_inputField' type="number" 
+                                value={combatTimer.combatMinutes}
+                                onChange={handleInput_Combat_Change('combatMinutes')}
+                            />
                                 <p className='timer_colon'>:</p>
-                            <input className='timer_inputField' type="number"/>
+                            <input className='timer_inputField' type="number"
+                                value={combatTimer.combatSeconds}
+                                onChange={handleInput_Combat_Change('combatSeconds')}
+                            />
                         </form>
 
                         <form className='timer_form_container'>
                             <small>Max</small>
-                            <input className='timer_inputField_maxInput' type="number"/>
+                            <input className='timer_inputField_maxInput' type="number"
+                                value={combatTimer.combatMaxMinutes}
+                                onChange={handleInput_Combat_Change('combatMaxMinutes')}
+                            />
                                 <p className='timer_colon_maxInput'>:</p>
-                            <input className='timer_inputField_maxInput' type="number"/>
+                            <input className='timer_inputField_maxInput' type="number"
+                                value={combatTimer.combatMaxSeconds}
+                                onChange={handleInput_Combat_Change('combatMaxSeconds')}
+                            />
                         </form>
 
                     </div>
@@ -502,6 +692,34 @@ function Flight_info({
                 <div>
                     <div className='engine_mode_container engine_emergency_container' style={{backgroundColor: timerMode === 3 ? 'rgba(255, 47, 47, 0.2)' : 'transparent'}}>
                         <button className='engine_mode_button engine_emergency_button' onClick={() => handlesetTimerMode(3)}>emergency</button>
+
+
+
+                        <form className='timer_form_container'>
+                            <input className='timer_inputField' type="number" 
+                                value={emergencyTimer.emergencyMinutes}
+                                onChange={handleInput_Emergency_Change('emergencyMinutes')}
+                            />
+                                <p className='timer_colon'>:</p>
+                            <input className='timer_inputField' type="number"
+                                value={emergencyTimer.emergencySeconds}
+                                onChange={handleInput_Emergency_Change('emergencySeconds')}
+                            />
+                        </form>
+
+                        <form className='timer_form_container'>
+                            <small>Max</small>
+                            <input className='timer_inputField_maxInput' type="number"
+                                value={emergencyTimer.emergencyMaxMinutes}
+                                onChange={handleInput_Emergency_Change('emergencyMaxMinutes')}
+                            />
+                                <p className='timer_colon_maxInput'>:</p>
+                            <input className='timer_inputField_maxInput' type="number"
+                                value={emergencyTimer.emergencyMaxSeconds}
+                                onChange={handleInput_Emergency_Change('emergencyMaxSeconds')}
+                            />
+                        </form>
+
 
 
 
