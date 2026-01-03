@@ -18,12 +18,16 @@ interface Flight_infoProps {
         id: string;
         points: {x: number, y: number}[];
         color: {r: number, g: number, b: number, a: number};
+        thickness: number;
     }[];
     setTargetdrawings: React.Dispatch<React.SetStateAction<{
         id: string;
         points: {x: number, y: number}[];
         color: {r: number, g: number, b: number, a: number};
+        thickness: number;
     }[]>>;
+
+    drawline_thickness: number;
     
     // Line positions and calculations
     linePositions: {
@@ -66,6 +70,7 @@ function Flight_info({
         drawColor,
         eraseDrawing,
         Targetdrawings,
+        drawline_thickness,
         setTargetdrawings,
         linePositions,
         mapDistance,
@@ -558,7 +563,7 @@ function Flight_info({
             <p className="calculation_header_text">Flight Notes</p>
             <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
             <p className="calculation_header_text">Target Site</p>
-            <Target_picture drawing_color={drawColor} eraser={eraseDrawing} Targetdrawings={Targetdrawings} onTargetDrawingsChange={setTargetdrawings}/>
+            <Target_picture drawing_color={drawColor} drawline_thickness={drawline_thickness} eraser={eraseDrawing} Targetdrawings={Targetdrawings} onTargetDrawingsChange={setTargetdrawings}/>
 
 
             {linePositions.map(line=> (

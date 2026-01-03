@@ -44,12 +44,11 @@ interface MinimapProps {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
-        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
-        flightNotes?: string,
+        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         textCreations?: {id: number, x: number, y: number, text: string}[];
     }) => void;
 
-    Targetdrawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[];
+    Targetdrawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
     drawings_set: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
 }
 

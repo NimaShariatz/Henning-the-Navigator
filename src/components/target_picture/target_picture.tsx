@@ -4,13 +4,15 @@ import { useRef, useState, useEffect } from "react"
 
 interface Target_picture{
     drawing_color: {r: number, g: number, b: number, a: number};
+    drawline_thickness: number,
     eraser: boolean;
 
-    Targetdrawings: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[];
-    onTargetDrawingsChange: (drawings: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[]) => void;
+
+    Targetdrawings: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
+    onTargetDrawingsChange: (drawings: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[]) => void;
 }
 
-function Target_picture({ drawing_color, eraser, Targetdrawings, onTargetDrawingsChange }: Target_picture) {
+function Target_picture({ drawing_color, drawline_thickness, eraser, Targetdrawings, onTargetDrawingsChange }: Target_picture) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const TargetfileInputRef = useRef<HTMLInputElement>(null);
@@ -23,9 +25,9 @@ function Target_picture({ drawing_color, eraser, Targetdrawings, onTargetDrawing
     const [thicknessAdjuster, setThicknessAdjuster] = useState(0);
 
     useEffect(() => {
-        const adjustedThickness = (window.innerWidth) / 350;
+        const adjustedThickness = ((window.innerWidth) / 350) * (drawline_thickness * 0.2);
         setThicknessAdjuster(adjustedThickness);
-    }, [window.innerWidth]);
+    }, [window.innerWidth, drawline_thickness]);
     
     
     const isPointNearLine = (
@@ -131,6 +133,7 @@ function Target_picture({ drawing_color, eraser, Targetdrawings, onTargetDrawing
                 id: `drawing-${Date.now()}`,
                 points: currentDrawing,
                 color: {...drawing_color},
+                thickness: drawline_thickness,
             };
 
             onTargetDrawingsChange([...Targetdrawings, newDrawing]);
@@ -199,32 +202,18 @@ function Target_picture({ drawing_color, eraser, Targetdrawings, onTargetDrawing
                         height: '100%',
                         pointerEvents: 'none'
                     }}
-                >
+                                    >
                     {Targetdrawings.map(drawing => (
-
-                       /* drawing.points.length === 1 ? ( for single click drawing. which is disabled in handleMouseUp.
-                            <circle
-                                key={drawing.id}
-                                cx={drawing.points[0].x}
-                                cy={drawing.points[0].y}
-                                r={drawing.thickness / 500}
-                                fill={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
-                            />
-                        ) : 
-                        */
-
-                        (
-                            <polyline
-                                key={drawing.id}
-                                points={drawing.points.map(p => `${p.x},${p.y}`).join(' ')}
-                                fill="none"
-                                stroke={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
-                                strokeWidth={thicknessAdjuster}
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                vectorEffect="non-scaling-stroke"
-                            />
-                        )
+                        <polyline
+                            key={drawing.id}
+                            points={drawing.points.map(p => `${p.x},${p.y}`).join(' ')}
+                            fill="none"
+                            stroke={`rgba(${drawing.color.r}, ${drawing.color.g}, ${drawing.color.b}, ${drawing.color.a})`}
+                            strokeWidth={((window.innerWidth) / 350) * (drawing.thickness * 0.2)}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            vectorEffect="non-scaling-stroke"
+                        />
                     ))}
 
                     {isDrawing && currentDrawing.length > 0 && (

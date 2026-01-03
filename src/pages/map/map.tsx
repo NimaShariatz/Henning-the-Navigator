@@ -57,6 +57,7 @@ function Map() {
         id: string;
         points: {x: number, y: number}[];
         color: {r: number, g: number, b: number, a: number};
+        thickness: number;
     }[]>([]);
 
 
@@ -896,7 +897,7 @@ function Map() {
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, targetName: string; isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
-        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}}[],
+        Targetdrawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
         flightNotes?: string
         textCreations?: {id: number, x: number, y: number, text: string}[];
     }) => {
@@ -1150,6 +1151,7 @@ function Map() {
                 drawColor={drawColor}
                 eraseDrawing={eraseDrawing}
                 Targetdrawings={Targetdrawings}
+                drawline_thickness={drawline_thickness}
                 setTargetdrawings={setTargetdrawings}
                 linePositions={linePositions}
                 mapDistance={mapDistance}
