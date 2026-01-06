@@ -2,20 +2,26 @@ import React, {useState, useEffect, useRef} from "react"
 
 import { Stalingrad, button_viewWidth_size } from "../../static/constants.tsx"
 import "./map.css"
-
-
 import Minimap from "../../components/minimap/minimap.tsx";
 import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
 import Map_changer from "../../components/map_changer/map_changer.tsx";
 import Color_select from "../../components/color_select/color_select.tsx";
 import Flight_info from "../../components/flight_info/flight_info.tsx";
 
-/*
- Info:
- first the image sizes are set up. The width and height of our image is gotten.
- Then the canvas is set up with that information 
- 
- */
+/*----firebase specific setup content*/
+import { useParams } from 'react-router-dom';
+
+
+/*----firebase specific setup content*/
+
+
+
+
+
+
+
+
+
 
 function Map() {
 
@@ -86,18 +92,34 @@ function Map() {
     const [flightNotes, setFlightNotes] = useState("")
     
 
-
-
-
-
-
-
-
     
     const [showUI, setShowUI] = useState(true);
     const handleShowUI = () => {
         setShowUI(!showUI);
     }
+
+
+    /*----firebase specific setup content*/
+    const { sessionId } = useParams(); // Gets the sessionId from URL
+    console.log(sessionId);
+
+
+
+    /*----firebase specific setup content*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     

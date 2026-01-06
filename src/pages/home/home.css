@@ -45,7 +45,7 @@
     width: 100vw;
     height: 100vw;
     background-color: #ffc90e;
-    transform: rotate(50deg) translate(0vw, 86vw);
+    transform: rotate(50deg) translate(0vw, 83vw);
 
     display: flex;
     justify-content: center;
@@ -61,7 +61,7 @@
 }
 
 .home_start_options{
-    transform: rotate(-50deg) translateY(7vw) translateX(-8vw);
+    transform: rotate(-50deg) translateY(7vw) translateX(-7vw);
     height: fit-content;
     gap: 1vw;
     display: flex;
@@ -77,9 +77,9 @@
 
     text-decoration: none;
     color: var(--logo_white);
-    padding-block: 0.5vw;
-    padding-inline: 5.5vw;
-    font-size: 2vw;
+    padding-block: 0.4vw;
+    padding-inline: 2.2vw;
+    font-size: 1.8vw;
     border-radius: 0.5vw;
     outline: 0.3vw solid transparent;
 }
@@ -89,9 +89,12 @@
 }
 
 
+.session_signIn_container{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
 
-.sign_inOut{
-    text-decoration: underline;
+    color: white;
 }
 
 
@@ -101,6 +104,9 @@
 
 
 
+.sign_inOut{
+    text-decoration: underline;
+}
 
 
 

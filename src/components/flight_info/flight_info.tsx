@@ -422,7 +422,7 @@ function Flight_info({
 
     
     useEffect(() => {
-        let interval: number | null = null;
+        let interval: ReturnType<typeof setInterval> | null = null;
         
         if (timerMode === 2) {
             // Countdown when combat mode is active
