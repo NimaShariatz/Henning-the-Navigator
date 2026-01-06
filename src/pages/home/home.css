@@ -60,27 +60,50 @@
     opacity: 1;
 }
 
+.home_start_options{
+    transform: rotate(-50deg) translateY(7vw) translateX(-8vw);
+    height: fit-content;
+    gap: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-.home_start_container a{
+}
+
+
+.home_start_options a{
     background-color: var(--button_background);
     height: fit-content;
 
-    transform: rotate(-50deg) translateY(18vw) translateX(-5vw);
     text-decoration: none;
     color: var(--logo_white);
     padding-block: 0.5vw;
     padding-inline: 5.5vw;
-    font-size: 3vw;
+    font-size: 2vw;
     border-radius: 0.5vw;
     outline: 0.3vw solid transparent;
-    
-
-    
 }
 
-.home_start_container a:hover{
+.home_start_options a:hover{
     outline-color: var(--logo_white);
 }
+
+
+
+.sign_inOut{
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

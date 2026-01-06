@@ -1,20 +1,92 @@
 import "./home.css"
-import { Henning_logo} from "../../static/constants.tsx"
 import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Henning_logo} from "../../static/constants.tsx"
+
+import { signInWithPopup, signOut, type User } from "firebase/auth"
+import {auth, googleProvider} from "../../firebase/config.ts"
+
+
 
 function Home(){
+
+    const [user, setUser] = useState<User | null>(null);//stores user data. contains email, photoURL and uid
+    const [loading, setLoading] = useState(true);
+
+
+    //firebase google sign-in
+    {/* 
+        Firebase handles: Token validation, session management, security
+        Google verifies: User identity, credentials
+        Henning recieves: Only verified user information
+        Sessions persist until signOut() is called or token expires
+    */}
+
+    useEffect(() => {// 
+        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
+    
+    const handleGoogleSignIn = async () => { //are async because they perform network operations that take time to complete
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (error) {
+            console.error("Error signing in with Google:", error);
+        }
+    };
+
+    const handleSignOut = async () => {// are async because they perform network operations that take time to complete:
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error signing out:", error);
+        }
+    };
+    //firebase google sign-in
+
+
+
+
+
+
+
+
+
+
+
     return(
         <div className="home_container">
-
 
             <div className='logo_container'>
                 <img className='logo' src={Henning_logo} alt="Henning the Navigator Logo"/>
             </div>
 
             <div className="home_start_container">
+                <div className="home_start_options">
+                    <Link to="/map">Navigate</Link>
+                    
+                    {loading ? ( //if we are loading [remember its async()] then show loading
 
-                <Link to="/map">Navigate</Link>
+                        <p>Loading...</p>
 
+                    ) : user ? (// if we got a user, show this stuff
+    
+                        <p className="sign_inOut" onClick={handleSignOut}> Sign out as {user.displayName}</p>
+                        /* Add your online instance creation/join functionality here */
+                        /* if signed in: can sign out, create own online instance, or join existing instance[URL + Password] */
+
+                    ) : (//else
+
+                        <p className="sign_inOut" onClick={handleGoogleSignIn}>
+                            Sign in with Google for online map
+                        </p>
+
+                    )}
+
+                </div>
             </div>
 
             <div className="home_content_container">

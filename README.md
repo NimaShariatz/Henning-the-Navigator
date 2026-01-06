@@ -27,3 +27,5 @@ This is a front-end static application using ReactJS and Typscript. No specific 
 `react-router-dom` -> for loading pages
 
 `react-colorful` -> for the color RGB selection
+
+`firebase` -> for online setup

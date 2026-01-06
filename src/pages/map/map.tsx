@@ -1228,7 +1228,7 @@ function Map() {
                 onChangeMap={(newMapUrl) => {
                     setCurrentImage(newMapUrl);
                     setCustomMapName(undefined); // Reset custom name when switching to a predefined map
-                    clear_all_points(); // Clear points when changing map
+                    //clear_all_points(); // Clear points when changing map
                 }}
             />
 
