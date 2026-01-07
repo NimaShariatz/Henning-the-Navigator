@@ -45,7 +45,7 @@
     width: 100vw;
     height: 100vw;
     background-color: #ffc90e;
-    transform: rotate(50deg) translate(0vw, 83vw);
+    transform: rotate(50deg) translate(0vw, 84vw);
 
     display: flex;
     justify-content: center;
@@ -61,12 +61,15 @@
 }
 
 .home_start_options{
-    transform: rotate(-50deg) translateY(7vw) translateX(-7vw);
+    transform: rotate(-50deg) translateY(12vw) translateX(-2vw);
     height: fit-content;
-    gap: 1vw;
+    gap: 0.6vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    width: 21vw;
+
 
 }
 
@@ -78,10 +81,11 @@
     text-decoration: none;
     color: var(--logo_white);
     padding-block: 0.4vw;
-    padding-inline: 2.2vw;
     font-size: 1.8vw;
     border-radius: 0.5vw;
     outline: 0.3vw solid transparent;
+    width: 100%;
+    text-align: center;
 }
 
 .home_start_options a:hover{
@@ -90,28 +94,117 @@
 
 
 .session_signIn_container{
-    background-color: red;
+    background-color: var(--button_background);
     display: flex;
     flex-direction: column;
+    align-items: left;
+    width: 100%;
 
-    color: white;
+    padding-inline: 1.5vw;
+    padding-block: 1vw;
+    border-radius: 0.7vw;
+
+
+}
+
+
+.joinSession_container{
+    display: flex;
+}
+
+
+.sessionURL_inputfield{
+    background-color: rgba(7, 7, 7, 0.70);
+    color: var(--logo_white);
+    border: none;
+    padding-inline: 0.1vw;
+    font-weight: bold;
+    border-radius: 0.15vw;
+    text-align: center;
+    font-size: 0.7vw;
+    width: 100%;
+    margin-right: 0.5vw;
+}
+.sessionURL_inputfield:focus{
+    border: none;
+    outline: none;
 }
 
 
 
 
 
+.JoinSession_button{
+    text-decoration: none;
+    color: var(--logo_white);
+    font-size: 1.2vw;
+    background-color: var(--logo_yellow);
+    width: fit-content;
+    padding-block: 0.2vw;
+    padding-inline: 0.4vw;
+    border-radius: 0.3vw;
+    font-weight: bold;
+    cursor: pointer;
+    outline: 0.2vw solid transparent;
+    color: var(--logo_black);
+}
+.JoinSession_button:hover{
+    outline-color: var(--logo_white);
+}
 
 
 
-.sign_inOut{
+.create_onlineSession_button{
+    margin-top: 1vw;
+    text-decoration: none;
+    color: var(--logo_white);
+    font-size: 1.2vw;
+    background-color: var(--logo_yellow);
+    width: fit-content;
+    padding-block: 0.2vw;
+    padding-inline: 0.4vw;
+    border-radius: 0.3vw;
+    font-weight: bold;
+    cursor: pointer;
+    outline: 0.2vw solid transparent;
+    color: var(--logo_black);
+
+
+
+}
+.create_onlineSession_button:hover{
+    outline-color: var(--logo_white);
+}
+
+
+
+.signOut_container{
+    margin-top: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.google_photoIcon{
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
+    outline: 0.2vw solid var(--logo_white);
+}
+
+.signOut_button{
     text-decoration: underline;
+    cursor: pointer;
 }
 
 
 
 
-
+.signIn_button{
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 1vw;
+}
 
 
 
@@ -555,7 +648,28 @@
 
 
 @media (max-width: 900px) {/*for mobile view*/
+
+    .home_start_container{
+        transform: rotate(50deg) translate(0vw, 80vw);
+    }
+
+
+    .home_start_options{
+        transform: rotate(-50deg) translateY(9vw) translateX(-2vw);
+    }
+
+    .home_start_options a{
+        font-size: 2.5vw;
+    }
+
+    .sessionURL_inputfield{
+        font-size: 1.2vw;
+    }
+
+
     .tooltip_text{
         font-size: 1.5vw;
     }
+
+
 }

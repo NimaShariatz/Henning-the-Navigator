@@ -41,5 +41,5 @@
 
 
 .target_drawing_button:active{
-    background-color: var(--logo_white);;
+    background-color: var(--logo_white);
 }

@@ -1,21 +1,21 @@
 import "./home.css"
 import { Link, useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Henning_logo} from "../../static/constants.tsx"
 
 import { signInWithPopup, signOut, type User } from "firebase/auth"
 import {auth, googleProvider, db} from "../../firebase/config.ts"
 
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, getDoc } from 'firebase/firestore';
 
 function Home(){
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User | null>(null);//stores user data. contains email, photoURL and uid
     const [loading, setLoading] = useState(true);
+    const sessionInputRef = useRef<HTMLInputElement>(null);
 
-
-    //firebase google sign-in
+    //-----firebase google sign-in-----
     {/* 
         Firebase handles: Token validation, session management, security
         Google verifies: User identity, credentials
@@ -46,12 +46,12 @@ function Home(){
             console.error("Error signing out:", error);
         }
     };
-    //firebase google sign-in
+    //-----firebase google sign-in-----
 
 
 
 
-    //database related functions
+    //-----database related functions-----
         const createOnlineSession = async () => {
             /*
                 create or add to collection navigationInstances
@@ -80,20 +80,45 @@ function Home(){
 
 
 
-        const joinExistingSession = () => {
-            const sessionId = prompt('Enter session ID:');
-            if (sessionId) {
-            navigate(`/map/${sessionId}`);
+        const joinExistingSession = async () => {
+            //const sessionId = prompt('Enter session ID:');
+            const sessionInput = sessionInputRef.current?.value.trim();
+            
+            if (!sessionInput) {
+                alert('Please enter a session ID');
+                return;
+            }
+
+            
+            // Extract session ID if user pastes full URL
+            let sessionId = sessionInput;
+            
+            // Handle if user pastes full URL like "http://localhost:5173/.../#/map/ABC123"
+            if (sessionId.includes('/map/')) {
+                sessionId = sessionId.split('/map/')[1].split(/[?#]/)[0];
+            }
+
+            // Check if session exists in database
+            try {
+                const sessionRef = doc(db, 'navigationInstances', sessionId);//get document
+                console.log(sessionRef)
+                const sessionSnap = await getDoc(sessionRef);//try and get input ID
+
+                
+                
+                if (!sessionSnap.exists()) {
+                    alert('Session does not exist.');
+                    return;
+                }
+                
+                navigate(`/map/${sessionId}`);
+            } catch (error) {
+                console.error('Error checking session:', error);
+                alert('Error validating session. Please try again.');
             }
         };
 
-
-
-
-        /* Next add joinExistingSession function! */
-
-
-    //database related functions
+    //-----database related functions-----
 
 
 
@@ -109,13 +134,15 @@ function Home(){
                 <div className="home_start_options">
                     <Link to="/map">Navigate (Local)</Link>
 
-                    <small>or</small>
 
                     <div className="session_signIn_container">
 
-                        <p onClick={joinExistingSession}>
-                            Join Existing Session
-                        </p>
+                        <p>Join Existing Session</p>
+                        <div className="joinSession_container">
+                            <input className="sessionURL_inputfield" ref={sessionInputRef} placeholder="Session URL or ID" onKeyDown={(e) => {if (e.key === 'Enter') {joinExistingSession();}}}/>
+                            <button className="JoinSession_button" onClick={joinExistingSession}>Join</button>
+                            
+                        </div>
                         
                         {loading ? ( //if we are loading [remember its async()] then show loading
 
@@ -124,15 +151,17 @@ function Home(){
                         ) : user ? (// if we got a user, show this stuff
                             
                             <>
-                                <p onClick={createOnlineSession}>
-                                    Create Online Session
-                                </p>
-                                <p className="sign_inOut" onClick={handleSignOut}> Sign out as {user.displayName}</p>
+                                <p className="create_onlineSession_button" onClick={createOnlineSession}>Create Online Session</p>
+                                <div className="signOut_container">
+                                    <img className="google_photoIcon" src={user.photoURL || undefined} />
+                                    <p onClick={handleSignOut}> {user.displayName}</p>
+                                    <p className="signOut_button" onClick={handleSignOut}>Sign out</p>
+                                </div>
                             </>
 
                         ) : (//else
 
-                            <p className="sign_inOut" onClick={handleGoogleSignIn}>
+                            <p className="signIn_button" onClick={handleGoogleSignIn}>
                                 Sign In to Create a Session
                             </p>
 
