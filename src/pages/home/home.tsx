@@ -66,6 +66,7 @@ function Home(){
             // Create new instance in Firestore
             const docRef = await addDoc(collection(db, 'navigationInstances'), {
                 ownerId: user.uid,
+                ownerEmail: user.email,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
                 navigationData: {} // Empty initial data
