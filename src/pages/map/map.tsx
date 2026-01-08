@@ -10,7 +10,8 @@ import Flight_info from "../../components/flight_info/flight_info.tsx";
 
 /*----firebase specific setup content*/
 import { useParams } from 'react-router-dom';
-
+import { db } from '../../firebase/config';
+import { doc, updateDoc, onSnapshot } from 'firebase/firestore';
 
 /*----firebase specific setup content*/
 
@@ -99,9 +100,103 @@ function Map() {
     }
 
 
+
+
     /*----firebase specific setup content*/
-    const { sessionId } = useParams(); // Gets the sessionId from URL
-    console.log(sessionId);
+    const { sessionId } = useParams();
+    const isLoadingRef = useRef(true);
+    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isUpdatingFromDBRef = useRef(false); // NEW: Track DB updates
+
+
+    const saveNavigationData = async () => {
+        if (!sessionId || isLoadingRef.current || isUpdatingFromDBRef.current) return; // Don't save during DB updates
+        
+        try {
+            const sessionRef = doc(db, 'navigationInstances', sessionId);
+            
+            const navigationData = {
+                points,
+                targets,
+                drawings,
+                Targetdrawings,
+                flightNotes,
+                textCreations
+            };
+                        
+            await updateDoc(sessionRef, {
+                navigationData,
+                updatedAt: new Date()
+            });
+            
+            //console.log('Navigation data saved successfully');
+        } catch (error) {
+            console.error('Error saving navigation data:', error);
+        }
+    };
+
+
+    useEffect(() => {
+        if (!sessionId || isLoadingRef.current || isUpdatingFromDBRef.current) return; // Don't save during DB updates
+        
+        if (saveTimeoutRef.current) {
+            clearTimeout(saveTimeoutRef.current);
+        }
+        
+        saveTimeoutRef.current = setTimeout(() => {
+            saveNavigationData();
+        }, 300);
+        
+        return () => {
+            if (saveTimeoutRef.current) {
+                clearTimeout(saveTimeoutRef.current);
+            }
+        };
+    }, [points, targets, drawings, Targetdrawings, flightNotes, textCreations]);
+
+
+    useEffect(() => {
+        if (!sessionId) return;
+        
+        const sessionRef = doc(db, 'navigationInstances', sessionId);
+        
+        const unsubscribe = onSnapshot(sessionRef, (docSnap) => {
+            isUpdatingFromDBRef.current = true; // SET FLAG BEFORE UPDATES
+            
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                if (data.navigationData) {
+                    const navData = data.navigationData;
+                    
+                    if (navData.points) setPoints(navData.points);
+                    if (navData.targets) settargets(navData.targets);
+                    if (navData.drawings) setDrawings(navData.drawings);
+                    if (navData.Targetdrawings) setTargetdrawings(navData.Targetdrawings);
+                    if (navData.flightNotes !== undefined) setFlightNotes(navData.flightNotes);
+                    if (navData.textCreations) setTextCreation(navData.textCreations);
+                    
+                    //console.log('Navigation data loaded/updated');
+                }
+                
+                isLoadingRef.current = false;
+            } else {
+                isLoadingRef.current = false;
+            }
+            
+            // RESET FLAG AFTER UPDATES (with small delay for state batching)
+            setTimeout(() => {
+                isUpdatingFromDBRef.current = false;
+            }, 50);
+        }, (error) => {
+            console.error('Error listening to navigation data:', error);
+            isLoadingRef.current = false;
+            isUpdatingFromDBRef.current = false;
+        });
+        
+        return () => unsubscribe();
+    }, [sessionId]);
+
 
 
 

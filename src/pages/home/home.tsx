@@ -102,7 +102,7 @@ function Home(){
             // Check if session exists in database
             try {
                 const sessionRef = doc(db, 'navigationInstances', sessionId);//get document
-                console.log(sessionRef)
+                //console.log(sessionRef)
                 const sessionSnap = await getDoc(sessionRef);//try and get input ID
 
                 
