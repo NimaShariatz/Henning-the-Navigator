@@ -107,6 +107,24 @@ function Map() {
     const isLoadingRef = useRef(true);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const isUpdatingFromDBRef = useRef(false); // NEW: Track DB updates
+    const indicatorRef = useRef<HTMLButtonElement>(null);
+
+
+
+    const flashIndicatorGreen = () => {
+        if (indicatorRef.current) {
+            const element = indicatorRef.current;
+            element.classList.remove('flash-green');
+            void element.offsetWidth;
+            element.classList.add('flash-green');
+            
+            // Remove class when animation completes
+            element.addEventListener('animationend', () => {
+                element.classList.remove('flash-green');
+            }, { once: true }); // 'once: true' automatically removes the listener after it fires
+        }
+    };
+
 
 
     const saveNavigationData = async () => {
@@ -128,7 +146,9 @@ function Map() {
                 navigationData,
                 updatedAt: new Date()
             });
-            
+
+            flashIndicatorGreen(); // Flash green on successful save
+
             //console.log('Navigation data saved successfully');
         } catch (error) {
             console.error('Error saving navigation data:', error);
@@ -145,8 +165,7 @@ function Map() {
         
         saveTimeoutRef.current = setTimeout(() => {
             saveNavigationData();
-        }, 300);
-        
+        }, 200);
         return () => {
             if (saveTimeoutRef.current) {
                 clearTimeout(saveTimeoutRef.current);
@@ -168,7 +187,7 @@ function Map() {
                 
                 if (data.navigationData) {
                     const navData = data.navigationData;
-                    
+
                     if (navData.points) setPoints(navData.points);
                     if (navData.targets) settargets(navData.targets);
                     if (navData.drawings) setDrawings(navData.drawings);
@@ -178,7 +197,7 @@ function Map() {
                     
                     //console.log('Navigation data loaded/updated');
                 }
-                
+
                 isLoadingRef.current = false;
             } else {
                 isLoadingRef.current = false;
@@ -196,6 +215,11 @@ function Map() {
         
         return () => unsubscribe();
     }, [sessionId]);
+
+
+
+
+
 
 
 
@@ -1283,12 +1307,19 @@ function Map() {
 
 
 
-            <button className="minimap_dissappear_button" style={{filter: showUI ? 'grayscale(100%)' : "none"}}>
+            <button className="UI_dissappear_button" style={{filter: showUI ? 'grayscale(100%)' : "none"}}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" onClick={() => handleShowUI()}>
                     <g fill="none" stroke="var(--logo_yellow)" strokeWidth="1.2">
                         <path fill="var(--logo_yellow)" fillOpacity="0.25" d="M6.887 5.172c.578-.578.867-.868 1.235-1.02S8.898 4 9.716 4h4.61c.826 0 1.239 0 1.61.155c.37.155.66.45 1.239 1.037l1.674 1.699c.568.576.852.865 1.002 1.23c.149.364.149.768.149 1.578v4.644c0 .818 0 1.226-.152 1.594s-.441.656-1.02 1.235l-1.656 1.656c-.579.579-.867.867-1.235 1.02c-.368.152-.776.152-1.594.152H9.7c-.81 0-1.214 0-1.579-.15c-.364-.149-.653-.433-1.229-1.001l-1.699-1.674c-.588-.58-.882-.87-1.037-1.24S4 15.152 4 14.326v-4.61c0-.818 0-1.226.152-1.594s.442-.657 1.02-1.235z" />
                         <path strokeLinecap="round" d="m8 11l.422.211a8 8 0 0 0 7.156 0L16 11m-4 1.5V14m-3-2l-.5 1m6.5-1l.5 1" />
                     </g>
+                </svg>
+            </button>
+
+            <button ref={indicatorRef} className="data_updateLoad_indicator" style={{display: sessionId ? 'block' : 'none'}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+                    <path fill="currentcolor" d="M12 4a5.51 5.51 0 0 0-5.5 5.5c0 2.47 1.49 3.89 2.35 4.5h6.3c.86-.61 2.35-2.03 2.35-4.5C17.5 6.47 15.03 4 12 4" opacity="0.45" />
+                    <path fill="currentcolor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-4-5h8v2H8zm4-15C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2m3.15 12h-6.3c-.86-.61-2.35-2.03-2.35-4.5C6.5 6.47 8.97 4 12 4s5.5 2.47 5.5 5.5c0 2.47-1.49 3.89-2.35 4.5" />
                 </svg>
             </button>
 
