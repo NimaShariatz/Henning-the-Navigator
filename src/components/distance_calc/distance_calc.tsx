@@ -50,16 +50,16 @@ function Distance_calc({showUI, onDistanceChange, currentMapUrl }: DistanceCalcP
                     setDistanceValue("400");
                     break;
                 case 'Prokhorovka':
-                    setDistanceValue("802");
+                    setDistanceValue("985");
                     break;
                 case 'Rheinland':
-                    setDistanceValue("350");
+                    setDistanceValue("375");
                     break;
                 case 'Stalingrad':
                     setDistanceValue("392");
                     break;
                 case 'Vluki':
-                    setDistanceValue("481");
+                    setDistanceValue("490");
                     break;
                 case 'Western_front':
                     setDistanceValue("281");
