@@ -26,6 +26,11 @@
 .information_container:hover{
     opacity: 1;
 }
+.information_container_title{
+    text-align: center;
+    width: 100%;
+}
+
 
 
 .flight_notes{

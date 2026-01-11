@@ -8,6 +8,7 @@ import Misc_set from "../misc_set/misc_set"
 import Target_set from "../target_set/target_set"
 
 interface MinimapProps {
+    imageDimensions:{width: number, height: number} ;
     showUI: boolean;
     on_minimap_click?: (relativeX: number, relativeY: number) => void;
 
@@ -54,6 +55,7 @@ interface MinimapProps {
 
 
 function Minimap({
+            imageDimensions,
             showUI,
             on_minimap_click, 
             current_image, 
@@ -114,10 +116,10 @@ function Minimap({
 
     const calculate_waypoint_for_minimap = (point: {id: number, x: number, y: number, type: number}) => {//for scalling x y for mini map
         //gets canvas size, divides x and y, then multiplies to minimap sizes
-        const main_map_image_element = document.querySelector('canvas.map_background');
-        const main_map_width = main_map_image_element?.clientWidth || 1; // the '|| 1' is for null prevention
-        const main_map_height = main_map_image_element?.clientHeight || 1;
+        const main_map_width = imageDimensions.width;
+        const main_map_height = imageDimensions.height;
         
+
         const button_size = window.innerWidth * button_viewWidth_size; // 1.6vw - same as in map.tsx
         const adjusted_x = point.x + (button_size / 2);// accounts for the centering effect in map.tsx (for cursor)
         const adjusted_y = point.y + (button_size / 2);

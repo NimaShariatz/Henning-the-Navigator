@@ -560,6 +560,7 @@ function Flight_info({
     
     return(
         <div className="information_container" style={{ display: (showInfoContainer && showUI) ? 'block' : 'none' }}>
+            <h1 className='information_container_title'>Flight Information</h1>
             <p className="calculation_header_text">Flight Notes</p>
             <textarea className="flight_notes" onChange={handleInput_flightNotes_Change} value={flightNotes} placeholder="Fuel, formations and loadouts..."></textarea>
             <p className="calculation_header_text">Target Site</p>

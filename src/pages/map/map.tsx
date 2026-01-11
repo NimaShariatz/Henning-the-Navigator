@@ -1326,6 +1326,7 @@ function Map() {
             
             
             <Minimap
+                imageDimensions={imageDimensions}
                 showUI={showUI}
                 on_minimap_click={handle_minimap_click} 
                 current_image={currentImage}
