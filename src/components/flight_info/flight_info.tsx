@@ -164,7 +164,7 @@ function Flight_info({
 
     const time_speed_calculations = () => {// is autmaitcally called everytime handleInput is called on
 
-        let distance = Number(distanceCalcInput);
+        const distance = Number(distanceCalcInput);
         
 
         const time = distance / Number(speedCalcInput)

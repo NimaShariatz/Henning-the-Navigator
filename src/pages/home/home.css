@@ -34,6 +34,24 @@
 
 }
 
+.youtube_container{
+    position: absolute;
+    right:0.5vw;
+    bottom:0.5vw;
+    width: 3vw;
+    height: 3vw;
+    z-index: 3;
+    background-color: var(--background_1);
+    border-radius: 0.5vw;
+
+}
+.youtube_homeIcon{
+    padding-inline: 0.3vw;
+    padding-block: 0.1vw;
+}
+
+
+
 
 
 .home_start_container{
