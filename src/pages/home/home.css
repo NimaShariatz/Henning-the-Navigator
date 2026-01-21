@@ -37,21 +37,22 @@
 .youtube_container{
     position: absolute;
     right:0.5vw;
-    bottom:0.5vw;
+    bottom:0.3vw;
     width: 3vw;
-    height: 3vw;
+    height: auto;
     z-index: 3;
-    background-color: var(--background_1);
-    border-radius: 0.5vw;
 
 }
-.youtube_homeIcon{
-    padding-inline: 0.3vw;
-    padding-block: 0.1vw;
+
+.youtube_homeIcon path:nth-child(1){
+    fill: #f00;
 }
-
-
-
+.youtube_homeIcon path:nth-child(2){
+    fill: #f5fafb;
+}
+.youtube_homeIcon:hover path:nth-child(1){
+    fill: var(--logo_yellow);
+}
 
 
 .home_start_container{
