@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState, useEffect, useRef, useCallback} from "react"
+
 
 import { Stalingrad, button_viewWidth_size } from "../../static/constants.tsx"
 import "./map.css"
@@ -127,8 +128,8 @@ function Map() {
 
 
 
-    const saveNavigationData = async () => {
-        if (!sessionId || isLoadingRef.current || isUpdatingFromDBRef.current) return; // Don't save during DB updates
+    const saveNavigationData = useCallback(async () => {// uses useCallback
+        if (!sessionId || isLoadingRef.current || isUpdatingFromDBRef.current) return;
         
         try {
             const sessionRef = doc(db, 'navigationInstances', sessionId);
@@ -147,17 +148,17 @@ function Map() {
                 updatedAt: new Date()
             });
 
-            flashIndicatorGreen(); // Flash green on successful save
+            flashIndicatorGreen();
 
-            //console.log('Navigation data saved successfully');
         } catch (error) {
             console.error('Error saving navigation data:', error);
         }
-    };
+    }, [sessionId, points, targets, drawings, Targetdrawings, flightNotes, textCreations]);
+
 
 
     useEffect(() => {
-        if (!sessionId || isLoadingRef.current || isUpdatingFromDBRef.current) return; // Don't save during DB updates
+        if (!sessionId || isLoadingRef.current || isUpdatingFromDBRef.current) return;
         
         if (saveTimeoutRef.current) {
             clearTimeout(saveTimeoutRef.current);
@@ -166,12 +167,13 @@ function Map() {
         saveTimeoutRef.current = setTimeout(() => {
             saveNavigationData();
         }, 200);
+        
         return () => {
             if (saveTimeoutRef.current) {
                 clearTimeout(saveTimeoutRef.current);
             }
         };
-    }, [points, targets, drawings, Targetdrawings, flightNotes, textCreations]);
+    }, [sessionId, saveNavigationData]); // uses useCallback. was previously [points, targets, drawings, Targetdrawings, flightNotes, textCreations] which triggered uselessly
 
 
     useEffect(() => {

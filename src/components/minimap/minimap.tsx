@@ -1,4 +1,4 @@
-import {useRef, useState, useEffect} from "react"
+import { useRef, useState, useEffect, useCallback } from 'react';
 import "./minimap.css"
 
 import {button_viewWidth_size} from "../../static/constants"
@@ -89,8 +89,8 @@ function Minimap({
 
     const [ripples, setRipples] = useState<{id: number, x: number, y: number}[]>([]);
 
-
-
+    const [redBoxDimensions, setRedBoxDimensions] = useState({ width: 0, height: 0 });
+    const [redBoxPosition, setRedBoxPosition] = useState({ left: 0, top: 0 });
 
 
     useEffect(() => {//called on every image change
@@ -353,16 +353,66 @@ function Minimap({
 
 
 
+        
+    const update_redbox_sizing = useCallback(() => { //need to use useCallback for performance reasons.  
+    // The function will only be recreated when these values change, which is exactly when you want to recalculate the red box dimensions.
+    // **This prevents unnecessary re-renders while ensuring the function updates when the image dimensions change.**
+        const main_map_width = imageDimensions.width;
+        const main_map_height = imageDimensions.height;
 
+        const window_value_x = window.innerWidth;
+        const window_value_y = window.innerHeight;
 
+        const percentage_x = (window_value_x / main_map_width) * 100;
+        const percentage_y = (window_value_y / main_map_height) * 100;
+
+        setRedBoxDimensions({ width: percentage_x, height: percentage_y });
+
+    }, [imageDimensions.width, imageDimensions.height]);
+
+    useEffect(() => {
+        update_redbox_sizing();
+        window.addEventListener('resize', update_redbox_sizing);
+        
+        return () => {
+            window.removeEventListener('resize', update_redbox_sizing);
+        };
+    }, [update_redbox_sizing]);
 
 
     
+    const update_redbox_position = useCallback(() => {
+        const main_map_container = document.querySelector('.map_container');
+        if (!main_map_container || !imageRef.current) return;
 
+        const scroll_x = main_map_container.scrollLeft;
+        const scroll_y = main_map_container.scrollTop;
 
+        const main_map_width = imageDimensions.width;
+        const main_map_height = imageDimensions.height;
 
+        // Calculate percentage of scroll position
+        const percentage_left = (scroll_x / main_map_width) * 100;
+        const percentage_top = (scroll_y / main_map_height) * 100;
 
+        setRedBoxPosition({ 
+            left: percentage_left, 
+            top: percentage_top 
+        });
 
+    }, [imageDimensions.width, imageDimensions.height]);
+    useEffect(() => {
+        const main_map_container = document.querySelector('.map_container');
+        if (!main_map_container) return;
+
+        update_redbox_position();
+        
+        main_map_container.addEventListener('scroll', update_redbox_position);
+        
+        return () => {
+            main_map_container.removeEventListener('scroll', update_redbox_position);
+        };
+    }, [update_redbox_position]);
 
 
 
@@ -382,6 +432,15 @@ function Minimap({
 
             <div className="minimap_container" style={{ display: showUI ? 'flex' : 'none' }}>
                 <div className="navigation_container">
+                    <div 
+                        className="minimap_redBox" 
+                        style={{
+                            width: `${redBoxDimensions.width}%`,
+                            height: `${redBoxDimensions.height}%`,
+                            left: `${redBoxPosition.left}%`,
+                            top: `${redBoxPosition.top}%`
+                        }}
+                    ></div>
                     <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
                 
                     {ripples.map(ripple => (
