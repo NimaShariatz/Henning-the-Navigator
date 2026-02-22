@@ -1,7 +1,7 @@
 import "./target_set.css"
 
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 
 
 interface TargetSetProps {
@@ -12,11 +12,12 @@ interface TargetSetProps {
     showPicker: boolean;
     eraseDrawing: boolean;
     textMode_active: boolean;
+    pointIsSelected: boolean;
 }
 
 
 
-function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker, eraseDrawing, textMode_active }: TargetSetProps){
+function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, points_set, showPicker, eraseDrawing, textMode_active, pointIsSelected }: TargetSetProps){
 
 
 
@@ -63,7 +64,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
 
 
-    const targetMap = [
+    const targetMap = useMemo(() => [//changed it from 'const targetMap = [' to useMemo which prevents unnecessary re-renders
         { value: 1, ref: radar },
         { value: 2, ref: factory },
         { value: 3, ref: rail },
@@ -77,13 +78,12 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
         { value: 11, ref: airfield },
         { value: 12, ref: AA },
         { value: 13, ref: unknown }
-
-    ];
+    ], []);
 
 
     useEffect(() => {
 
-        if(!has_one_start_point || !has_one_target_point || showPicker || eraseDrawing || textMode_active){
+        if(!has_one_start_point || !has_one_target_point || showPicker || eraseDrawing || textMode_active || pointIsSelected){
             targetMap.forEach(item => {
                 if(item.ref.current){
                     item.ref.current.disabled = true;
@@ -123,7 +123,7 @@ function Target_set({ onTargetSelectionChange, onColorChange, selectedTarget, po
 
         
 
-    }, [points_set, selectedTarget, showPicker, eraseDrawing, textMode_active]);
+    }, [points_set, selectedTarget, showPicker, eraseDrawing, textMode_active, pointIsSelected, has_one_start_point, has_one_target_point, targetMap]);
 
 
 

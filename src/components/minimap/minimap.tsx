@@ -17,6 +17,7 @@ interface MinimapProps {
     
     on_waypoint_selection_change?: (selection: number) => void;
     on_target_selection_change?: (selection: number) => void;
+    pointIsSelected: boolean;
     selectedWaypoint?: number;
     selectedTarget?: number;
 
@@ -63,6 +64,7 @@ function Minimap({
             on_waypoint_selection_change, 
             on_target_selection_change, 
             on_target_color_change, 
+            pointIsSelected,
             on_clear_points, 
             points_set, 
             targets_set, 
@@ -612,6 +614,7 @@ function Minimap({
                     showPicker = {showpicker}
                     eraseDrawing = {eraseDrawing}
                     textMode_active = {textMode_active}
+                    pointIsSelected = {pointIsSelected}
                 />
                 <Navigation_set
                     onWaypointSelectionChange={on_waypoint_selection_change}
@@ -620,6 +623,7 @@ function Minimap({
                     showPicker = {showpicker}
                     eraseDrawing = {eraseDrawing}
                     textMode_active = {textMode_active}
+                    pointIsSelected = {pointIsSelected}
                 />
                 <Misc_set 
                     on_image_upload={on_image_upload}

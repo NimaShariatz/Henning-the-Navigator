@@ -9,6 +9,8 @@ import Map_changer from "../../components/map_changer/map_changer.tsx";
 import Color_select from "../../components/color_select/color_select.tsx";
 import Flight_info from "../../components/flight_info/flight_info.tsx";
 
+import { checkCollision, centerCoordinates, calculateCollisionRadius } from "../../helpers/collision_check.tsx";
+
 /*----firebase specific setup content*/
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/config';
@@ -44,8 +46,9 @@ function Map() {
     const [selectedNavType, setSelectedNavType] = useState(-1);
     const [targetColor, setTargetColor] = useState(false);
     const [targets, settargets] = useState<{id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[]>([]);
-    const [selectedTargetType, setSelectedTargetType] = useState(-1)// gets to <minimap> then to target_set. gets set in there
-    
+    const [selectedTargetType, setSelectedTargetType] = useState(-1);// gets to <minimap> then to target_set. gets set in there
+    const [pointIsSelected, setPointIsSelected] = useState(false);
+    const [selectedWaypointId, setSelectedWaypointId] = useState<number | null>(null);
     //--------------------------
     const [showPicker, setShowPicker] = useState(false);
     const [drawColor, setDrawColor] = useState<{r: number, g: number, b: number, a: number}>({ r: 255, g: 201, b: 14, a: 1 });
@@ -245,7 +248,6 @@ function Map() {
 
     
     const handle_map_click = (e: React.MouseEvent<HTMLDivElement>) => {
-
         //console.log("Nav!", selectedNavType , " Target! ", selectedTargetType)
 
         if (showPicker || eraseDrawing) {
@@ -253,7 +255,7 @@ function Map() {
         }
 
 
-        if (!containerRef.current || (selectedNavType === -1 && selectedTargetType === -1 && textMode_active === false)) return;
+        if (!containerRef.current || (selectedNavType === -1 && selectedTargetType === -1 && textMode_active === false && pointIsSelected === false)) return;
 
         
         const container = containerRef.current;
@@ -270,15 +272,9 @@ function Map() {
             }
         }        
             
-        //for preventing too many next to each other
-        const button_size = window.innerWidth * button_viewWidth_size; //button is 1.6vw
-
-        const x_cord = x_raw - (button_size / 2);//centres the button based on where user clicked
-        const y_cord = y_raw - (button_size / 2);
-
-        const collision_radius = button_size * 1.1 // multiplier radius! for the 'for' statement
-
-
+        
+        const { x: x_cord, y: y_cord } = centerCoordinates(x_raw, y_raw);
+        const collision_radius = calculateCollisionRadius();
 
 
         
@@ -314,22 +310,14 @@ function Map() {
 
 
 
-
-
-
-
         //Handle navigation point placement
-        if(selectedNavType > 0 && selectedNavType < 5 && selectedTargetType === -1){ //---IF 1-4---
-            for (const button of points) {
-                const distance = Math.sqrt(Math.pow(button.x - x_cord, 2) + Math.pow(button.y - y_cord, 2));
-                //console.log(distance)
-                
-                if (distance < collision_radius) {// so if within radius, do not make the thing
-                    return;
-                }
+        if(selectedNavType > 0 && selectedNavType < 5 && selectedTargetType === -1 && pointIsSelected === false){ //---IF 1-4 and point is not selected---
+            // Check for collision with existing points
+            if (checkCollision(x_cord, y_cord, points, collision_radius)) {
+                return;
+            }
 
-            }//for
-            //for preventing too many next to each other
+            
 
             const nav_exists = points.find(point => point.type === 3)
             const target_exists = points.find(point => point.type === 2)
@@ -420,24 +408,34 @@ function Map() {
                     }
                 }
 
-
             }//if else
-
-
-
-
-
-        }else{
-            return
-
+        }else if(pointIsSelected === true && selectedWaypointId !== null){
+            // Check for collision with other points (excluding the one being moved)
+            if (checkCollision(x_cord, y_cord, points, collision_radius, selectedWaypointId)) {
+                // If collision detected, just deselect without moving
+                setPointIsSelected(false);
+                setSelectedWaypointId(null);
+                return;
+            }
+            
+            // Update the position of the selected waypoint
+            const updatedPoints = points.map(point => 
+                point.id === selectedWaypointId 
+                    ? { ...point, x: x_cord, y: y_cord }
+                    : point
+            );
+            
+            setPoints(updatedPoints);
+            setPointIsSelected(false);
+            setSelectedWaypointId(null);
         }
-
-
-
-
-        
     }//handle_map_click
+    
+    const handle_waypoint_position_change = (waypointId: number) => {
+        setSelectedWaypointId(waypointId);
+        setPointIsSelected(true);
 
+    }
 
 
 
@@ -1167,7 +1165,7 @@ function Map() {
 
                 {points.map(button => (
                     <div key={button.id} className="map_waypoint_div" style={{left: `${button.x}px`, top: `${button.y}px`}}>
-                        <button className="map_waypoint_button tooltip_waypoint_needed ">
+                        <button className="map_waypoint_button tooltip_waypoint_needed" onClick={() => handle_waypoint_position_change(button.id)} style={{opacity: selectedWaypointId=== button.id ? "1" : "0.7", outline: selectedWaypointId=== button.id ? "0.2vw solid var(--logo_yellow)" : "none"}}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="85%" height="85%" viewBox="0 0 24 24">
                                 <defs>
                                     <mask id="point">
@@ -1337,6 +1335,7 @@ function Map() {
                 selectedTarget={selectedTargetType}
                 on_waypoint_selection_change={handleWaypointSelectionChange}
                 on_target_selection_change={handleTargetSelectionChange}
+                pointIsSelected = {pointIsSelected}
                 showpicker = {showPicker}
                 eraseDrawing = {eraseDrawing}
                 textMode_active = {textMode_active}

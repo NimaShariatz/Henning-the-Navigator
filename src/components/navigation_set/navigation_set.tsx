@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react"
+import {useEffect, useRef, useMemo} from "react"
 
 import "./navigation_set.css"
 
@@ -9,22 +9,23 @@ interface NavigationSetProps {
     showPicker: boolean;
     eraseDrawing: boolean;
     textMode_active: boolean;
+    pointIsSelected: boolean;
 }
 
 
 
-function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker, eraseDrawing, textMode_active }: NavigationSetProps){
+function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoint, showPicker, eraseDrawing, textMode_active, pointIsSelected }: NavigationSetProps){
     const extraction = useRef<HTMLButtonElement>(null);
     const navigation = useRef<HTMLButtonElement>(null);
     const start = useRef<HTMLButtonElement>(null);
     const target = useRef<HTMLButtonElement>(null);
 
-    const selectionMap = [
+    const selectionMap = useMemo(() => [//changed it from 'const selectionMap = [' to useMemo which prevents unnecessary re-renders
         { value: 1, ref: start },
         { value: 2, ref: target },
         { value: 3, ref: navigation },
         { value: 4, ref: extraction }
-    ];
+    ], []);
     
 
 
@@ -69,7 +70,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
         // Handle button disabled states
         if (!navigation.current || !start.current || !target.current || !extraction.current) return;
 
-        if (showPicker || eraseDrawing || textMode_active) {
+        if (showPicker || eraseDrawing || textMode_active || pointIsSelected) {
             // Disable all buttons when drawing tools are active
             selectionMap.forEach(item => {
                 if (item.ref.current) {
@@ -118,7 +119,7 @@ function Navigation_set({ onWaypointSelectionChange, points_set, selectedWaypoin
                 }
             });
         }
-    }, [selectedWaypoint, points_set, showPicker, eraseDrawing, textMode_active]);
+    }, [selectedWaypoint, points_set, showPicker, eraseDrawing, textMode_active, pointIsSelected, onWaypointSelectionChange, selectionMap]);
 
 
 

@@ -135,7 +135,7 @@
 
     box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.55);
     user-select: none;
-
+    cursor: pointer;
     
 }
 .map_waypoint_button:hover{
