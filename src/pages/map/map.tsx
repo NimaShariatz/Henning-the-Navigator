@@ -589,7 +589,8 @@ function Map() {
     const handle_remove_nav_point = (id: number) => {
 
         const point_to_remove = points.find(button => button.id === id);
-
+        setPointIsSelected(false)
+        setSelectedWaypointId(null)
         if (point_to_remove?.type === 1){//if start, then just delete it
             setPoints(points.filter(button => button.id !== id));
 
