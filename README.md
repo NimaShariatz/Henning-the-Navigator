@@ -3,7 +3,7 @@
 
 
 This is a web tool that helps with navigation for flight simulators with a focus on IL-2 Sturmovik: Great Battles
-Live Link: https://nimashariatz.github.io/Henning-the-Navigator/
+Live Link: https://www.henningthenavigator.ca/
 
 ## General Explanation
 
