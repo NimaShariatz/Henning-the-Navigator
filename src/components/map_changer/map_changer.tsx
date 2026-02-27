@@ -6,10 +6,10 @@ interface MapChangerProps {
     showUI: boolean;
     currentImage: string;
     onChangeMap: (newMapUrl: string) => void;
-    customMapName?: string;  // Add this optional property
+    customMapName?: string;
 }
 
-function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapChangerProps) {
+function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapChangerProps) {    
     const [currentMapName, setCurrentMapName] = useState<string>('');
     const [showOptions, setShowOptions] = useState<boolean>(false);
     
@@ -38,7 +38,7 @@ function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapCha
         // Otherwise extract map name from URL
         const urlParts = currentImage.split('/');
         const filename = urlParts[urlParts.length - 1];
-        let mapName = filename.split('.')[0];
+        const mapName = filename.split('.')[0];
         
 
         

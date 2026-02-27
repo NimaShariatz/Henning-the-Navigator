@@ -1,5 +1,7 @@
 import "./misc_set.css"
 import { useRef } from "react"
+import { taw_json_converter } from "../../helpers/taw_json_converter";
+
 
 interface MiscSetProps {
     on_image_upload?: (file: File) => void;
@@ -77,6 +79,7 @@ function Misc_set({
     //download functionality
     const handle_export = () => {
         const data = {
+            isJSONHenning: true,
             points: points_set,
             targets: targets_set,
             drawings: drawings_set,
@@ -117,7 +120,7 @@ function Misc_set({
             try {
                 const jsonData = JSON.parse(e.target?.result as string);
                 
-                if (jsonData.points && Array.isArray(jsonData.points)) {
+                if (jsonData.isJSONHenning) {
                     const importData = {
                         points: jsonData.points,
                         targets: jsonData.targets || [],
@@ -126,12 +129,20 @@ function Misc_set({
                         flightNotes: jsonData.flightNotes || "",
                         textCreations: jsonData.textCreations || []
                     };
+                
                     
                     if (on_data_import) {
                         on_data_import(importData);
                     }
                 } else {
-                    alert("Invalid file format. Please select a valid flight plan JSON file.");
+                    //this is the other type of JSON file. conversion is needed.
+                    const convertedData = taw_json_converter(jsonData);
+                    //console.log(convertedData)
+                    if (convertedData && on_data_import) {
+                        on_data_import(convertedData);
+                    }
+
+
                 }
             } catch (error) {
                 alert("Error reading file. Please make sure it's a valid JSON file.");
