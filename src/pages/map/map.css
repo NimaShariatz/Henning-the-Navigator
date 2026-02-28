@@ -130,7 +130,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.7;
     transition: opacity 0.2s ease;
 
     box-shadow: 0 0 0.9vw 0.1vw rgba(0,0,0,0.55);
@@ -138,10 +137,7 @@
     cursor: pointer;
     
 }
-.map_waypoint_button:hover{
-    opacity: 1;
-    outline: 0.2vw solid var(--logo_yellow);
-}
+
 
 .map_target_button {
     width: 2vw;
@@ -154,7 +150,6 @@
     position: relative;
     border-radius: 0.4vw;
     transform: rotate(45deg);
-    z-index: var(--map_target_z);
     transition: background-color 0.2s ease;
 }
 .map_target_svg{
@@ -226,7 +221,7 @@
 
 .map_target_div{
     position: absolute;
-    z-index: var(--map_waypoint_z);
+    z-index: var(--map_target_z);
 
 }
 .map_target_div div{
