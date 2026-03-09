@@ -5,6 +5,7 @@ import { taw_json_converter } from "../../helpers/taw_json_converter";
 
 interface MiscSetProps {
     on_image_upload?: (file: File) => void;
+    currentImage: string,
     on_clear_points?: () => void;
     toggle_info_container?: () => void;
     points_set: {id: number, x: number, y: number, type: number}[];
@@ -14,6 +15,7 @@ interface MiscSetProps {
     flightNotes?: string;
     textCreations?: {id: number, x: number, y: number, text: string}[];
     on_data_import?: (data: {
+        map: string,
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
@@ -24,7 +26,8 @@ interface MiscSetProps {
 }
 
 function Misc_set({ 
-    on_image_upload, 
+    on_image_upload,
+    currentImage,
     on_clear_points, 
     toggle_info_container, 
     points_set, 
@@ -80,6 +83,7 @@ function Misc_set({
     const handle_export = () => {
         const data = {
             isJSONHenning: true,
+            map: currentImage,
             points: points_set,
             targets: targets_set,
             drawings: drawings_set,
@@ -122,6 +126,7 @@ function Misc_set({
                 
                 if (jsonData.isJSONHenning) {
                     const importData = {
+                        map: jsonData.map,
                         points: jsonData.points,
                         targets: jsonData.targets || [],
                         drawings: jsonData.drawings || [],

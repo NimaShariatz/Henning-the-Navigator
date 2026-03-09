@@ -1,4 +1,5 @@
 // ---- TAW JSON structure types ----
+import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front } from "../static/constants";
 
 export interface TawLatLng { //x y cordinates
     lat: number;
@@ -23,6 +24,21 @@ export interface TawJSON {
     polygons: unknown[];
 }
 
+const mapHashToImage: Record<string, string> = {
+    "#arras": Arras,
+    "#kuban": Kuban,
+    "#lapino": Lapino,
+    "#moscow": Moscow,
+    "#normandy": Normandy,
+    "#novosokolniki": Novosokolniki,
+    "#prokhorovka": Prokhorovka,
+    "#rheinland": Rheinland,
+    "#stalingrad": Stalingrad,
+    "": Stalingrad,
+    "#luki": Vluki,
+    "#western_front": Western_front,
+};
+
 const mapHashMultipliers: Record<string, { lng: number; lat: number }> = {
     "#arras":          { lng: 11.459,   lat: -11.631 },
     "#kuban":          { lng: 79.340,   lat: -79.143},
@@ -39,6 +55,7 @@ const mapHashMultipliers: Record<string, { lng: number; lat: number }> = {
 };
 
 export interface HenningImportData {
+    map: string,
     points: {id: number, x: number, y: number, type: number}[];
     targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[];
     drawings: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[];
@@ -119,6 +136,7 @@ export const taw_json_converter = (data: Record<string, unknown>): HenningImport
         }));
 
         const importData: HenningImportData = {
+            map: mapHashToImage[mapHash] ?? Stalingrad,
             points: [],
             targets: targets,
             drawings: [],

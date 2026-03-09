@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from "react"
 
 
-import { Stalingrad, button_viewWidth_size } from "../../static/constants.tsx"
+import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front, button_viewWidth_size } from "../../static/constants.tsx"
 import "./map.css"
 import Minimap from "../../components/minimap/minimap.tsx";
 import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
@@ -20,6 +20,7 @@ import { doc, updateDoc, onSnapshot } from 'firebase/firestore';
 
 
 
+const knownMaps = [Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front];
 
 
 
@@ -138,6 +139,7 @@ function Map() {
             const sessionRef = doc(db, 'navigationInstances', sessionId);
             
             const navigationData = {
+                map: currentImage,
                 points,
                 targets,
                 drawings,
@@ -156,8 +158,7 @@ function Map() {
         } catch (error) {
             console.error('Error saving navigation data:', error);
         }
-    }, [sessionId, points, targets, drawings, Targetdrawings, flightNotes, textCreations]);
-
+    }, [sessionId, points, targets, drawings, Targetdrawings, flightNotes, textCreations, currentImage]);
 
 
     useEffect(() => {
@@ -192,7 +193,7 @@ function Map() {
                 
                 if (data.navigationData) {
                     const navData = data.navigationData;
-
+                    if (navData.map && knownMaps.includes(navData.map)) setCurrentImage(navData.map);
                     if (navData.points) setPoints(navData.points);
                     if (navData.targets) settargets(navData.targets);
                     if (navData.drawings) setDrawings(navData.drawings);
@@ -811,7 +812,6 @@ function Map() {
         const fileName = file.name.split('.')[0];
         setCustomMapName(fileName);
         setCurrentImage(imageUrl);
-        clear_all_points();
     };
 
 
@@ -1053,6 +1053,7 @@ function Map() {
 
 
     const handle_data_import = (data: {
+        map: string,
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, targetName: string; isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
@@ -1060,6 +1061,9 @@ function Map() {
         flightNotes?: string
         textCreations?: {id: number, x: number, y: number, text: string}[];
     }) => {
+        if (knownMaps.includes(data.map)) { //if its not one of the ones in henning, then do nothing for map
+            setCurrentImage(data.map);
+        }
         setPoints(data.points || []);
         settargets(data.targets || []);
         setDrawings(data.drawings || []);
@@ -1347,7 +1351,7 @@ function Map() {
                 imageDimensions={imageDimensions}
                 showUI={showUI}
                 on_minimap_click={handle_minimap_click} 
-                current_image={currentImage}
+                currentImage={currentImage}
                 on_image_upload={handle_image_upload}
                 selectedWaypoint={selectedNavType}
                 selectedTarget={selectedTargetType}

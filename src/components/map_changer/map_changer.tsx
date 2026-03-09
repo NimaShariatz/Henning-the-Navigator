@@ -32,6 +32,7 @@ function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapCha
         // If a custom map name is provided, use it
         if (customMapName) {
             setCurrentMapName(customMapName);
+            //console.log(currentImage, customMapName)
             return;
         }
         
@@ -43,6 +44,7 @@ function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapCha
 
         
         setCurrentMapName(mapName);
+        //console.log(currentImage, customMapName)
     }, [currentImage, customMapName]);
 
     // Handle clicking the next map button

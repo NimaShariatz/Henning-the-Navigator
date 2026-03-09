@@ -12,7 +12,7 @@ interface MinimapProps {
     showUI: boolean;
     on_minimap_click?: (relativeX: number, relativeY: number) => void;
 
-    current_image: string;//for file import
+    currentImage: string;//for file import
     on_image_upload?: (file: File) => void;//for file import
     
     on_waypoint_selection_change?: (selection: number) => void;
@@ -43,6 +43,7 @@ interface MinimapProps {
     on_target_color_change?: (isBlue: boolean) => void;
 
     on_data_import?: (data: {
+        map: string,
         points: {id: number, x: number, y: number, type: number}[], 
         targets: {id: number, x: number, y: number, type: number, targetName: string, isBlue: boolean}[],
         drawings?: {id: string, points: {x: number, y: number}[], color: {r: number, g: number, b: number, a: number}, thickness: number}[],
@@ -59,7 +60,7 @@ function Minimap({
             imageDimensions,
             showUI,
             on_minimap_click, 
-            current_image, 
+            currentImage, 
             on_image_upload, 
             on_waypoint_selection_change, 
             on_target_selection_change, 
@@ -107,7 +108,7 @@ function Minimap({
       return () => {
         window.removeEventListener('resize', update_dimensions)
       }
-    }, [current_image])
+    }, [currentImage])
 
     const update_dimensions = () => {
         if(imageRef.current) {
@@ -453,7 +454,7 @@ function Minimap({
                             top: `${redBoxPosition.top}%`
                         }}
                     ></div>
-                    <img className="minimap_image" src={current_image} ref={imageRef} onClick={handle_minimap_click}/>
+                    <img className="minimap_image" src={currentImage} ref={imageRef} onClick={handle_minimap_click}/>
                 
                     {ripples.map(ripple => (
                         <div
@@ -637,6 +638,7 @@ function Minimap({
                 />
                 <Misc_set 
                     on_image_upload={on_image_upload}
+                    currentImage={currentImage}
                     on_clear_points={on_clear_points}
                     toggle_info_container={toggle_info_container}
                     points_set={points_set}
