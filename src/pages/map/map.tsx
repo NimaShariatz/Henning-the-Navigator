@@ -29,7 +29,6 @@ const knownMaps = [Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokho
 
 
 function Map() {
-
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
     const [currentImage, setCurrentImage] = useState(Stalingrad);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -208,7 +207,6 @@ function Map() {
             } else {
                 isLoadingRef.current = false;
             }
-            
             // RESET FLAG AFTER UPDATES (with small delay for state batching)
             setTimeout(() => {
                 isUpdatingFromDBRef.current = false;
@@ -815,58 +813,50 @@ function Map() {
     };
 
 
-    const drawImage = () => {
+
+    //canvas setup
+    const drawImage = useCallback(() => {
         const canvas = canvasRef.current;
+        const ctx = canvas?.getContext('2d');
         const img = imageRef.current;
-        
-        if (canvas && img) {
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                
-                
-                //perphaps here we can add default markers and stuff...
-            }
+
+        if (ctx && img && canvas) {
+            // Set canvas dimensions to match image
+            canvas.width = img.width;
+            canvas.height = img.height;
+            
+            // Draw the image
+            ctx.drawImage(img, 0, 0);
+            
+            // Update state with image dimensions
+            setImageDimensions({ width: img.width, height: img.height });
         }
-    };
-
-
+    }, []);
     //canvas setup
     useEffect(() => {
         const img = new Image();
         img.src = currentImage;
+        imageRef.current = img;
         
         img.onload = () => {
-            setImageDimensions({
-                width: img.width,
-                height: img.height
-            });
-            
-            imageRef.current = img;
-            
             drawImage();
+            const canvas = canvasRef.current;
+            if (canvas) {//sets the canvas dimensions to be the image dimensions
+
+                canvas.style.minWidth = `${imageDimensions.width}px`;
+                canvas.style.minHeight = `${imageDimensions.height}px`;
+            
+            }    
         };
-    }, [currentImage]); // Now this effect runs whenever currentImage changes
-    
-    
-    
-    useEffect(() => {
-        drawImage();
+        img.onerror = () => {
+            console.error("Failed to load map image:", currentImage);
+        };
 
-        
-        const canvas = canvasRef.current;
-        if (canvas) {//sets the canvas dimensions to be the image dimensions
+    }, [currentImage, drawImage, imageDimensions.height, imageDimensions.width]); // Now this effect runs whenever currentImage changes
+    
+    
+    
 
-            canvas.style.minWidth = `${imageDimensions.width}px`;
-            canvas.style.minHeight = `${imageDimensions.height}px`;
-        
-        }    
-        
-    }, [imageDimensions]);
     //-------------------
 
 
