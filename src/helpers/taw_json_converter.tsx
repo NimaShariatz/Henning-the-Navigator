@@ -1,5 +1,5 @@
 // ---- TAW JSON structure types ----
-import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front } from "../static/constants";
+import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Odessa, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front } from "../static/constants";
 
 export interface TawLatLng { //x y cordinates
     lat: number;
@@ -31,6 +31,7 @@ const mapHashToImage: Record<string, string> = {
     "#moscow": Moscow,
     "#normandy": Normandy,
     "#novosokolniki": Novosokolniki,
+    "#odessa": Odessa,
     "#prokhorovka": Prokhorovka,
     "#rheinland": Rheinland,
     "#stalingrad": Stalingrad,
@@ -46,6 +47,7 @@ const mapHashMultipliers: Record<string, { lng: number; lat: number }> = {
     "#moscow":         { lng: 63.575,   lat: -63.637 },
     "#normandy":       { lng: 111.168,  lat: -111.370 },
     "#novosokolniki":  { lng: 7.831,    lat: -7.772 },
+    "#odessa":         { lng: 31.933,    lat: -31.978 },
     "#prokhorovka":    { lng: 63.387,   lat: -63.212 },
     "#rheinland":      { lng: 107.100,  lat: -99.914 },
     "#stalingrad":     { lng: 54.435,   lat: -54.342 },

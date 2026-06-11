@@ -49,6 +49,9 @@ function Distance_calc({showUI, onDistanceChange, currentMapUrl }: DistanceCalcP
                 case 'Novosokolniki':
                     setDistanceValue("400");
                     break;
+                case 'Odessa':
+                    setDistanceValue("200");
+                    break;
                 case 'Prokhorovka':
                     setDistanceValue("985");
                     break;

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from "react"
 
 
-import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front, button_viewWidth_size } from "../../static/constants.tsx"
+import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Odessa, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front, button_viewWidth_size } from "../../static/constants.tsx"
 import "./map.css"
 import Minimap from "../../components/minimap/minimap.tsx";
 import Distance_calc from "../../components/distance_calc/distance_calc.tsx";
@@ -20,7 +20,7 @@ import { doc, updateDoc, onSnapshot } from 'firebase/firestore';
 
 
 
-const knownMaps = [Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front];
+const knownMaps = [Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Odessa, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front];
 
 
 
@@ -109,7 +109,7 @@ function Map() {
     /*----firebase specific setup content*/
     const { sessionId } = useParams();
     const isLoadingRef = useRef(true);
-    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isUpdatingFromDBRef = useRef(false); // NEW: Track DB updates
     const indicatorRef = useRef<HTMLButtonElement>(null);
 

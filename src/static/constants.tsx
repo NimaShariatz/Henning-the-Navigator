@@ -11,6 +11,7 @@ export const Rheinland = "/Rheinland.webp";
 export const Stalingrad = "/Stalingrad.jpg";
 export const Vluki = "/Vluki.webp";
 export const Western_front = "/Western_front.webp";
+export const Odessa = "/Odessa.webp";
 
 export const Henning_logo = "/Henning_logo.webp";
 

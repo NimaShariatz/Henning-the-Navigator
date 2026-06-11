@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './map_changer.css';
-import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front } from "../../static/constants.tsx"
+import { Arras, Kuban, Lapino, Moscow, Normandy, Novosokolniki, Odessa, Prokhorovka, Rheinland, Stalingrad, Vluki, Western_front } from "../../static/constants.tsx"
 
 interface MapChangerProps {
     showUI: boolean;
@@ -21,6 +21,7 @@ function Map_changer({showUI, currentImage, onChangeMap, customMapName }: MapCha
         { name: 'Moscow', url: Moscow },
         { name: 'Normandy', url: Normandy },
         { name: 'Novosokolniki', url: Novosokolniki },
+        { name: 'Odessa', url: Odessa },
         { name: 'Prokhorovka', url: Prokhorovka },
         { name: 'Rheinland', url: Rheinland },
         { name: 'Stalingrad', url: Stalingrad },
