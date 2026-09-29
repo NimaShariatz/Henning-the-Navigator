@@ -196,17 +196,26 @@ function Flight_info({
 
 
     const bombing_calculations = () => {
-        const sight_wind_heading_figure = Number(planeHeading) - Number(windHeading)
-        const sight_wind_speed = windSpeed + "m/s"
 
-        let heading_output = ""
-        if(sight_wind_heading_figure < 0){
-            heading_output =  Math.abs(sight_wind_heading_figure) + " right"
-        }else if (sight_wind_heading_figure > 0){
-            heading_output =  Math.abs(sight_wind_heading_figure) + " left"
-        }else{
-            heading_output = String(sight_wind_heading_figure)
+
+        const plane = Number(planeHeading);
+        const wind = Number(windHeading);
+        const sight_wind_speed = windSpeed + 'm/s';
+
+        let diff = (plane - wind) % 360;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+
+        let heading_output: string;
+        if (diff < 0) {
+          heading_output = Math.abs(diff) + ' right';
+        } else if (diff > 0) {
+          heading_output = Math.abs(diff) + ' left';
+        } else {
+          heading_output = '0';
         }
+
+
 
         return(
             <p>{heading_output}  @{sight_wind_speed}</p>
